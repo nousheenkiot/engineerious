@@ -1,0 +1,610 @@
+﻿[INFO] Scanning for projects...
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-deploy-plugin/3.1.3/maven-deploy-plugin-3.1.3.pom
+Progress (1): 809 B
+Progress (1): 1.8 kB
+Progress (1): 3.5 kB
+Progress (1): 7.9 kB
+Progress (1): 9.2 kB
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-deploy-plugin/3.1.3/maven-deploy-plugin-3.1.3.pom (9.2 kB at 16 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/build-helper-maven-plugin/3.6.0/build-helper-maven-plugin-3.6.0.pom
+Progress (1): 1.1 kB
+Progress (1): 2.7 kB
+Progress (1): 3.2 kB
+Progress (1): 6.2 kB
+Progress (1): 8.1 kB
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/build-helper-maven-plugin/3.6.0/build-helper-maven-plugin-3.6.0.pom (8.1 kB at 177 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/mojo-parent/82/mojo-parent-82.pom
+Progress (1): 799 B
+Progress (1): 1.9 kB
+Progress (1): 4.1 kB
+Progress (1): 6.2 kB
+Progress (1): 8.2 kB
+Progress (1): 10 kB 
+Progress (1): 12 kB
+Progress (1): 18 kB
+Progress (1): 21 kB
+Progress (1): 25 kB
+Progress (1): 28 kB
+Progress (1): 30 kB
+Progress (1): 34 kB
+Progress (1): 36 kB
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/mojo-parent/82/mojo-parent-82.pom (36 kB at 855 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/build-helper-maven-plugin/3.6.0/build-helper-maven-plugin-3.6.0.jar
+Progress (1): 0.9/72 kB
+Progress (1): 2.3/72 kB
+Progress (1): 3.6/72 kB
+Progress (1): 5.0/72 kB
+Progress (1): 6.4/72 kB
+Progress (1): 7.7/72 kB
+Progress (1): 9.1/72 kB
+Progress (1): 10/72 kB 
+Progress (1): 12/72 kB
+Progress (1): 13/72 kB
+Progress (1): 15/72 kB
+Progress (1): 16/72 kB
+Progress (1): 17/72 kB
+Progress (1): 19/72 kB
+Progress (1): 20/72 kB
+Progress (1): 21/72 kB
+Progress (1): 23/72 kB
+Progress (1): 24/72 kB
+Progress (1): 25/72 kB
+Progress (1): 26/72 kB
+Progress (1): 27/72 kB
+Progress (1): 29/72 kB
+Progress (1): 30/72 kB
+Progress (1): 31/72 kB
+Progress (1): 33/72 kB
+Progress (1): 34/72 kB
+Progress (1): 38/72 kB
+Progress (1): 43/72 kB
+Progress (1): 47/72 kB
+Progress (1): 51/72 kB
+Progress (1): 55/72 kB
+Progress (1): 60/72 kB
+Progress (1): 64/72 kB
+Progress (1): 68/72 kB
+Progress (1): 72 kB   
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/build-helper-maven-plugin/3.6.0/build-helper-maven-plugin-3.6.0.jar (72 kB at 1.3 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/cyclonedx/cyclonedx-maven-plugin/2.9.0/cyclonedx-maven-plugin-2.9.0.pom
+Progress (1): 709 B
+Progress (1): 2.3 kB
+Progress (1): 4.5 kB
+Progress (1): 8.7 kB
+Progress (1): 12 kB 
+Progress (1): 17 kB
+Progress (1): 19 kB
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/cyclonedx/cyclonedx-maven-plugin/2.9.0/cyclonedx-maven-plugin-2.9.0.pom (19 kB at 317 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/cyclonedx/cyclonedx-maven-plugin/2.9.0/cyclonedx-maven-plugin-2.9.0.jar
+Progress (1): 3.8/51 kB
+Progress (1): 8.0/51 kB
+Progress (1): 12/51 kB 
+Progress (1): 16/51 kB
+Progress (1): 21/51 kB
+Progress (1): 25/51 kB
+Progress (1): 29/51 kB
+Progress (1): 33/51 kB
+Progress (1): 37/51 kB
+Progress (1): 41/51 kB
+Progress (1): 46/51 kB
+Progress (1): 50/51 kB
+Progress (1): 51 kB   
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/cyclonedx/cyclonedx-maven-plugin/2.9.0/cyclonedx-maven-plugin-2.9.0.jar (51 kB at 1.1 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/flywaydb/flyway-maven-plugin/10.20.1/flyway-maven-plugin-10.20.1.pom
+Progress (1): 2.1 kB
+Progress (1): 3.2 kB
+Progress (1): 3.8 kB
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/flywaydb/flyway-maven-plugin/10.20.1/flyway-maven-plugin-10.20.1.pom (3.8 kB at 122 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/flywaydb/flyway-parent/10.20.1/flyway-parent-10.20.1.pom
+Progress (1): 1.0 kB
+Progress (1): 3.4 kB
+Progress (1): 5.3 kB
+Progress (1): 9.3 kB
+Progress (1): 11 kB 
+Progress (1): 18 kB
+Progress (1): 24 kB
+Progress (1): 28 kB
+Progress (1): 32 kB
+Progress (1): 36 kB
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/flywaydb/flyway-parent/10.20.1/flyway-parent-10.20.1.pom (36 kB at 593 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/flywaydb/flyway-maven-plugin/10.20.1/flyway-maven-plugin-10.20.1.jar
+Progress (1): 3.8/110 kB
+Progress (1): 8.0/110 kB
+Progress (1): 11/110 kB 
+Progress (1): 16/110 kB
+Progress (1): 20/110 kB
+Progress (1): 24/110 kB
+Progress (1): 40/110 kB
+Progress (1): 57/110 kB
+Progress (1): 73/110 kB
+Progress (1): 90/110 kB
+Progress (1): 106/110 kB
+Progress (1): 110 kB    
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/flywaydb/flyway-maven-plugin/10.20.1/flyway-maven-plugin-10.20.1.jar (110 kB at 1.3 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/io/github/git-commit-id/git-commit-id-maven-plugin/9.0.1/git-commit-id-maven-plugin-9.0.1.pom
+Progress (1): 963 B
+Progress (1): 2.7 kB
+Progress (1): 8.1 kB
+Progress (1): 11 kB 
+Progress (1): 15 kB
+Progress (1): 19 kB
+Progress (1): 22 kB
+Progress (1): 26 kB
+Progress (1): 28 kB
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/io/github/git-commit-id/git-commit-id-maven-plugin/9.0.1/git-commit-id-maven-plugin-9.0.1.pom (28 kB at 246 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/io/github/git-commit-id/git-commit-id-maven-plugin/9.0.1/git-commit-id-maven-plugin-9.0.1.jar
+Progress (1): 7.7/55 kB
+Progress (1): 16/55 kB 
+Progress (1): 25/55 kB
+Progress (1): 41/55 kB
+Progress (1): 55 kB   
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/io/github/git-commit-id/git-commit-id-maven-plugin/9.0.1/git-commit-id-maven-plugin-9.0.1.jar (55 kB at 956 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/jooq/jooq-codegen-maven/3.19.15/jooq-codegen-maven-3.19.15.pom
+Progress (1): 1.2 kB
+Progress (1): 3.8 kB
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/jooq/jooq-codegen-maven/3.19.15/jooq-codegen-maven-3.19.15.pom (3.8 kB at 92 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/jooq/jooq-parent/3.19.15/jooq-parent-3.19.15.pom
+Progress (1): 985 B
+Progress (1): 2.5 kB
+Progress (1): 3.2 kB
+Progress (1): 8.2 kB
+Progress (1): 13 kB 
+Progress (1): 20 kB
+Progress (1): 22 kB
+Progress (1): 26 kB
+Progress (1): 31 kB
+Progress (1): 36 kB
+Progress (1): 40 kB
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/jooq/jooq-parent/3.19.15/jooq-parent-3.19.15.pom (40 kB at 719 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/jooq/jooq-codegen-maven/3.19.15/jooq-codegen-maven-3.19.15.jar
+Progress (1): 7.7/17 kB
+Progress (1): 16/17 kB 
+Progress (1): 17 kB   
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/jooq/jooq-codegen-maven/3.19.15/jooq-codegen-maven-3.19.15.jar (17 kB at 162 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-maven-plugin/1.9.25/kotlin-maven-plugin-1.9.25.pom
+Progress (1): 2.0 kB
+Progress (1): 3.2 kB
+Progress (1): 6.2 kB
+Progress (1): 6.7 kB
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-maven-plugin/1.9.25/kotlin-maven-plugin-1.9.25.pom (6.7 kB at 131 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-project/1.9.25/kotlin-project-1.9.25.pom
+Progress (1): 1.0 kB
+Progress (1): 3.0 kB
+Progress (1): 3.2 kB
+Progress (1): 6.5 kB
+Progress (1): 11 kB 
+Progress (1): 16 kB
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-project/1.9.25/kotlin-project-1.9.25.pom (16 kB at 279 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-maven-plugin/1.9.25/kotlin-maven-plugin-1.9.25.jar
+Progress (1): 7.7/82 kB
+Progress (1): 8.2/82 kB
+Progress (1): 25/82 kB 
+Progress (1): 41/82 kB
+Progress (1): 57/82 kB
+Progress (1): 74/82 kB
+Progress (1): 82 kB   
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-maven-plugin/1.9.25/kotlin-maven-plugin-1.9.25.jar (82 kB at 1.1 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/liquibase/liquibase-maven-plugin/4.29.2/liquibase-maven-plugin-4.29.2.pom
+Progress (1): 1.3 kB
+Progress (1): 2.0 kB
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/liquibase/liquibase-maven-plugin/4.29.2/liquibase-maven-plugin-4.29.2.pom (2.0 kB at 40 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/liquibase/liquibase-maven-plugin/4.29.2/liquibase-maven-plugin-4.29.2.jar
+Progress (1): 7.7/310 kB
+Progress (1): 11/310 kB 
+Progress (1): 28/310 kB
+Progress (1): 44/310 kB
+Progress (1): 61/310 kB
+Progress (1): 77/310 kB
+Progress (1): 93/310 kB
+Progress (1): 110/310 kB
+Progress (1): 126/310 kB
+Progress (1): 142/310 kB
+Progress (1): 159/310 kB
+Progress (1): 175/310 kB
+Progress (1): 192/310 kB
+Progress (1): 208/310 kB
+Progress (1): 224/310 kB
+Progress (1): 241/310 kB
+Progress (1): 257/310 kB
+Progress (1): 274/310 kB
+Progress (1): 290/310 kB
+Progress (1): 306/310 kB
+Progress (1): 310 kB    
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/liquibase/liquibase-maven-plugin/4.29.2/liquibase-maven-plugin-4.29.2.jar (310 kB at 4.1 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-antrun-plugin/3.1.0/maven-antrun-plugin-3.1.0.pom
+Progress (1): 766 B
+Progress (1): 2.2 kB
+Progress (1): 5.0 kB
+Progress (1): 8.2 kB
+Progress (1): 9.1 kB
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-antrun-plugin/3.1.0/maven-antrun-plugin-3.1.0.pom (9.1 kB at 73 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-plugins/34/maven-plugins-34.pom
+Progress (1): 805 B
+Progress (1): 2.4 kB
+Progress (1): 3.2 kB
+Progress (1): 5.8 kB
+Progress (1): 8.5 kB
+Progress (1): 11 kB 
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-plugins/34/maven-plugins-34.pom (11 kB at 142 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-antrun-plugin/3.1.0/maven-antrun-plugin-3.1.0.jar
+Progress (1): 7.7/41 kB
+Progress (1): 16/41 kB 
+Progress (1): 25/41 kB
+Progress (1): 41/41 kB
+Progress (1): 41 kB   
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-antrun-plugin/3.1.0/maven-antrun-plugin-3.1.0.jar (41 kB at 522 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-dependency-plugin/3.8.1/maven-dependency-plugin-3.8.1.pom
+Progress (1): 781 B
+Progress (1): 2.5 kB
+Progress (1): 4.1 kB
+Progress (1): 8.6 kB
+Progress (1): 14 kB 
+Progress (1): 16 kB
+Progress (1): 18 kB
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-dependency-plugin/3.8.1/maven-dependency-plugin-3.8.1.pom (18 kB at 273 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-dependency-plugin/3.8.1/maven-dependency-plugin-3.8.1.jar
+Progress (1): 7.7/208 kB
+Progress (1): 11/208 kB 
+Progress (1): 28/208 kB
+Progress (1): 44/208 kB
+Progress (1): 61/208 kB
+Progress (1): 77/208 kB
+Progress (1): 93/208 kB
+Progress (1): 110/208 kB
+Progress (1): 126/208 kB
+Progress (1): 142/208 kB
+Progress (1): 159/208 kB
+Progress (1): 175/208 kB
+Progress (1): 192/208 kB
+Progress (1): 208 kB    
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-dependency-plugin/3.8.1/maven-dependency-plugin-3.8.1.jar (208 kB at 3.4 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-release-plugin/3.0.1/maven-release-plugin-3.0.1.pom
+Progress (1): 806 B
+Progress (1): 3.6 kB
+Progress (1): 6.6 kB
+Progress (1): 9.3 kB
+Progress (1): 9.8 kB
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-release-plugin/3.0.1/maven-release-plugin-3.0.1.pom (9.8 kB at 223 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/release/maven-release/3.0.1/maven-release-3.0.1.pom
+Progress (1): 812 B
+Progress (1): 2.5 kB
+Progress (1): 4.2 kB
+Progress (1): 11 kB 
+Progress (1): 11 kB
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/release/maven-release/3.0.1/maven-release-3.0.1.pom (11 kB at 211 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-release-plugin/3.0.1/maven-release-plugin-3.0.1.jar
+Progress (1): 7.7/61 kB
+Progress (1): 11/61 kB 
+Progress (1): 28/61 kB
+Progress (1): 44/61 kB
+Progress (1): 61/61 kB
+Progress (1): 61 kB   
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-release-plugin/3.0.1/maven-release-plugin-3.0.1.jar (61 kB at 1.1 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-enforcer-plugin/3.5.0/maven-enforcer-plugin-3.5.0.pom
+Progress (1): 836 B
+Progress (1): 3.2 kB
+Progress (1): 5.0 kB
+Progress (1): 7.8 kB
+Progress (1): 8.1 kB
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-enforcer-plugin/3.5.0/maven-enforcer-plugin-3.5.0.pom (8.1 kB at 73 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/enforcer/enforcer/3.5.0/enforcer-3.5.0.pom
+Progress (1): 791 B
+Progress (1): 2.3 kB
+Progress (1): 4.4 kB
+Progress (1): 9.0 kB
+Progress (1): 9.3 kB
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/enforcer/enforcer/3.5.0/enforcer-3.5.0.pom (9.3 kB at 244 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-enforcer-plugin/3.5.0/maven-enforcer-plugin-3.5.0.jar
+Progress (1): 3.2/39 kB
+Progress (1): 20/39 kB 
+Progress (1): 36/39 kB
+Progress (1): 39 kB   
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-enforcer-plugin/3.5.0/maven-enforcer-plugin-3.5.0.jar (39 kB at 1.1 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-failsafe-plugin/3.5.2/maven-failsafe-plugin-3.5.2.pom
+Progress (1): 846 B
+Progress (1): 3.2 kB
+Progress (1): 5.9 kB
+Progress (1): 9.6 kB
+Progress (1): 11 kB 
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-failsafe-plugin/3.5.2/maven-failsafe-plugin-3.5.2.pom (11 kB at 270 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-failsafe-plugin/3.5.2/maven-failsafe-plugin-3.5.2.jar
+Progress (1): 7.7/57 kB
+Progress (1): 16/57 kB 
+Progress (1): 20/57 kB
+Progress (1): 37/57 kB
+Progress (1): 53/57 kB
+Progress (1): 57 kB   
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-failsafe-plugin/3.5.2/maven-failsafe-plugin-3.5.2.jar (57 kB at 1.2 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-help-plugin/3.5.1/maven-help-plugin-3.5.1.pom
+Progress (1): 815 B
+Progress (1): 2.2 kB
+Progress (1): 4.7 kB
+Progress (1): 9.0 kB
+Progress (1): 10 kB 
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-help-plugin/3.5.1/maven-help-plugin-3.5.1.pom (10 kB at 161 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-help-plugin/3.5.1/maven-help-plugin-3.5.1.jar
+Progress (1): 7.7/65 kB
+Progress (1): 16/65 kB 
+Progress (1): 20/65 kB
+Progress (1): 37/65 kB
+Progress (1): 53/65 kB
+Progress (1): 65 kB   
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-help-plugin/3.5.1/maven-help-plugin-3.5.1.jar (65 kB at 278 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-invoker-plugin/3.8.1/maven-invoker-plugin-3.8.1.pom
+Progress (1): 785 B
+Progress (1): 2.2 kB
+Progress (1): 3.2 kB
+Progress (1): 7.9 kB
+Progress (1): 11 kB 
+Progress (1): 14 kB
+Progress (1): 16 kB
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-invoker-plugin/3.8.1/maven-invoker-plugin-3.8.1.pom (16 kB at 249 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/groovy/groovy-bom/4.0.23/groovy-bom-4.0.23.pom
+Progress (1): 960 B
+Progress (1): 3.2 kB
+Progress (1): 6.2 kB
+Progress (1): 10 kB 
+Progress (1): 14 kB
+Progress (1): 18 kB
+Progress (1): 21 kB
+Progress (1): 27 kB
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/groovy/groovy-bom/4.0.23/groovy-bom-4.0.23.pom (27 kB at 241 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-invoker-plugin/3.8.1/maven-invoker-plugin-3.8.1.jar
+Progress (1): 7.7/139 kB
+Progress (1): 16/139 kB 
+Progress (1): 20/139 kB
+Progress (1): 37/139 kB
+Progress (1): 53/139 kB
+Progress (1): 69/139 kB
+Progress (1): 86/139 kB
+Progress (1): 102/139 kB
+Progress (1): 119/139 kB
+Progress (1): 135/139 kB
+Progress (1): 139 kB    
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-invoker-plugin/3.8.1/maven-invoker-plugin-3.8.1.jar (139 kB at 1.4 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-javadoc-plugin/3.10.1/maven-javadoc-plugin-3.10.1.pom
+Progress (1): 788 B
+Progress (1): 2.8 kB
+Progress (1): 3.2 kB
+Progress (1): 4.7 kB
+Progress (1): 9.5 kB
+Progress (1): 14 kB 
+Progress (1): 17 kB
+Progress (1): 19 kB
+Progress (1): 22 kB
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-javadoc-plugin/3.10.1/maven-javadoc-plugin-3.10.1.pom (22 kB at 301 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-javadoc-plugin/3.10.1/maven-javadoc-plugin-3.10.1.jar
+Progress (1): 7.7/517 kB
+Progress (1): 16/517 kB 
+Progress (1): 32/517 kB
+Progress (1): 49/517 kB
+Progress (1): 65/517 kB
+Progress (1): 81/517 kB
+Progress (1): 98/517 kB
+Progress (1): 114/517 kB
+Progress (1): 119/517 kB
+Progress (1): 135/517 kB
+Progress (1): 151/517 kB
+Progress (1): 168/517 kB
+Progress (1): 184/517 kB
+Progress (1): 201/517 kB
+Progress (1): 217/517 kB
+Progress (1): 233/517 kB
+Progress (1): 250/517 kB
+Progress (1): 266/517 kB
+Progress (1): 282/517 kB
+Progress (1): 299/517 kB
+Progress (1): 315/517 kB
+Progress (1): 332/517 kB
+Progress (1): 348/517 kB
+Progress (1): 359/517 kB
+Progress (1): 376/517 kB
+Progress (1): 392/517 kB
+Progress (1): 408/517 kB
+Progress (1): 425/517 kB
+Progress (1): 441/517 kB
+Progress (1): 458/517 kB
+Progress (1): 474/517 kB
+Progress (1): 490/517 kB
+Progress (1): 507/517 kB
+Progress (1): 517 kB    
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-javadoc-plugin/3.10.1/maven-javadoc-plugin-3.10.1.jar (517 kB at 7.6 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.pom
+Progress (1): 804 B
+Progress (1): 2.3 kB
+Progress (1): 5.1 kB
+Progress (1): 6.7 kB
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.pom (6.7 kB at 112 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.jar
+Progress (1): 7.7/32 kB
+Progress (1): 11/32 kB 
+Progress (1): 28/32 kB
+Progress (1): 32 kB   
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.jar (32 kB at 511 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-war-plugin/3.4.0/maven-war-plugin-3.4.0.pom
+Progress (1): 819 B
+Progress (1): 2.3 kB
+Progress (1): 3.2 kB
+Progress (1): 7.0 kB
+Progress (1): 8.4 kB
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-war-plugin/3.4.0/maven-war-plugin-3.4.0.pom (8.4 kB at 246 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-war-plugin/3.4.0/maven-war-plugin-3.4.0.jar
+Progress (1): 4.0/83 kB
+Progress (1): 20/83 kB 
+Progress (1): 37/83 kB
+Progress (1): 53/83 kB
+Progress (1): 70/83 kB
+Progress (1): 83 kB   
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-war-plugin/3.4.0/maven-war-plugin-3.4.0.jar (83 kB at 1.5 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/graalvm/buildtools/native-maven-plugin/0.10.3/native-maven-plugin-0.10.3.pom
+Progress (1): 938 B
+Progress (1): 2.8 kB
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/graalvm/buildtools/native-maven-plugin/0.10.3/native-maven-plugin-0.10.3.pom (2.8 kB at 84 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/graalvm/buildtools/native-maven-plugin/0.10.3/native-maven-plugin-0.10.3.jar
+Progress (1): 7.7/86 kB
+Progress (1): 16/86 kB 
+Progress (1): 25/86 kB
+Progress (1): 41/86 kB
+Progress (1): 57/86 kB
+Progress (1): 74/86 kB
+Progress (1): 86 kB   
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/graalvm/buildtools/native-maven-plugin/0.10.3/native-maven-plugin-0.10.3.jar (86 kB at 1.3 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/versions-maven-plugin/2.17.1/versions-maven-plugin-2.17.1.pom
+Progress (1): 1.9 kB
+Progress (1): 3.2 kB
+Progress (1): 7.5 kB
+Progress (1): 9.2 kB
+Progress (1): 12 kB 
+Progress (1): 13 kB
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/versions-maven-plugin/2.17.1/versions-maven-plugin-2.17.1.pom (13 kB at 186 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/versions/versions/2.17.1/versions-2.17.1.pom
+Progress (1): 1.1 kB
+Progress (1): 3.5 kB
+Progress (1): 6.7 kB
+Progress (1): 7.3 kB
+Progress (1): 12 kB 
+Progress (1): 15 kB
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/versions/versions/2.17.1/versions-2.17.1.pom (15 kB at 279 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/mojo-parent/84/mojo-parent-84.pom
+Progress (1): 704 B
+Progress (1): 2.3 kB
+Progress (1): 5.8 kB
+Progress (1): 7.7 kB
+Progress (1): 11 kB 
+Progress (1): 13 kB
+Progress (1): 19 kB
+Progress (1): 24 kB
+Progress (1): 27 kB
+Progress (1): 29 kB
+Progress (1): 33 kB
+Progress (1): 36 kB
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/mojo-parent/84/mojo-parent-84.pom (36 kB at 619 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/versions-maven-plugin/2.17.1/versions-maven-plugin-2.17.1.jar
+Progress (1): 7.7/302 kB
+Progress (1): 16/302 kB 
+Progress (1): 25/302 kB
+Progress (1): 41/302 kB
+Progress (1): 57/302 kB
+Progress (1): 74/302 kB
+Progress (1): 90/302 kB
+Progress (1): 106/302 kB
+Progress (1): 123/302 kB
+Progress (1): 139/302 kB
+Progress (1): 156/302 kB
+Progress (1): 172/302 kB
+Progress (1): 188/302 kB
+Progress (1): 205/302 kB
+Progress (1): 221/302 kB
+Progress (1): 238/302 kB
+Progress (1): 254/302 kB
+Progress (1): 270/302 kB
+Progress (1): 287/302 kB
+Progress (1): 302 kB    
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/versions-maven-plugin/2.17.1/versions-maven-plugin-2.17.1.jar (302 kB at 5.8 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/xml-maven-plugin/1.1.0/xml-maven-plugin-1.1.0.pom
+Progress (1): 1.0 kB
+Progress (1): 3.2 kB
+Progress (1): 6.3 kB
+Progress (1): 8.5 kB
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/xml-maven-plugin/1.1.0/xml-maven-plugin-1.1.0.pom (8.5 kB at 133 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/mojo-parent/75/mojo-parent-75.pom
+Progress (1): 827 B
+Progress (1): 3.0 kB
+Progress (1): 3.2 kB
+Progress (1): 6.1 kB
+Progress (1): 8.0 kB
+Progress (1): 11 kB 
+Progress (1): 13 kB
+Progress (1): 19 kB
+Progress (1): 24 kB
+Progress (1): 27 kB
+Progress (1): 29 kB
+Progress (1): 33 kB
+Progress (1): 36 kB
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/mojo-parent/75/mojo-parent-75.pom (36 kB at 968 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/xml-maven-plugin/1.1.0/xml-maven-plugin-1.1.0.jar
+Progress (1): 7.7/65 kB
+Progress (1): 11/65 kB 
+Progress (1): 28/65 kB
+Progress (1): 44/65 kB
+Progress (1): 61/65 kB
+Progress (1): 65 kB   
+                   
+Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/xml-maven-plugin/1.1.0/xml-maven-plugin-1.1.0.jar (65 kB at 1.3 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/maven-metadata.xml
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-metadata.xml
+Progress (1): 3.5 kB
+Progress (1): 7.6 kB
+Progress (1): 12 kB 
+Progress (1): 17 kB
+Progress (1): 21 kB
+Progress (2): 21 kB | 4.6 kB
+Progress (2): 21 kB | 9.9 kB
+Progress (2): 21 kB | 14 kB 
+                           
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-metadata.xml (14 kB at 188 kB/s)
+Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/maven-metadata.xml (21 kB at 271 kB/s)
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.509 s
+[INFO] Finished at: 2025-12-11T23:13:00+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] No plugin found for prefix '.projectlombok' in the current project and in the plugin groups [org.apache.maven.plugins, org.codehaus.mojo] available from the repositories [local (C:\Users\noush\.m2\repository), central (https://repo.maven.apache.org/maven2)] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/NoPluginFoundForPrefixException

@@ -1,0 +1,11 @@
+services:
+  postgres:
+    restart: always
+
+  eureka-server:
+    restart: always
+
+  cohortservice:
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+    restart: always

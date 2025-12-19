@@ -1,0 +1,2 @@
+com\nous\processingservice\ProcessingserviceApplication.class
+com\nous\processingservice\service\KafkaConsumerService.class
