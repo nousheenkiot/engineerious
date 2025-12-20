@@ -59,6 +59,16 @@ public class CashflowController {
         cashflowService.deleteCashflowsByFyDate(fyDate);
     }
 
+    @Operation(summary = "Delete all cashflows", description = "Delete all cashflow records from the database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All cashflows deleted successfully")
+    })
+    @DeleteMapping("/all")
+    public String deleteAllCashflows() {
+        cashflowService.deleteAllCashflows();
+        return "All cashflows have been deleted successfully.";
+    }
+
     @Operation(summary = "Load random cashflows", description = "Load 100 random cashflows for existing policies")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cashflows loaded successfully")
