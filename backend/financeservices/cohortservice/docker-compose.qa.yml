@@ -1,4 +1,0 @@
-services:
-  cohortservice:
-    environment:
-      SPRING_PROFILES_ACTIVE: qa
