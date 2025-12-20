@@ -64,6 +64,16 @@ public class PolicyController {
                 return "Policy with ID " + id + " deleted successfully.";
         }
 
+        @Operation(summary = "Delete all policies", description = "Delete all insurance policies")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "All policies deleted successfully")
+        })
+        @DeleteMapping("/all")
+        public String deleteAllPolicies() {
+                policyService.deleteAllPolicies();
+                return "All policies have been deleted successfully.";
+        }
+
         @Operation(summary = "Update policy", description = "Update an existing policy by its ID")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "Policy updated successfully"),
@@ -76,11 +86,12 @@ public class PolicyController {
                 return policyService.updatePolicy(id, policy);
         }
 
-        @Operation(summary = "Load random policies", description = "Load 20 random policies with unique financial years")
+        @Operation(summary = "Load random policies", description = "Load 20 random policies for a specific financial year")
         @ApiResponse(responseCode = "200", description = "Policies loaded successfully")
         @PostMapping("/load")
-        public String loadPolicies() {
-                policyLoaderService.loadPolicies();
-                return "20 Policies loaded successfully";
+        public String loadPolicies(
+                        @Parameter(description = "Financial Year Date (yyyy-MM-dd)", required = true) @RequestParam("date") @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate date) {
+                policyLoaderService.loadPolicies(date);
+                return "20 Policies loaded successfully for date: " + date;
         }
 }

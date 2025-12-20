@@ -18,12 +18,10 @@ public class PolicyLoaderService {
 
     private final Random random = new Random();
 
-    public void loadPolicies() {
+    public void loadPolicies(LocalDate fyDate) {
         String[] firstNames = { "John", "Jane", "Alice", "Bob", "Charlie", "David", "Eva", "Frank", "Grace", "Henry" };
         String[] lastNames = { "Doe", "Smith", "Johnson", "Brown", "Taylor", "Anderson", "Thomas", "Jackson", "White",
                 "Harris" };
-
-        java.util.Set<LocalDate> usedDates = new java.util.HashSet<>();
 
         for (int i = 0; i < 20; i++) {
             Policy policy = new Policy();
@@ -43,28 +41,10 @@ public class PolicyLoaderService {
             PolicyAssumption[] assumptions = PolicyAssumption.values();
             policy.setAssumption(assumptions[random.nextInt(assumptions.length)]);
 
-            // Random Financial Year (uniqueness check)
-            LocalDate fyDate = generateUniqueFyDate(usedDates);
-            usedDates.add(fyDate);
+            // Set Financial Year
             policy.setFyDate(fyDate);
 
             policyRepository.save(policy);
         }
-    }
-
-    private LocalDate generateUniqueFyDate(java.util.Set<LocalDate> usedDates) {
-        int year;
-        LocalDate date;
-        int attempts = 0;
-        do {
-            year = 2000 + random.nextInt(50); // Random year 2000-2050
-            date = LocalDate.of(year, 1, 1);
-            attempts++;
-            // Avoid infinite loop if all years are taken (unlikely but safe)
-            if (attempts > 100)
-                break;
-        } while (usedDates.contains(date) || policyRepository.existsByFyDate(date));
-
-        return date;
     }
 }

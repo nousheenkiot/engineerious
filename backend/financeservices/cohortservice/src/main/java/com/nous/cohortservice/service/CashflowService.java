@@ -41,6 +41,10 @@ public class CashflowService {
         cashflowRepository.deleteByFyDate(fyDate);
     }
 
+    public void deleteAllCashflows() {
+        cashflowRepository.deleteAll();
+    }
+
     @Autowired
     private KafkaProducerService kafkaProducerService;
 
