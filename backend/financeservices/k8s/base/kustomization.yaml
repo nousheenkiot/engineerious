@@ -5,3 +5,4 @@ resources:
   - postgres.yml
   - eureka-server.yml
   - cohortservice.yml
+  - processingservice.yml
