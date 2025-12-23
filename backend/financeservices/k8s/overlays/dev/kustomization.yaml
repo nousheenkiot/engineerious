@@ -24,5 +24,47 @@ patches:
             containers:
             - name: cohortservice
               env:
+              - name: SPRING_DATASOURCE_URL
+                value: jdbc:postgresql://postgres-dev:5432/mydb
+              - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+                value: http://eureka-server-dev:8761/eureka/
+              - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+                value: kafka-dev:9092
               - name: SPRING_PROFILES_ACTIVE
                 value: dev
+  - target:
+      kind: Deployment
+      name: processingservice
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: processingservice
+      spec:
+        template:
+          spec:
+            containers:
+            - name: processingservice
+              env:
+              - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+                value: http://eureka-server-dev:8761/eureka/
+              - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+                value: kafka-dev:9092
+  - target:
+      kind: Deployment
+      name: kafka
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: kafka
+      spec:
+        template:
+          spec:
+            containers:
+            - name: kafka
+              env:
+              - name: KAFKA_ZOOKEEPER_CONNECT
+                value: "zookeeper-dev:2181"
+              - name: KAFKA_ADVERTISED_LISTENERS
+                value: "PLAINTEXT://kafka-dev:9092"

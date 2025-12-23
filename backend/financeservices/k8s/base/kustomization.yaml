@@ -6,3 +6,4 @@ resources:
   - eureka-server.yml
   - cohortservice.yml
   - processingservice.yml
+  - kafka.yml
