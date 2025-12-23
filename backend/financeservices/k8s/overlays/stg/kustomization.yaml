@@ -26,3 +26,25 @@ patches:
               env:
               - name: SPRING_PROFILES_ACTIVE
                 value: stg
+              - name: AWS_REGION
+                value: us-east-1
+              - name: S3_BUCKET_NAME
+                value: finance-documents-stg
+  - target:
+      kind: Deployment
+      name: processingservice
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: processingservice
+      spec:
+        template:
+          spec:
+            containers:
+            - name: processingservice
+              env:
+              - name: SPRING_PROFILES_ACTIVE
+                value: stg
+              - name: AWS_REGION
+                value: us-east-1
