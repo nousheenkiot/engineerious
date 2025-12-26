@@ -19,6 +19,7 @@
         <module>eurekaserver</module>
         <module>cohortservice</module>
         <module>processingservice</module>
+        <module>configserver</module>
     </modules>
 
 	<properties>

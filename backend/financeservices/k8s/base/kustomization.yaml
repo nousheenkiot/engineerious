@@ -7,3 +7,5 @@ resources:
   - cohortservice.yml
   - processingservice.yml
   - kafka.yml
+  - configserver.yml
+  - config-repo-cm.yml

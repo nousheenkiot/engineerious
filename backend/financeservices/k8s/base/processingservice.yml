@@ -19,10 +19,10 @@ spec:
         ports:
         - containerPort: 8082
         env:
-        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-          value: http://eureka-server:8761/eureka/
-        - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
-          value: kafka:9092
+        - name: SPRING_CONFIG_IMPORT
+          value: configserver:http://config-server:8888
+        - name: SPRING_PROFILES_ACTIVE
+          value: prod
 ---
 apiVersion: v1
 kind: Service
