@@ -58,4 +58,9 @@ public class PolicyServiceImpl implements PolicyService {
     public void deleteAllPolicies() {
         policyRepository.deleteAll();
     }
+
+    @Override
+    public List<Policy> getPoliciesByFicDate(java.time.LocalDate ficDate) {
+        return policyRepository.findByFyDate(ficDate);
+    }
 }

@@ -9,4 +9,6 @@ import java.time.LocalDate;
 @Repository
 public interface PolicyRepository extends JpaRepository<Policy, Long> {
     boolean existsByFyDate(LocalDate fyDate);
+
+    java.util.List<Policy> findByFyDate(LocalDate fyDate);
 }

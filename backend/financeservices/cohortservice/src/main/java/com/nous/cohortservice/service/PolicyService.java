@@ -16,4 +16,6 @@ public interface PolicyService {
     Policy updatePolicy(Long id, Policy policy);
 
     void deleteAllPolicies();
+
+    List<Policy> getPoliciesByFicDate(java.time.LocalDate ficDate);
 }

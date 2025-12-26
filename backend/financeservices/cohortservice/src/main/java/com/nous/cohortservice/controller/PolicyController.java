@@ -94,4 +94,12 @@ public class PolicyController {
                 policyLoaderService.loadPolicies(date);
                 return "20 Policies loaded successfully for date: " + date;
         }
+
+        @Operation(summary = "Get policies by FIC date", description = "Retrieve a list of policies for a specific FIC date")
+        @ApiResponse(responseCode = "200", description = "Policies retrieved successfully")
+        @GetMapping("/fic")
+        public List<Policy> getPoliciesByFicDate(
+                        @Parameter(description = "FIC Date (yyyy-MM-dd)", required = true) @RequestParam("date") @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate date) {
+                return policyService.getPoliciesByFicDate(date);
+        }
 }
