@@ -6,6 +6,7 @@ import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,14 +20,15 @@ public class CohortServiceClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    private static final String COHORT_SERVICE_URL = "http://cohortservice/api";
+    @Value("${services.cohortservice.base-url}")
+    private String cohortServiceUrl;
 
     @CircuitBreaker(name = "cohortService", fallbackMethod = "fallbackLoadPolicies")
     @Retry(name = "cohortService")
     @RateLimiter(name = "cohortService")
     public String loadPolicies(LocalDate date) {
         logger.info("Calling cohortservice to load policies for date: {}", date);
-        String url = COHORT_SERVICE_URL + "/policies/load?date=" + date;
+        String url = cohortServiceUrl + "/policies/load?date=" + date;
         return restTemplate.postForObject(url, null, String.class);
     }
 
@@ -36,7 +38,7 @@ public class CohortServiceClient {
     public String getPoliciesByFicDate(LocalDate date) {
         logger.info("Calling cohortservice to get policies by FIC date: {}", date);
         // Assuming this endpoint exists or will be created
-        String url = COHORT_SERVICE_URL + "/policies/fic?date=" + date;
+        String url = cohortServiceUrl + "/policies/fic?date=" + date;
         return restTemplate.getForObject(url, String.class);
     }
 
@@ -45,7 +47,7 @@ public class CohortServiceClient {
     @RateLimiter(name = "cohortService")
     public String loadCashflows() {
         logger.info("Calling cohortservice to load cashflows");
-        String url = COHORT_SERVICE_URL + "/cashflows/load";
+        String url = cohortServiceUrl + "/cashflows/load";
         return restTemplate.postForObject(url, null, String.class);
     }
 
