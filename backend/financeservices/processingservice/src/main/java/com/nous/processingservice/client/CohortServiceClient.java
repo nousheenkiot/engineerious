@@ -6,11 +6,10 @@ import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class CohortServiceClient {
@@ -18,18 +17,14 @@ public class CohortServiceClient {
     private static final Logger logger = LoggerFactory.getLogger(CohortServiceClient.class);
 
     @Autowired
-    private RestTemplate restTemplate;
-
-    @Value("${services.cohortservice.base-url}")
-    private String cohortServiceUrl;
+    private CohortFeignClient cohortFeignClient;
 
     @CircuitBreaker(name = "cohortService", fallbackMethod = "fallbackLoadPolicies")
     @Retry(name = "cohortService")
     @RateLimiter(name = "cohortService")
     public String loadPolicies(LocalDate date) {
         logger.info("Calling cohortservice to load policies for date: {}", date);
-        String url = cohortServiceUrl + "/policies/load?date=" + date;
-        return restTemplate.postForObject(url, null, String.class);
+        return cohortFeignClient.loadPolicies(date);
     }
 
     @CircuitBreaker(name = "cohortService", fallbackMethod = "fallbackGetPoliciesByFicDate")
@@ -37,9 +32,8 @@ public class CohortServiceClient {
     @RateLimiter(name = "cohortService")
     public String getPoliciesByFicDate(LocalDate date) {
         logger.info("Calling cohortservice to get policies by FIC date: {}", date);
-        // Assuming this endpoint exists or will be created
-        String url = cohortServiceUrl + "/policies/fic?date=" + date;
-        return restTemplate.getForObject(url, String.class);
+        List<Object> policies = cohortFeignClient.getPoliciesByFicDate(date);
+        return policies != null ? policies.toString() : "[]";
     }
 
     @CircuitBreaker(name = "cohortService", fallbackMethod = "fallbackLoadCashflows")
@@ -47,8 +41,7 @@ public class CohortServiceClient {
     @RateLimiter(name = "cohortService")
     public String loadCashflows() {
         logger.info("Calling cohortservice to load cashflows");
-        String url = cohortServiceUrl + "/cashflows/load";
-        return restTemplate.postForObject(url, null, String.class);
+        return cohortFeignClient.loadCashflows();
     }
 
     // Fallback methods
