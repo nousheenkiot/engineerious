@@ -1,2 +1,9 @@
+com\nous\processingservice\controller\ProcessingController.class
+com\nous\processingservice\client\CohortServiceClient.class
 com\nous\processingservice\ProcessingserviceApplication.class
+com\nous\processingservice\repository\ProcessingRunRepository.class
 com\nous\processingservice\service\KafkaConsumerService.class
+com\nous\processingservice\service\ProcessingService.class
+com\nous\processingservice\client\CohortFeignClient.class
+com\nous\processingservice\config\RestTemplateConfig.class
+com\nous\processingservice\model\ProcessingRun.class
