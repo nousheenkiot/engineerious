@@ -9,3 +9,5 @@ resources:
   - kafka.yml
   - configserver.yml
   - config-repo-cm.yml
+  - apigateway.yml
+  - ingress.yml

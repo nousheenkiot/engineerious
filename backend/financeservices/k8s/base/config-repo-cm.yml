@@ -20,6 +20,10 @@ data:
     services.cohortservice.base-url=http://cohortservice:8080/api
     eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
     spring.kafka.consumer.bootstrap-servers=kafka:9092
+    spring.datasource.url=jdbc:postgresql://postgres:5432/mydb
+    spring.datasource.username=postgres
+    spring.datasource.password=postgres
+    spring.jpa.hibernate.ddl-auto=update
     resilience4j.circuitbreaker.instances.cohortService.slidingWindowSize=10
     resilience4j.circuitbreaker.instances.cohortService.failureRateThreshold=50
     resilience4j.circuitbreaker.instances.cohortService.waitDurationInOpenState=5s
@@ -27,3 +31,16 @@ data:
     resilience4j.retry.instances.cohortService.waitDuration=2s
     resilience4j.ratelimiter.instances.cohortService.limitForPeriod=5
     resilience4j.ratelimiter.instances.cohortService.limitRefreshPeriod=10s
+
+  apigateway.properties: |
+    spring.application.name=apigateway
+    server.port=8080
+    eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka/
+    spring.cloud.gateway.discovery.locator.enabled=true
+    spring.cloud.gateway.discovery.locator.lower-case-service-id=true
+    spring.cloud.gateway.routes[0].id=cohortservice
+    spring.cloud.gateway.routes[0].uri=lb://cohortservice
+    spring.cloud.gateway.routes[0].predicates[0]=Path=/api/policies/**, /api/cashflows/**
+    spring.cloud.gateway.routes[1].id=processingservice
+    spring.cloud.gateway.routes[1].uri=lb://processingservice
+    spring.cloud.gateway.routes[1].predicates[0]=Path=/api/processing/**
