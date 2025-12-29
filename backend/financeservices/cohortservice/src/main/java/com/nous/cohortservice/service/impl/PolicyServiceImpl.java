@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class PolicyServiceImpl implements PolicyService {
@@ -62,5 +64,14 @@ public class PolicyServiceImpl implements PolicyService {
     @Override
     public List<Policy> getPoliciesByFicDate(java.time.LocalDate ficDate) {
         return policyRepository.findByFyDate(ficDate);
+    }
+
+    @Override
+    public Page<Policy> getPolicies(String search, Pageable pageable) {
+        if (search == null || search.trim().isEmpty()) {
+            return policyRepository.findAll(pageable);
+        }
+        return policyRepository.findByHolderNameContainingIgnoreCaseOrPolicyNumberContainingIgnoreCase(search, search,
+                pageable);
     }
 }

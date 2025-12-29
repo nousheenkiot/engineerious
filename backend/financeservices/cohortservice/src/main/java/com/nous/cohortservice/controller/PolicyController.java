@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @RestController
 @RequestMapping("/api/policies")
@@ -101,5 +105,23 @@ public class PolicyController {
         public List<Policy> getPoliciesByFicDate(
                         @Parameter(description = "FIC Date (yyyy-MM-dd)", required = true) @RequestParam("date") @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate date) {
                 return policyService.getPoliciesByFicDate(date);
+        }
+
+        @Operation(summary = "Search policies", description = "Search policies with pagination and sorting")
+        @ApiResponse(responseCode = "200", description = "Policies retrieved successfully")
+        @GetMapping("/search")
+        public Page<Policy> searchPolicies(
+                        @RequestParam(required = false) String query,
+                        @RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "10") int size,
+                        @RequestParam(defaultValue = "id") String sortBy,
+                        @RequestParam(defaultValue = "asc") String sortDir) {
+
+                Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
+                                ? Sort.by(sortBy).ascending()
+                                : Sort.by(sortBy).descending();
+
+                Pageable pageable = PageRequest.of(page, size, sort);
+                return policyService.getPolicies(query, pageable);
         }
 }
