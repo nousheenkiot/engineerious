@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: postgres
+subsets:
+- addresses:
+  - ip: 10.1.0.189
+  ports:
+  - port: 5432
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: zookeeper
+subsets:
+- addresses:
+  - ip: 10.1.0.245
+  ports:
+  - port: 2181
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: kafka
+subsets:
+- addresses:
+  - ip: 10.1.0.250
+  ports:
+  - port: 9092
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: cohortservice
+subsets:
+- addresses:
+  - ip: 10.1.0.219
+  ports:
+  - port: 8080
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: finance-ui
+subsets:
+- addresses:
+  - ip: 10.1.0.191
+  ports:
+  - port: 80
