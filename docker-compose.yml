@@ -164,6 +164,17 @@ services:
     networks:
       - finance-net
 
+  finance-ui:
+    build:
+      context: ./ui/finance-ui
+    container_name: finance-ui
+    ports:
+      - "80:80"
+    depends_on:
+      - apigateway
+    networks:
+      - finance-net
+
 networks:
   finance-net:
     driver: bridge
