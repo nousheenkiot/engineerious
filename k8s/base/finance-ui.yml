@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: finance-ui
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: finance-ui
