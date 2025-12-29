@@ -14,7 +14,7 @@ metadata:
   name: zookeeper
 subsets:
 - addresses:
-  - ip: 10.1.0.245
+  - ip: 10.1.1.1
   ports:
   - port: 2181
 ---
@@ -24,7 +24,7 @@ metadata:
   name: kafka
 subsets:
 - addresses:
-  - ip: 10.1.0.250
+  - ip: 10.1.1.0
   ports:
   - port: 9092
 ---
@@ -34,9 +34,21 @@ metadata:
   name: cohortservice
 subsets:
 - addresses:
-  - ip: 10.1.0.219
+  - ip: 10.1.0.252
+  - ip: 10.1.0.253
   ports:
   - port: 8080
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: processingservice
+subsets:
+- addresses:
+  - ip: 10.1.0.254
+  - ip: 10.1.0.255
+  ports:
+  - port: 8082
 ---
 apiVersion: v1
 kind: Endpoints
@@ -44,6 +56,6 @@ metadata:
   name: finance-ui
 subsets:
 - addresses:
-  - ip: 10.1.0.191
+  - ip: 10.1.1.2
   ports:
   - port: 80

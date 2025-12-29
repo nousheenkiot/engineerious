@@ -8,12 +8,12 @@ data:
     .:53 {
         errors
         hosts {
-           10.100.230.67 postgres postgres.default.svc.cluster.local
-           10.96.110.99 kafka kafka.default.svc.cluster.local
-           10.98.124.81 zookeeper zookeeper.default.svc.cluster.local
-           10.111.160.212 finance-ui finance-ui.default.svc.cluster.local
-           10.101.133.143 cohortservice cohortservice.default.svc.cluster.local
-           10.109.136.189 processingservice processingservice.default.svc.cluster.local
+           10.1.0.189 postgres postgres.default.svc.cluster.local
+           10.1.1.0 kafka kafka.default.svc.cluster.local
+           10.1.1.1 zookeeper zookeeper.default.svc.cluster.local
+           10.1.1.2 finance-ui finance-ui.default.svc.cluster.local
+           10.1.0.252 cohortservice cohortservice.default.svc.cluster.local
+           10.1.0.254 processingservice processingservice.default.svc.cluster.local
            10.96.0.1 kubernetes kubernetes.default.svc.cluster.local
            fallthrough
         }
