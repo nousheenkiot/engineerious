@@ -8,3 +8,4 @@ resources:
   - processingservice.yml
   - ingress.yml
   - finance-ui.yml
+  - configmap.yml
