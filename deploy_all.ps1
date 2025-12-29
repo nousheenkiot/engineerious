@@ -51,21 +51,19 @@ Write-Host "`n>>> Deploying to Kubernetes ($env)..."
 # Apply based on environment
 if ($env -eq "prod") {
     # Assuming you have a specific overlay for prod
-    kubectl apply -k "$BACKEND_DIR/k8s/overlays/prod"
+    kubectl apply -k "k8s/overlays/prod"
 }
 elseif ($env -eq "dev") {
     # Assuming you have a specific overlay for dev
-    kubectl apply -k "$BACKEND_DIR/k8s/overlays/dev"
+    kubectl apply -k "k8s/overlays/dev"
 }
 else {
     # Default to base/local
     Write-Host "Applying Base Kustomization..."
-    kubectl apply -k "$BACKEND_DIR/k8s/base"
+    kubectl apply -k "k8s/base"
 }
 
-# Apply UI Deployment (assuming common deployment for now, or you can add Kustomize for UI too)
-Write-Host "Deploying UI..."
-kubectl apply -f "$UI_DIR/k8s/deployment.yml"
+# UI deployment is now included in Kustomization base
 
 Write-Host "`n==========================="
 Write-Host "Deployment Triggered Successfully!"

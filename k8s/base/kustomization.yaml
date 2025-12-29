@@ -11,3 +11,4 @@ resources:
   - config-repo-cm.yml
   - apigateway.yml
   - ingress.yml
+  - finance-ui.yml
