@@ -4,8 +4,6 @@ metadata:
   name: finance-config
 data:
   SPRING_PROFILES_ACTIVE: "dev"
-  EUREKA_CLIENT_ENABLED: "false"
-  SPRING_CLOUD_CONFIG_ENABLED: "false"
   SPRING_CLOUD_AWS_SECRETSMANAGER_ENABLED: "false"
   SPRING_CLOUD_AWS_S3_ENABLED: "false"
   # Override specific imports that might be in application properties

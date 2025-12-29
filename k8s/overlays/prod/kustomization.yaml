@@ -54,21 +54,3 @@ patches:
                 value: prod
               - name: AWS_REGION
                 value: us-east-1
-  - target:
-      kind: Deployment
-      name: eureka-server
-    patch: |-
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: eureka-server
-      spec:
-        replicas: 1
-        template:
-          spec:
-            containers:
-            - name: eureka-server
-              resources:
-                limits:
-                  memory: "512Mi"
-                  cpu: "500m"
