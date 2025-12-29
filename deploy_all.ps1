@@ -3,7 +3,7 @@
 # env: dev, prod, local (default: local)
 
 param (
-    [string]$env = "local"
+    [string]$env = "dev"
 )
 
 Write-Host "==========================="
@@ -49,11 +49,12 @@ Pop-Location
 Write-Host "`n>>> Checking Ingress Controller..."
 $ingressNs = kubectl get ns ingress-nginx --ignore-not-found
 if (-not $ingressNs) {
-    Write-Host "Installing NGINX Ingress Controller..."
-    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
+    Write-Host "Installing NGINX Ingress Controller (v1.11.2)..."
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.2/deploy/static/provider/cloud/deploy.yaml
     Write-Host "Waiting for Ingress Controller to start..."
-    Start-Sleep -Seconds 20
+    Start-Sleep -Seconds 30
 }
+
 
 Write-Host "`n>>> Deploying Application ($env)..."
 

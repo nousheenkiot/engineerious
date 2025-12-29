@@ -4,6 +4,10 @@ metadata:
   name: finance-config
 data:
   SPRING_PROFILES_ACTIVE: "prod"
-  # Shared Configs (previously in Config Server)
+  EUREKA_CLIENT_ENABLED: "false"
+  SPRING_CLOUD_CONFIG_ENABLED: "false"
+  SPRING_CLOUD_AWS_SECRETSMANAGER_ENABLED: "false"
+  SPRING_CLOUD_AWS_S3_ENABLED: "false"
   logging.level.root: "INFO"
   management.endpoints.web.exposure.include: "*"
+  management.endpoint.health.show-details: "always"
