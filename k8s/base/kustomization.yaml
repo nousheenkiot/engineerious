@@ -3,12 +3,8 @@ kind: Kustomization
 
 resources:
   - postgres.yml
-  - eureka-server.yml
+  - kafka.yml
   - cohortservice.yml
   - processingservice.yml
-  - kafka.yml
-  - configserver.yml
-  - config-repo-cm.yml
-  - apigateway.yml
   - ingress.yml
   - finance-ui.yml

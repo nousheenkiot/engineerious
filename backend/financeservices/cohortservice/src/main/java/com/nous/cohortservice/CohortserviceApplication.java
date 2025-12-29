@@ -2,7 +2,6 @@ package com.nous.cohortservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 import java.util.TimeZone;
 import org.springframework.boot.CommandLineRunner;
@@ -12,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SpringBootApplication
-@EnableDiscoveryClient
 public class CohortserviceApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(CohortserviceApplication.class);

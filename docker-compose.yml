@@ -16,46 +16,6 @@ services:
     networks:
       - finance-net
 
-  eureka-server:
-    build:
-      context: ./backend/financeservices/eurekaserver
-    container_name: eureka-server
-    ports:
-      - "8761:8761"
-    environment:
-      EUREKA_CLIENT_REGISTER_WITH_EUREKA: "false"
-      EUREKA_CLIENT_FETCH_REGISTRY: "false"
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    networks:
-      - finance-net
-
-  config-server:
-    build:
-      context: ./backend/financeservices/configserver
-    container_name: config-server
-    ports:
-      - "8888:8888"
-    environment:
-      SPRING_PROFILES_ACTIVE: native
-      SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS: file:///config-repo
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
-    volumes:
-      - ./backend/financeservices/config-repo:/config-repo
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    depends_on:
-      eureka-server:
-        condition: service_healthy
-    networks:
-      - finance-net
-
   cohortservice:
     build:
       context: ./backend/financeservices/cohortservice
@@ -63,14 +23,15 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_CONFIG_IMPORT: configserver:http://config-server:8888
-      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_PROFILES_ACTIVE: default
     depends_on:
       postgres:
         condition: service_healthy
-      eureka-server:
-        condition: service_healthy
-      config-server:
+      kafka:
         condition: service_started
     networks:
       - finance-net
@@ -82,38 +43,15 @@ services:
     ports:
       - "8082:8082"
     environment:
-      SPRING_CONFIG_IMPORT: configserver:http://config-server:8888
-      SPRING_PROFILES_ACTIVE: prod
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_NAME: mydb
-      DB_USER: postgres
-      DB_PASSWORD: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_PROFILES_ACTIVE: default
     depends_on:
       postgres:
         condition: service_healthy
-      eureka-server:
-        condition: service_healthy
-      config-server:
-        condition: service_started
       kafka:
-        condition: service_started
-    networks:
-      - finance-net
-
-  apigateway:
-    build:
-      context: ./backend/financeservices/apigateway
-    container_name: apigateway
-    ports:
-      - "8081:8080"
-    environment:
-      SPRING_CONFIG_IMPORT: configserver:http://config-server:8888
-      SPRING_PROFILES_ACTIVE: prod
-    depends_on:
-      eureka-server:
-        condition: service_healthy
-      config-server:
         condition: service_started
     networks:
       - finance-net
@@ -145,8 +83,6 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
     networks:
       - finance-net
 
@@ -171,7 +107,8 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - apigateway
+      - cohortservice
+      - processingservice
     networks:
       - finance-net
 
