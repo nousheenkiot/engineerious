@@ -46,7 +46,16 @@ docker build -t "finance-ui:latest" .
 Pop-Location
 
 # 4. Deploy to Kubernetes
-Write-Host "`n>>> Deploying to Kubernetes ($env)..."
+Write-Host "`n>>> Checking Ingress Controller..."
+$ingressNs = kubectl get ns ingress-nginx --ignore-not-found
+if (-not $ingressNs) {
+    Write-Host "Installing NGINX Ingress Controller..."
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
+    Write-Host "Waiting for Ingress Controller to start..."
+    Start-Sleep -Seconds 20
+}
+
+Write-Host "`n>>> Deploying Application ($env)..."
 
 # Apply based on environment
 if ($env -eq "prod") {
