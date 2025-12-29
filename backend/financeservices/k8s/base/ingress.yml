@@ -5,6 +5,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
+  ingressClassName: nginx
   rules:
   - http:
       paths:
@@ -15,3 +16,10 @@ spec:
             name: apigateway
             port:
               number: 8080
+      - path: /(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: finance-ui
+            port:
+              number: 80
