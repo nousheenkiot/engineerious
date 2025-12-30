@@ -78,4 +78,5 @@ else {
 Write-Host "`n==========================="
 Write-Host "Deployment Triggered Successfully!"
 Write-Host "Monitor status with: kubectl get pods"
+Write-Host "NOTE: If localhost connections fail (Pending LoadBalancer), run: ./start_tunnels.ps1"
 Write-Host "==========================="
