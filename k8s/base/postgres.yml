@@ -18,9 +18,15 @@ spec:
         - containerPort: 5432
         env:
         - name: POSTGRES_USER
-          value: postgres
+          valueFrom:
+            configMapKeyRef:
+              name: finance-config
+              key: SPRING_DATASOURCE_USERNAME
         - name: POSTGRES_PASSWORD
-          value: postgres
+          valueFrom:
+            configMapKeyRef:
+              name: finance-config
+              key: SPRING_DATASOURCE_PASSWORD
         - name: POSTGRES_DB
           value: mydb
         volumeMounts:
@@ -28,7 +34,19 @@ spec:
           name: postgres-storage
       volumes:
       - name: postgres-storage
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: Service

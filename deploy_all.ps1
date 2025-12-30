@@ -55,6 +55,9 @@ if (-not $ingressNs) {
     Start-Sleep -Seconds 30
 }
 
+# Fix for Docker Desktop Admission Webhook Timeout
+Write-Host "Manually removing failing Ingress Webhook..."
+kubectl delete validatingwebhookconfigurations ingress-nginx-admission 2>$null
 
 Write-Host "`n>>> Deploying Application ($env)..."
 

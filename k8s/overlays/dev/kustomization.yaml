@@ -82,10 +82,6 @@ patches:
             containers:
             - name: cohortservice
               env:
-              - name: SPRING_DATASOURCE_URL
-                value: jdbc:postgresql://postgres:5432/mydb
-              - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
-                value: kafka:9092
               - name: SPRING_PROFILES_ACTIVE
                 value: dev
 
@@ -105,10 +101,6 @@ patches:
             containers:
             - name: processingservice
               env:
-              - name: SPRING_DATASOURCE_URL
-                value: jdbc:postgresql://postgres:5432/mydb
-              - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
-                value: kafka:9092
               # Ensure it doesn't try to use localhost inside K8s
               - name: SPRING_PROFILES_ACTIVE
                 value: dev
