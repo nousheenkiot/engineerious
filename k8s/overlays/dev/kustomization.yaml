@@ -5,6 +5,69 @@ resources:
   - ../../base
 
 patches:
+  # 1. Expose Postgres to Localhost (LoadBalancer)
+  - target:
+      kind: Service
+      name: postgres
+    patch: |-
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: postgres
+      spec:
+        type: LoadBalancer
+
+  # 2. Expose Kafka to Localhost (LoadBalancer) & Add External Port
+  - target:
+      kind: Service
+      name: kafka
+    patch: |-
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: kafka
+      spec:
+        type: LoadBalancer
+        ports:
+        - name: internal
+          port: 9092
+          targetPort: 9092
+          protocol: TCP
+        - name: external
+          port: 29092
+          targetPort: 29092
+          protocol: TCP
+
+  # 3. Configure Kafka for Dual Listeners (Internal + External)
+  - target:
+      kind: Deployment
+      name: kafka
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: kafka
+      spec:
+        template:
+          spec:
+            containers:
+            - name: kafka
+              ports:
+              - containerPort: 9092
+              - containerPort: 29092
+              env:
+              - name: KAFKA_ZOOKEEPER_CONNECT
+                value: "zookeeper:2181"
+              - name: KAFKA_LISTENERS
+                value: "PLAINTEXT://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092"
+              - name: KAFKA_ADVERTISED_LISTENERS
+                value: "PLAINTEXT://kafka:9092,EXTERNAL://localhost:29092"
+              - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+                value: "PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT"
+              - name: KAFKA_INTER_BROKER_LISTENER_NAME
+                value: "PLAINTEXT"
+
+  # 4. Configure Cohort Service (Dev Profile)
   - target:
       kind: Deployment
       name: cohortservice
@@ -25,6 +88,9 @@ patches:
                 value: kafka:9092
               - name: SPRING_PROFILES_ACTIVE
                 value: dev
+
+  # 5. Configure Processing Service (Dev Profile?)
+  # Assuming we want it to verify connection to standard internal names
   - target:
       kind: Deployment
       name: processingservice
@@ -43,21 +109,6 @@ patches:
                 value: jdbc:postgresql://postgres:5432/mydb
               - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
                 value: kafka:9092
-  - target:
-      kind: Deployment
-      name: kafka
-    patch: |-
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: kafka
-      spec:
-        template:
-          spec:
-            containers:
-            - name: kafka
-              env:
-              - name: KAFKA_ZOOKEEPER_CONNECT
-                value: "zookeeper:2181"
-              - name: KAFKA_ADVERTISED_LISTENERS
-                value: "PLAINTEXT://kafka:9092"
+              # Ensure it doesn't try to use localhost inside K8s
+              - name: SPRING_PROFILES_ACTIVE
+                value: dev

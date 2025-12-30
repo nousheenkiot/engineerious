@@ -1,6 +1,5 @@
 package com.nous.cohortservice.service;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -10,7 +9,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Service
-@Profile({ "local", "dev", "default" })
 public class LocalStorageService implements StorageService {
 
     private final Path rootLocation = Paths.get("data-storage");
