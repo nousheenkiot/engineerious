@@ -18,6 +18,7 @@
     <modules>
         <module>cohortservice</module>
         <module>processingservice</module>
+        <module>cashflowservice</module>
     </modules>
 
 	<properties>

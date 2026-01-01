@@ -28,6 +28,8 @@ public class Policy {
     @Enumerated(EnumType.STRING)
     private PolicyAssumption assumption;
 
+    private Double csmBalance = 0.0;
+
     @jakarta.persistence.Version
     private Long version;
 
@@ -99,6 +101,14 @@ public class Policy {
 
     public void setAssumption(PolicyAssumption assumption) {
         this.assumption = assumption;
+    }
+
+    public Double getCsmBalance() {
+        return csmBalance;
+    }
+
+    public void setCsmBalance(Double csmBalance) {
+        this.csmBalance = csmBalance;
     }
 
     @Override

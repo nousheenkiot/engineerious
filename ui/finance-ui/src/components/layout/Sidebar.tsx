@@ -21,6 +21,8 @@ import {
     Database
 } from 'lucide-react';
 
+import { PATHS } from '../../routes/paths';
+
 const SidebarContainer = styled(Box)(() => ({
     width: 260,
     height: '100%',
@@ -37,12 +39,12 @@ interface SidebarProps {
 }
 
 const menuItems = [
-    { text: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/' },
-    { text: 'Cohort Management', icon: <Users size={20} />, path: '/cohort' },
-    { text: 'Processing Runs', icon: <Zap size={20} />, path: '/processing' },
-    { text: 'Reports', icon: <FileText size={20} />, path: '/reports' },
-    { text: 'Connectors', icon: <Database size={20} />, path: '/connectors' },
-    { text: 'Settings', icon: <Settings size={20} />, path: '/settings' },
+    { text: 'Dashboard', icon: <LayoutDashboard size={20} />, path: PATHS.DASHBOARD },
+    { text: 'Cohort Management', icon: <Users size={20} />, path: PATHS.COHORT },
+    { text: 'Processing Runs', icon: <Zap size={20} />, path: PATHS.PROCESSING },
+    { text: 'Cashflows', icon: <Database size={20} />, path: PATHS.CASHFLOW },
+    { text: 'Reports', icon: <FileText size={20} />, path: PATHS.REPORTS },
+    { text: 'Settings', icon: <Settings size={20} />, path: PATHS.SETTINGS },
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ open, onClose, variant }) => {

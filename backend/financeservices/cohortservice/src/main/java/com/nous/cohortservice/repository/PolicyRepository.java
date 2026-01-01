@@ -14,6 +14,8 @@ public interface PolicyRepository extends JpaRepository<Policy, Long> {
 
     java.util.List<Policy> findByFyDate(LocalDate fyDate);
 
+    java.util.Optional<Policy> findByPolicyNumber(String policyNumber);
+
     Page<Policy> findByHolderNameContainingIgnoreCaseOrPolicyNumberContainingIgnoreCase(String holderName,
             String policyNumber, Pageable pageable);
 }
