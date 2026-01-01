@@ -38,7 +38,3 @@ public class Cashflow {
         updatedAt = LocalDateTime.now();
     }
 }
-
-enum CashflowStatus {
-    PENDING, SUCCESS, REVERSED, FAILED
-}

@@ -2,6 +2,7 @@ package com.nous.cashflowservice.service;
 
 import com.nous.cashflowservice.dto.CashflowRecordedEvent;
 import com.nous.cashflowservice.entity.Cashflow;
+import com.nous.cashflowservice.entity.CashflowStatus;
 import com.nous.cashflowservice.repository.CashflowRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class CashflowSagaService {
         // In a real scenario, we would find the specific cashflow by transactionId
         // Here we just mark the latest one or all pending for this contract
         cashflowRepository.findLatestByContractId(contractId).ifPresent(cf -> {
-            cf.setStatus(com.nous.cashflowservice.entity.CashflowStatus.REVERSED);
+            cf.setStatus(CashflowStatus.REVERSED);
             cashflowRepository.save(cf);
             log.info("Cashflow ID {} successfully reversed", cf.getId());
         });
