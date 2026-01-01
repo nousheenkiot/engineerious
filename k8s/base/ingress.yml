@@ -33,6 +33,14 @@ spec:
             name: processingservice
             port:
               number: 8082
+      # Cashflow Service
+      - path: /finance/(api/cashflow-direct.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: cashflowservice
+            port:
+              number: 8083
       # UI
       - path: /(.*)
         pathType: ImplementationSpecific

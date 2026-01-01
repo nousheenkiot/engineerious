@@ -6,6 +6,11 @@ resources:
   - kafka.yml
   - cohortservice.yml
   - processingservice.yml
+  - cashflowservice.yml
+  - gateway.yml
+  - httproutes.yml
   - ingress.yml
   - finance-ui.yml
   - configmap.yml
+  - service-configs.yml
+  - rbac.yml

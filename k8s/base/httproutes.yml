@@ -1,0 +1,40 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: finance-routes
+  namespace: default
+spec:
+  parentRefs:
+  - name: finance-gateway
+  rules:
+  # Cohort Service Routes
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /finance/api/policies
+    backendRefs:
+    - name: cohortservice
+      port: 8080
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /finance/api/cashflows
+    backendRefs:
+    - name: cohortservice
+      port: 8080
+  # Processing Service Route
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /finance/api/processing
+    backendRefs:
+    - name: processingservice
+      port: 8082
+  # UI Route
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: finance-ui
+      port: 80

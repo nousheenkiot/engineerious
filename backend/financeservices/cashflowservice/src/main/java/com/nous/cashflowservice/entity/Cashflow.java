@@ -18,7 +18,7 @@ public class Cashflow {
     private String currency;
     private LocalDate cashflowDate;
     private String assumptionType; // e.g., BEST_ESTIMATE, RISK_ADJUSTMENT
-    
+
     @Enumerated(EnumType.STRING)
     private CashflowStatus status;
 
@@ -29,7 +29,8 @@ public class Cashflow {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
-        if (status == null) status = CashflowStatus.PENDING;
+        if (status == null)
+            status = CashflowStatus.PENDING;
     }
 
     @PreUpdate

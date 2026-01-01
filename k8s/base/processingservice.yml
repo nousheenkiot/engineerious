@@ -12,6 +12,7 @@ spec:
       labels:
         app: processingservice
     spec:
+      serviceAccountName: spring-cloud-kubernetes
       containers:
       - name: processingservice
         image: processingservice:latest

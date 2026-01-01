@@ -24,7 +24,7 @@ public class CashflowSagaService {
     @Transactional
     public Cashflow recordCashflow(Cashflow cashflow) {
         log.info("Recording cashflow for contract: {}", cashflow.getContractId());
-        
+
         // 1. Save to Local DB
         Cashflow saved = cashflowRepository.save(cashflow);
 
@@ -40,7 +40,7 @@ public class CashflowSagaService {
 
         // 3. Emit Event - Using ContractId as Key for Ordering
         kafkaTemplate.send("cashflow-recorded", saved.getContractId(), event);
-        
+
         log.info("Cashflow event emitted for contract: {}", saved.getContractId());
         return saved;
     }

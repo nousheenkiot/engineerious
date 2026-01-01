@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDate;
 import java.util.List;
 
-@FeignClient(name = "cohortservice", url = "http://cohortservice:8080", path = "/api")
+@FeignClient(name = "cohortservice", path = "/api")
 public interface CohortFeignClient {
 
     @PostMapping("/policies/load")
