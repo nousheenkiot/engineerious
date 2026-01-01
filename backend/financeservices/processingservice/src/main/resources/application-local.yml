@@ -1,0 +1,11 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: processingservice
+  kafka:
+    bootstrap-servers: localhost:29092
+    consumer:
+      group-id: processing-group-local
+      auto-offset-reset: earliest

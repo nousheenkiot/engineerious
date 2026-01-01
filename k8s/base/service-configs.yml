@@ -3,24 +3,41 @@ kind: ConfigMap
 metadata:
   name: cohortservice
 data:
-  application.properties: |
-    spring.kafka.producer.transaction-id-prefix=cohort-tx-k8s-
-    logging.level.com.nous.cohortservice=DEBUG
+  application.yaml: |
+    spring:
+      kafka:
+        producer:
+          transaction-id-prefix: cohort-tx-k8s-
+    logging:
+      level:
+        com:
+          nous:
+            cohortservice: DEBUG
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: processingservice
 data:
-  application.properties: |
-    spring.cloud.openfeign.client.config.cohortservice.connectTimeout=5000
-    spring.cloud.openfeign.client.config.cohortservice.readTimeout=5000
+  application.yaml: |
+    spring:
+      cloud:
+        openfeign:
+          client:
+            config:
+              cohortservice:
+                connectTimeout: 5000
+                readTimeout: 5000
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: cashflowservice
 data:
-  application.properties: |
-    server.port=8083
-    spring.kafka.consumer.group-id=cashflow-group-k8s
+  application.yaml: |
+    server:
+      port: 8083
+    spring:
+      kafka:
+        consumer:
+          group-id: cashflow-group-k8s

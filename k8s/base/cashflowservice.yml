@@ -41,6 +41,8 @@ spec:
         envFrom:
         - configMapRef:
             name: finance-config
+        - secretRef:
+            name: finance-secrets
         env:
         - name: PROS_SERVER_PORT
           value: "8083"

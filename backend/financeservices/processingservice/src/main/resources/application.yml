@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: processingservice
+  cloud:
+    kubernetes:
+      config:
+        enabled: true
+        name: processingservice
+        sources:
+          - name: finance-config
+          - name: processingservice
+        reload:
+          enabled: true
+          strategy: refresh
+          mode: event
+      discovery:
+        enabled: true
+        all-namespaces: false
+  config:
+    import: "optional:kubernetes:"

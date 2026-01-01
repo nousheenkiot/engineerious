@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: cashflowservice
+  cloud:
+    kubernetes:
+      config:
+        enabled: true
+        name: cashflowservice
+        sources:
+          - name: finance-config
+          - name: cashflowservice
+        reload:
+          enabled: true
+          strategy: refresh
+          mode: event
+      discovery:
+        enabled: true
+        all-namespaces: false
+  config:
+    import: "optional:kubernetes:"
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      transaction-id-prefix: cashflow-tx-
+    consumer:
+      group-id: cashflow-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"
+      isolation-level: read_committed

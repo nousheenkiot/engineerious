@@ -11,5 +11,6 @@ resources:
   - httproutes.yml
   - finance-ui.yml
   - configmap.yml
+  - secrets.yml
   - service-configs.yml
   - rbac.yml

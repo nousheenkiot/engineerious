@@ -24,35 +24,35 @@ spec:
               key: SPRING_DATASOURCE_USERNAME
         - name: POSTGRES_PASSWORD
           valueFrom:
-            configMapKeyRef:
-              name: finance-config
+            secretKeyRef:
+              name: finance-secrets
               key: SPRING_DATASOURCE_PASSWORD
         - name: POSTGRES_DB
           value: mydb
         livenessProbe:
           exec:
             command:
-            - pg_isready
-            - -U
-            - postgres
+            - sh
+            - -c
+            - pg_isready -U $POSTGRES_USER
           initialDelaySeconds: 30
           periodSeconds: 10
           failureThreshold: 3
         readinessProbe:
           exec:
             command:
-            - pg_isready
-            - -U
-            - postgres
+            - sh
+            - -c
+            - pg_isready -U $POSTGRES_USER
           initialDelaySeconds: 5
           periodSeconds: 10
           failureThreshold: 3
         startupProbe:
           exec:
             command:
-            - pg_isready
-            - -U
-            - postgres
+            - sh
+            - -c
+            - pg_isready -U $POSTGRES_USER
           failureThreshold: 3
           periodSeconds: 10
         resources:

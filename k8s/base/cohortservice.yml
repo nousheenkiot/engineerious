@@ -42,11 +42,8 @@ spec:
         envFrom:
         - configMapRef:
             name: finance-config
-        env:
-        - name: SPRING_DATASOURCE_URL
-          value: jdbc:postgresql://postgres:5432/mydb
-        - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
-          value: kafka:9092
+        - secretRef:
+            name: finance-secrets
 ---
 apiVersion: v1
 kind: Service
