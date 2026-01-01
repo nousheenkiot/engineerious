@@ -29,6 +29,29 @@ spec:
               key: SPRING_DATASOURCE_PASSWORD
         - name: POSTGRES_DB
           value: mydb
+        livenessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - postgres
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - postgres
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: postgres-storage
