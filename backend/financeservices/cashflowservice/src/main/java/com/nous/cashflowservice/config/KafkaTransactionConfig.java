@@ -19,14 +19,16 @@ public class KafkaTransactionConfig {
     @Bean
     public ProducerFactory<String, Object> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.springframework.kafka.support.serializer.JsonSerializer");
-        
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                "org.apache.kafka.common.serialization.StringSerializer");
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                "org.springframework.kafka.support.serializer.JsonSerializer");
+
         // Transactional settings
         configProps.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "cashflow-tx-");
         configProps.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
-        
+
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
@@ -47,7 +49,7 @@ public class KafkaTransactionConfig {
                 .replicas(1)
                 .build();
     }
-    
+
     @Bean
     public NewTopic csmUpdateFailedTopic() {
         return TopicBuilder.name("csm-update-failed")
