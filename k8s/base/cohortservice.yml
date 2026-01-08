@@ -22,13 +22,13 @@ spec:
         - containerPort: 8080
         livenessProbe:
           httpGet:
-            path: /actuator/health/liveness
+            path: /finance/actuator/health/liveness
             port: 8080
           initialDelaySeconds: 60
           periodSeconds: 15
         readinessProbe:
           httpGet:
-            path: /actuator/health/readiness
+            path: /finance/actuator/health/readiness
             port: 8080
           initialDelaySeconds: 45
           periodSeconds: 10

@@ -1,0 +1,31 @@
+apiVersion: oci.oraclecloud.com/v1beta2
+kind: RouteTable
+metadata:
+  name: public-route-table
+  namespace: default
+spec:
+  compartmentId: "${COMPARTMENT_OCID}"
+  vcnRef:
+    name: engineerious-vcn
+  displayName: public-route-table
+  routeRules:
+    - destination: 0.0.0.0/0
+      destinationType: CIDR_BLOCK
+      networkEntityRef:
+        name: engineerious-igw
+---
+apiVersion: oci.oraclecloud.com/v1beta2
+kind: RouteTable
+metadata:
+  name: private-route-table
+  namespace: default
+spec:
+  compartmentId: "${COMPARTMENT_OCID}"
+  vcnRef:
+    name: engineerious-vcn
+  displayName: private-route-table
+  routeRules:
+    - destination: 0.0.0.0/0
+      destinationType: CIDR_BLOCK
+      networkEntityRef:
+        name: engineerious-nat

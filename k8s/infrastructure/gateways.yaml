@@ -1,0 +1,35 @@
+apiVersion: oci.oraclecloud.com/v1beta2
+kind: InternetGateway
+metadata:
+  name: engineerious-igw
+  namespace: default
+spec:
+  compartmentId: "${COMPARTMENT_OCID}"
+  vcnRef:
+    name: engineerious-vcn
+  displayName: engineerious-igw
+  isEnabled: true
+---
+apiVersion: oci.oraclecloud.com/v1beta2
+kind: NatGateway
+metadata:
+  name: engineerious-nat
+  namespace: default
+spec:
+  compartmentId: "${COMPARTMENT_OCID}"
+  vcnRef:
+    name: engineerious-vcn
+  displayName: engineerious-nat
+---
+apiVersion: oci.oraclecloud.com/v1beta2
+kind: ServiceGateway
+metadata:
+  name: engineerious-sgw
+  namespace: default
+spec:
+  compartmentId: "${COMPARTMENT_OCID}"
+  vcnRef:
+    name: engineerious-vcn
+  displayName: engineerious-sgw
+  services:
+    - serviceName: "All PHX Services in Oracle Services Network"

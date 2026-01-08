@@ -1,0 +1,31 @@
+apiVersion: oci.oraclecloud.com/v1beta2
+kind: Subnet
+metadata:
+  name: public-subnet
+  namespace: default
+spec:
+  compartmentId: "${COMPARTMENT_OCID}"
+  vcnRef:
+    name: engineerious-vcn
+  cidrBlock: 10.0.1.0/24
+  displayName: public-subnet
+  dnsLabel: public
+  prohibitPublicIpOnVnic: false
+  routeTableRef:
+    name: public-route-table
+---
+apiVersion: oci.oraclecloud.com/v1beta2
+kind: Subnet
+metadata:
+  name: private-subnet
+  namespace: default
+spec:
+  compartmentId: "${COMPARTMENT_OCID}"
+  vcnRef:
+    name: engineerious-vcn
+  cidrBlock: 10.0.2.0/24
+  displayName: private-subnet
+  dnsLabel: private
+  prohibitPublicIpOnVnic: true
+  routeTableRef:
+    name: private-route-table
