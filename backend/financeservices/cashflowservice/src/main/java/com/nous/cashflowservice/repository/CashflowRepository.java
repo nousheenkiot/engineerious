@@ -9,7 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface CashflowRepository extends JpaRepository<Cashflow, Long> {
-    
+
     @Query(value = "SELECT * FROM cashflows WHERE contract_id = ?1 ORDER BY created_at DESC LIMIT 1", nativeQuery = true)
     Optional<Cashflow> findLatestByContractId(String contractId);
+
+    java.util.List<Cashflow> findAllByContractId(String contractId);
 }

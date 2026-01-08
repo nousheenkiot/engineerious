@@ -8,6 +8,7 @@ const Dashboard = lazy(() => import('../pages/Dashboard'));
 const CohortManagement = lazy(() => import('../pages/CohortManagement'));
 const ProcessingRuns = lazy(() => import('../pages/ProcessingRuns'));
 const CashflowManagement = lazy(() => import('../pages/CashflowManagement'));
+const PolicyDetails = lazy(() => import('../pages/PolicyDetails'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 // Loading component
@@ -59,6 +60,14 @@ export const router = createBrowserRouter([
                 element: (
                     <Suspense fallback={<PageLoader />}>
                         <NotFound />
+                    </Suspense>
+                ),
+            },
+            {
+                path: PATHS.POLICY_DETAILS,
+                element: (
+                    <Suspense fallback={<PageLoader />}>
+                        <PolicyDetails />
                     </Suspense>
                 ),
             },

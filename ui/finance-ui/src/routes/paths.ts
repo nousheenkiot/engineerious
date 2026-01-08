@@ -5,5 +5,6 @@ export const PATHS = {
     CASHFLOW: '/cashflow', // New service we just added backend for
     REPORTS: '/reports',
     SETTINGS: '/settings',
+    POLICY_DETAILS: '/cohort/:id',
     NOT_FOUND: '*',
 } as const;

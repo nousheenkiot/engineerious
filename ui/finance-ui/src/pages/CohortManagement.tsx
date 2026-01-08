@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import {
     Box, Typography, Paper, Button, TextField, IconButton,
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
     TablePagination, Chip, Dialog, DialogTitle, DialogContent,
     DialogActions, MenuItem, Grid, InputAdornment, Tooltip, CircularProgress,
-    TableSortLabel
+    TableSortLabel, Link
 } from '@mui/material';
 import {
     Plus, Search, Edit2, Eye, Trash2, RefreshCw, AlertCircle
@@ -28,6 +29,7 @@ const policySchema = z.object({
 type PolicyFormData = z.infer<typeof policySchema>;
 
 const CohortManagement: React.FC = () => {
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
 
     // State
@@ -245,7 +247,19 @@ const CohortManagement: React.FC = () => {
                                 data?.content?.map((row) => (
                                     <TableRow hover key={row.id}>
                                         <TableCell sx={{ color: '#666666' }}>{row.id}</TableCell>
-                                        <TableCell sx={{ fontWeight: 600, color: '#005bab' }}>{row.policyNumber}</TableCell>
+                                        <TableCell sx={{ fontWeight: 600 }}>
+                                            <Link
+                                                component={RouterLink}
+                                                to={`/cohort/${row.id}`}
+                                                sx={{
+                                                    color: '#005bab',
+                                                    textDecoration: 'none',
+                                                    '&:hover': { textDecoration: 'underline' }
+                                                }}
+                                            >
+                                                {row.policyNumber}
+                                            </Link>
+                                        </TableCell>
                                         <TableCell>{row.holderName}</TableCell>
                                         <TableCell align="right" sx={{ fontWeight: 500 }}>${row.premium.toLocaleString()}</TableCell>
                                         <TableCell color="textSecondary">{row.fyDate}</TableCell>
@@ -294,7 +308,7 @@ const CohortManagement: React.FC = () => {
 
             <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: 1 } }}>
                 <DialogTitle sx={{ borderBottom: '1px solid #e5e7eb', px: 3, py: 2 }}>
-                    <Typography variant="h6" sx={{ fontSize: '1.1rem', fontWeight: 600 }}>
+                    <Typography component="span" sx={{ fontSize: '1.1rem', fontWeight: 600 }}>
                         {dialogMode === 'create' ? 'Create New Cohort' : dialogMode === 'edit' ? 'Edit Cohort' : 'Cohort Details'}
                     </Typography>
                 </DialogTitle>
