@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL || '/finance', // Pointing to Ingress/Gateway via relative path
+    baseURL: import.meta.env.VITE_API_BASE_URL || '/finance/', // Added trailing slash for relative joining
     headers: {
         'Content-Type': 'application/json',
     },
