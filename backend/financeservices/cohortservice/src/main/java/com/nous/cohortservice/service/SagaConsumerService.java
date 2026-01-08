@@ -3,7 +3,8 @@ package com.nous.cohortservice.service;
 import com.nous.cohortservice.dto.CashflowRecordedEvent;
 import com.nous.cohortservice.entity.Policy;
 import com.nous.cohortservice.repository.PolicyRepository;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -15,8 +16,9 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-@Slf4j
 public class SagaConsumerService {
+
+    private static final Logger log = LoggerFactory.getLogger(SagaConsumerService.class);
 
     @Autowired
     private PolicyRepository policyRepository;

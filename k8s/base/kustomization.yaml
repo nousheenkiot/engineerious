@@ -9,6 +9,7 @@ resources:
   - cashflowservice.yml
   - gateway.yml
   - httproutes.yml
+  - security.yml
   - finance-ui.yml
   - configmap.yml
   - secrets.yml

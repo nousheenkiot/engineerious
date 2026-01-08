@@ -4,7 +4,8 @@ import com.nous.cashflowservice.dto.CashflowRecordedEvent;
 import com.nous.cashflowservice.entity.Cashflow;
 import com.nous.cashflowservice.entity.CashflowStatus;
 import com.nous.cashflowservice.repository.CashflowRepository;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -13,8 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service
-@Slf4j
 public class CashflowSagaService {
+
+    private static final Logger log = LoggerFactory.getLogger(CashflowSagaService.class);
 
     @Autowired
     private CashflowRepository cashflowRepository;
@@ -30,14 +32,13 @@ public class CashflowSagaService {
         Cashflow saved = cashflowRepository.save(cashflow);
 
         // 2. Prepare Event
-        CashflowRecordedEvent event = CashflowRecordedEvent.builder()
-                .transactionId(UUID.randomUUID().toString())
-                .contractId(saved.getContractId())
-                .amount(saved.getAmount())
-                .assumptionType(saved.getAssumptionType())
-                .cashflowDate(saved.getCashflowDate())
-                .status("RECORDED")
-                .build();
+        CashflowRecordedEvent event = new CashflowRecordedEvent(
+                UUID.randomUUID().toString(),
+                saved.getContractId(),
+                saved.getAmount(),
+                saved.getAssumptionType(),
+                saved.getCashflowDate(),
+                "RECORDED");
 
         // 3. Emit Event - Using ContractId as Key for Ordering
         kafkaTemplate.send("cashflow-recorded", saved.getContractId(), event);

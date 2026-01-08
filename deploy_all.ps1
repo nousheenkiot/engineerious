@@ -27,7 +27,7 @@ Push-Location $BACKEND_DIR
 if ($LASTEXITCODE -ne 0) { Write-Error "Maven build failed"; exit 1 }
 
 # Build Docker Images
-$services = @("cohortservice", "processingservice")
+$services = @("cohortservice", "processingservice", "cashflowservice")
 
 foreach ($service in $services) {
     Write-Host "Building Docker image for $service..."

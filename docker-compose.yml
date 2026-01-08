@@ -1,4 +1,20 @@
 services:
+  gateway:
+    image: nginx:stable-alpine
+    container_name: finance-gateway
+    volumes:
+      - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - finance-ui
+      - cohortservice
+      - processingservice
+      - processingservice-canary
+      - cashflowservice
+    networks:
+      - finance-net
+
   postgres:
     image: postgres:15
     container_name: postgres
@@ -20,14 +36,13 @@ services:
     build:
       context: ./backend/financeservices/cohortservice
     container_name: cohortservice
-    ports:
-      - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      SPRING_PROFILES_ACTIVE: default
+      SPRING_PROFILES_ACTIVE: dev
+      SERVER_SERVLET_CONTEXT_PATH: /finance
     depends_on:
       postgres:
         condition: service_healthy
@@ -40,14 +55,52 @@ services:
     build:
       context: ./backend/financeservices/processingservice
     container_name: processingservice
-    ports:
-      - "8082:8082"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      SPRING_PROFILES_ACTIVE: default
+      SPRING_PROFILES_ACTIVE: dev
+      SERVER_SERVLET_CONTEXT_PATH: /finance
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+    networks:
+      - finance-net
+
+  processingservice-canary:
+    build:
+      context: ./backend/financeservices/processingservice
+    container_name: processingservice-canary
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_PROFILES_ACTIVE: dev
+      SERVER_SERVLET_CONTEXT_PATH: /finance
+      APP_VERSION: canary-v2
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+    networks:
+      - finance-net
+
+  cashflowservice:
+    build:
+      context: ./backend/financeservices/cashflowservice
+    container_name: cashflowservice
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_PROFILES_ACTIVE: dev
+      SERVER_SERVLET_CONTEXT_PATH: /finance
     depends_on:
       postgres:
         condition: service_healthy
@@ -62,8 +115,6 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - "22181:2181"
     networks:
       - finance-net
 
@@ -72,8 +123,6 @@ services:
     container_name: kafka
     depends_on:
       - zookeeper
-    ports:
-      - "29092:29092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -96,7 +145,6 @@ services:
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
-      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
     networks:
       - finance-net
 
@@ -104,11 +152,6 @@ services:
     build:
       context: ./ui/finance-ui
     container_name: finance-ui
-    ports:
-      - "80:80"
-    depends_on:
-      - cohortservice
-      - processingservice
     networks:
       - finance-net
 

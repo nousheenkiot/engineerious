@@ -119,19 +119,6 @@
 
     <build>
         <plugins>
-            <!-- Compiler plugin with Lombok annotation processing -->
-            <!-- Compiler plugin with Lombok annotation processing -->
-            <!-- Compiler plugin removed to rely on Spring Boot defaults -->
-
-            <!-- Maven Surefire plugin for test execution -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <argLine>-Duser.timezone=Asia/Kolkata</argLine>
-                </configuration>
-            </plugin>
-
             <!-- Spring Boot Maven plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>

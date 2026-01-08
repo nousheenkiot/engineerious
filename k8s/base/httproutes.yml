@@ -5,44 +5,92 @@ metadata:
   namespace: default
 spec:
   parentRefs:
-  - name: finance-gateway
+    - name: finance-gateway
   rules:
-  # Cohort Service Routes
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /finance/api/policies
-    backendRefs:
-    - name: cohortservice
-      port: 8080
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /finance/api/cashflows
-    backendRefs:
-    - name: cohortservice
-      port: 8080
-  # Processing Service Route
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /finance/api/processing
-    backendRefs:
-    - name: processingservice
-      port: 8082
-  # Cashflow Service Route (Direct)
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /finance/api/cashflow-direct
-    backendRefs:
-    - name: cashflowservice
-      port: 8083
-  # UI Route
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /
-    backendRefs:
-    - name: finance-ui
-      port: 80
+    # 1. Advanced Routing & Traffic Management (Canary for Processing Service)
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /finance/api/processing
+      backendRefs:
+        - name: processingservice
+          port: 8082
+          weight: 90
+        - name: processingservice-canary
+          port: 8082
+          weight: 10
+
+    # 2. Advanced Routing (Header-Based for Cohort Service)
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /finance/api/policies
+          headers:
+            - name: x-api-version
+              value: "v2"
+      backendRefs:
+        - name: cohortservice-v2
+          port: 8080
+
+    # 3. Request Transformation (Default Cohort Service)
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /finance/api/policies
+      filters:
+        - type: RequestHeaderModifier
+          requestHeaderModifier:
+            add:
+              - name: X-Service-Origin
+                value: finance-gateway
+      backendRefs:
+        - name: cohortservice
+          port: 8080
+
+    # 4. Request/Response Transformation (Cashflow Service)
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /finance/api/cashflows
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefix: /api/v1/cashflows
+      backendRefs:
+        - name: cohortservice
+          port: 8080
+
+    # 5. Developer Portal Integration (API Documentation)
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /finance/docs
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefix: /swagger-ui/index.html
+      backendRefs:
+        - name: cohortservice
+          port: 8080
+
+    # 6. Cashflow Service Route
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /finance/api/cashflow-direct
+      backendRefs:
+        - name: cashflowservice
+          port: 8083
+
+    # 7. UI Route (Default)
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: finance-ui
+          port: 80

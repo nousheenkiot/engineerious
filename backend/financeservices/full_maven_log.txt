@@ -1,0 +1,129 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/C:/Users/noush/.m2/wrapper/dists/apache-maven-3.9.11/03d7e36a140982eea48e22c1dcac01d8862b2550b2939e09a0809bbc5182a5bc/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] financeservices                                                    [pom]
+[INFO] cohortservice                                                      [jar]
+[INFO] processingservice                                                  [jar]
+[INFO] cashflowservice                                                    [jar]
+[INFO] 
+[INFO] ---------------------< com.noush:financeservices >----------------------
+[INFO] Building financeservices 0.0.1-SNAPSHOT                            [1/4]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.0:clean (default-clean) @ financeservices ---
+[INFO] 
+[INFO] ----------------------< com.noush:cohortservice >-----------------------
+[INFO] Building cohortservice 0.0.1-SNAPSHOT                              [2/4]
+[INFO]   from cohortservice\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.0:clean (default-clean) @ cohortservice ---
+[INFO] Deleting C:\Users\noush\IdeaProjects\engineerious\backend\financeservices\cohortservice\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ cohortservice ---
+[INFO] Copying 6 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ cohortservice ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 20 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ cohortservice ---
+[INFO] Copying 0 resource from src\test\resources to target\test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ cohortservice ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.2:test (default-test) @ cohortservice ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ cohortservice ---
+[INFO] Building jar: C:\Users\noush\IdeaProjects\engineerious\backend\financeservices\cohortservice\target\cohortservice-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.4.0:repackage (repackage) @ cohortservice ---
+[INFO] Replacing main artifact C:\Users\noush\IdeaProjects\engineerious\backend\financeservices\cohortservice\target\cohortservice-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\noush\IdeaProjects\engineerious\backend\financeservices\cohortservice\target\cohortservice-0.0.1-SNAPSHOT.jar.original
+[INFO] 
+[INFO] --------------------< com.noush:processingservice >---------------------
+[INFO] Building processingservice 0.0.1-SNAPSHOT                          [3/4]
+[INFO]   from processingservice\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.0:clean (default-clean) @ processingservice ---
+[INFO] Deleting C:\Users\noush\IdeaProjects\engineerious\backend\financeservices\processingservice\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ processingservice ---
+[INFO] Copying 3 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ processingservice ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 9 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ processingservice ---
+[INFO] skip non existing resourceDirectory C:\Users\noush\IdeaProjects\engineerious\backend\financeservices\processingservice\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ processingservice ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.2:test (default-test) @ processingservice ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ processingservice ---
+[INFO] Building jar: C:\Users\noush\IdeaProjects\engineerious\backend\financeservices\processingservice\target\processingservice-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.4.0:repackage (repackage) @ processingservice ---
+[INFO] Replacing main artifact C:\Users\noush\IdeaProjects\engineerious\backend\financeservices\processingservice\target\processingservice-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\noush\IdeaProjects\engineerious\backend\financeservices\processingservice\target\processingservice-0.0.1-SNAPSHOT.jar.original
+[INFO] 
+[INFO] ---------------------< com.noush:cashflowservice >----------------------
+[INFO] Building cashflowservice 0.0.1-SNAPSHOT                            [4/4]
+[INFO]   from cashflowservice\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.0:clean (default-clean) @ cashflowservice ---
+[INFO] Deleting C:\Users\noush\IdeaProjects\engineerious\backend\financeservices\cashflowservice\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ cashflowservice ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ cashflowservice ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 9 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ cashflowservice ---
+[INFO] skip non existing resourceDirectory C:\Users\noush\IdeaProjects\engineerious\backend\financeservices\cashflowservice\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ cashflowservice ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.2:test (default-test) @ cashflowservice ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ cashflowservice ---
+[INFO] Building jar: C:\Users\noush\IdeaProjects\engineerious\backend\financeservices\cashflowservice\target\cashflowservice-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.4.0:repackage (repackage) @ cashflowservice ---
+[INFO] Replacing main artifact C:\Users\noush\IdeaProjects\engineerious\backend\financeservices\cashflowservice\target\cashflowservice-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\noush\IdeaProjects\engineerious\backend\financeservices\cashflowservice\target\cashflowservice-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for financeservices 0.0.1-SNAPSHOT:
+[INFO] 
+[INFO] financeservices .................................... SUCCESS [  0.139 s]
+[INFO] cohortservice ...................................... SUCCESS [  4.445 s]
+[INFO] processingservice .................................. SUCCESS [  1.334 s]
+[INFO] cashflowservice .................................... SUCCESS [  1.017 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  7.342 s
+[INFO] Finished at: 2026-01-08T15:42:37+05:30
+[INFO] ------------------------------------------------------------------------

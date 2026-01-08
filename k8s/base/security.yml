@@ -1,0 +1,39 @@
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: ReferenceGrant
+metadata:
+  name: finance-auth-grant
+  namespace: default
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: default
+  to:
+    - group: ""
+      kind: Service
+      name: auth-service
+---
+# Example of an External Auth filter setup if supported by the Gateway
+# Using a dummy ExtensionRef to show how it's integrated
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: finance-authenticated-routes
+  namespace: default
+spec:
+  parentRefs:
+    - name: finance-gateway
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /finance/api/secure
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: security.policy.io
+            kind: AuthenticationPolicy
+            name: oauth2-auth
+      backendRefs:
+        - name: processingservice
+          port: 8082
