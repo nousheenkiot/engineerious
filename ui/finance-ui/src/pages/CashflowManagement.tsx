@@ -1,14 +1,14 @@
 import React from 'react';
-import { Container, Typography, Paper, Box } from '@mui/material';
+import { Typography, Paper, Box } from '@mui/material';
 
 const CashflowManagement: React.FC = () => {
     return (
-        <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-            <Box sx={{ mb: 4 }}>
-                <Typography variant="h4" sx={{ fontWeight: 700, color: 'text.primary' }}>
+        <Box sx={{ p: 3 }}>
+            <Box sx={{ mb: 4, borderBottom: '1px solid #e5e7eb', pb: 2 }}>
+                <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a1a' }}>
                     Cashflow Management
                 </Typography>
-                <Typography variant="subtitle1" sx={{ color: 'text.secondary', mt: 1 }}>
+                <Typography variant="body2" sx={{ color: '#666666', mt: 0.5 }}>
                     Record principal inflows and track IFRS 17 CSM updates.
                 </Typography>
             </Box>
@@ -17,20 +17,19 @@ const CashflowManagement: React.FC = () => {
                 sx={{
                     p: 8,
                     textAlign: 'center',
-                    borderRadius: 4,
-                    background: 'rgba(30, 41, 59, 0.5)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.05)',
+                    borderRadius: 1,
+                    bgcolor: '#ffffff',
+                    border: '1px solid #e5e7eb',
                 }}
             >
-                <Typography variant="h6" color="text.secondary">
+                <Typography variant="h6" sx={{ color: '#1a1a1a', fontWeight: 500 }}>
                     Cashflow recording interface coming soon...
                 </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+                <Typography variant="body2" sx={{ color: '#666666', mt: 2 }}>
                     Integrates with the Saga Choreography pattern for automated CSM adjustments.
                 </Typography>
             </Paper>
-        </Container>
+        </Box>
     );
 };
 

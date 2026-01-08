@@ -140,52 +140,57 @@ const CohortManagement: React.FC = () => {
     };
 
     return (
-        <Box sx={{ p: 3 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3, alignItems: 'center' }}>
-                <Typography variant="h4" sx={{ fontWeight: 800, background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                    Cohort Management
-                </Typography>
+        <Box sx={{ p: 3, bgcolor: '#f8f9fa', minHeight: '100vh' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4, alignItems: 'center', borderBottom: '1px solid #e5e7eb', pb: 2 }}>
+                <Box>
+                    <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a1a' }}>
+                        Cohort Management
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#666666', mt: 0.5 }}>
+                        Manage insurance policy cohorts and financial year data.
+                    </Typography>
+                </Box>
                 <Button
                     variant="contained"
                     startIcon={<Plus size={18} />}
                     onClick={() => handleOpenDialog('create')}
-                    sx={{ borderRadius: 2, textTransform: 'none', px: 3 }}
+                    sx={{ boxShadow: 'none', px: 3 }}
                 >
                     Add New Cohort
                 </Button>
             </Box>
 
-            <Paper sx={{ width: '100%', mb: 2, borderRadius: 2, overflow: 'hidden', boxShadow: 3 }}>
-                <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2, bgcolor: 'background.paper' }}>
+            <Paper sx={{ width: '100%', mb: 2, borderRadius: 1, border: '1px solid #e5e7eb' }}>
+                <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2, bgcolor: '#ffffff' }}>
                     <TextField
                         variant="outlined"
                         size="small"
-                        placeholder="Search policies..."
+                        placeholder="Search by holder name or policy number..."
                         onChange={(e) => setSearchTerm(e.target.value)}
                         slotProps={{
                             input: {
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <Search size={20} color="gray" />
+                                        <Search size={18} color="#666666" />
                                     </InputAdornment>
                                 ),
                             },
                         }}
-                        sx={{ minWidth: 300 }}
+                        sx={{ minWidth: 400, '& .MuiOutlinedInput-root': { bgcolor: '#fdfdfd' } }}
                     />
                     <Box sx={{ flexGrow: 1 }} />
-                    <Tooltip title="Refresh">
-                        <IconButton onClick={() => queryClient.invalidateQueries({ queryKey: ['policies'] })}>
-                            <RefreshCw size={20} />
+                    <Tooltip title="Refresh Data">
+                        <IconButton onClick={() => queryClient.invalidateQueries({ queryKey: ['policies'] })} sx={{ border: '1px solid #e5e7eb', borderRadius: 1 }}>
+                            <RefreshCw size={18} />
                         </IconButton>
                     </Tooltip>
                 </Box>
 
                 <TableContainer>
-                    <Table stickyHeader>
+                    <Table stickyHeader size="small">
                         <TableHead>
                             <TableRow>
-                                <TableCell>
+                                <TableCell sx={{ width: 80 }}>
                                     <TableSortLabel active={orderBy === 'id'} direction={orderBy === 'id' ? order : 'asc'} onClick={() => handleRequestSort('id')}>
                                         ID
                                     </TableSortLabel>
@@ -211,60 +216,63 @@ const CohortManagement: React.FC = () => {
                                     </TableSortLabel>
                                 </TableCell>
                                 <TableCell>Assumption</TableCell>
-                                <TableCell align="right">Actions</TableCell>
+                                <TableCell align="right" sx={{ pr: 3 }}>Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {isLoading ? (
                                 <TableRow>
-                                    <TableCell colSpan={7} align="center" sx={{ py: 10 }}>
-                                        <CircularProgress />
+                                    <TableCell colSpan={7} align="center" sx={{ py: 8 }}>
+                                        <CircularProgress size={30} />
                                     </TableCell>
                                 </TableRow>
                             ) : isError ? (
                                 <TableRow>
-                                    <TableCell colSpan={7} align="center" sx={{ py: 5, color: 'error.main' }}>
+                                    <TableCell colSpan={7} align="center" sx={{ py: 5, color: '#dc2626' }}>
                                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-                                            <AlertCircle size={20} />
-                                            Failed to load data
+                                            <AlertCircle size={18} />
+                                            <Typography variant="body2">Failed to load cohort data</Typography>
                                         </Box>
                                     </TableCell>
                                 </TableRow>
                             ) : data?.content?.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={7} align="center" sx={{ py: 5, color: 'text.secondary' }}>
-                                        No policies found
+                                    <TableCell colSpan={7} align="center" sx={{ py: 5, color: '#666666' }}>
+                                        No cohorts found matching your search
                                     </TableCell>
                                 </TableRow>
                             ) : (
                                 data?.content?.map((row) => (
                                     <TableRow hover key={row.id}>
-                                        <TableCell>{row.id}</TableCell>
-                                        <TableCell sx={{ fontWeight: 500 }}>{row.policyNumber}</TableCell>
+                                        <TableCell sx={{ color: '#666666' }}>{row.id}</TableCell>
+                                        <TableCell sx={{ fontWeight: 600, color: '#005bab' }}>{row.policyNumber}</TableCell>
                                         <TableCell>{row.holderName}</TableCell>
-                                        <TableCell align="right">${row.premium.toLocaleString()}</TableCell>
-                                        <TableCell>{row.fyDate}</TableCell>
+                                        <TableCell align="right" sx={{ fontWeight: 500 }}>${row.premium.toLocaleString()}</TableCell>
+                                        <TableCell color="textSecondary">{row.fyDate}</TableCell>
                                         <TableCell>
                                             <Chip
                                                 label={row.assumption}
                                                 size="small"
-                                                color={
-                                                    row.assumption === 'AGGRESSIVE' ? 'error' :
-                                                        row.assumption === 'CONSERVATIVE' ? 'success' : 'warning'
-                                                }
-                                                variant="outlined"
+                                                variant="filled"
+                                                sx={{
+                                                    borderRadius: '4px',
+                                                    fontSize: '0.65rem',
+                                                    fontWeight: 700,
+                                                    height: 20,
+                                                    bgcolor:
+                                                        row.assumption === 'AGGRESSIVE' ? '#fef2f2' :
+                                                            row.assumption === 'CONSERVATIVE' ? '#f0fdf4' : '#fffbeb',
+                                                    color:
+                                                        row.assumption === 'AGGRESSIVE' ? '#991b1b' :
+                                                            row.assumption === 'CONSERVATIVE' ? '#166534' : '#92400e',
+                                                    border: '1px solid transparent'
+                                                }}
                                             />
                                         </TableCell>
-                                        <TableCell align="right">
-                                            <Tooltip title="View">
-                                                <IconButton size="small" color="info" onClick={() => handleOpenDialog('view', row)}><Eye size={18} /></IconButton>
-                                            </Tooltip>
-                                            <Tooltip title="Edit">
-                                                <IconButton size="small" color="primary" onClick={() => handleOpenDialog('edit', row)}><Edit2 size={18} /></IconButton>
-                                            </Tooltip>
-                                            <Tooltip title="Delete">
-                                                <IconButton size="small" color="error" onClick={() => deleteMutation.mutate(row.id)}><Trash2 size={18} /></IconButton>
-                                            </Tooltip>
+                                        <TableCell align="right" sx={{ pr: 2 }}>
+                                            <IconButton size="small" sx={{ mr: 1, color: '#666666' }} onClick={() => handleOpenDialog('view', row)}><Eye size={16} /></IconButton>
+                                            <IconButton size="small" sx={{ mr: 1, color: '#005bab' }} onClick={() => handleOpenDialog('edit', row)}><Edit2 size={16} /></IconButton>
+                                            <IconButton size="small" sx={{ color: '#dc2626' }} onClick={() => deleteMutation.mutate(row.id)}><Trash2 size={16} /></IconButton>
                                         </TableCell>
                                     </TableRow>
                                 ))
@@ -273,32 +281,36 @@ const CohortManagement: React.FC = () => {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={[10, 25, 50]}
                     component="div"
                     count={data?.totalElements || 0}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
+                    sx={{ borderTop: '1px solid #e5e7eb' }}
                 />
             </Paper>
 
-            <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
-                <DialogTitle>
-                    {dialogMode === 'create' ? 'Add New Cohort' : dialogMode === 'edit' ? 'Edit Cohort' : 'View Cohort'}
+            <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: 1 } }}>
+                <DialogTitle sx={{ borderBottom: '1px solid #e5e7eb', px: 3, py: 2 }}>
+                    <Typography variant="h6" sx={{ fontSize: '1.1rem', fontWeight: 600 }}>
+                        {dialogMode === 'create' ? 'Create New Cohort' : dialogMode === 'edit' ? 'Edit Cohort' : 'Cohort Details'}
+                    </Typography>
                 </DialogTitle>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <DialogContent dividers>
-                        <Grid container spacing={2}>
-                            <Grid size={{ xs: 12, sm: 6 }}>
+                    <DialogContent sx={{ p: 3 }}>
+                        <Grid container spacing={2.5}>
+                            <Grid size={{ xs: 12 }}>
                                 <Controller
                                     name="policyNumber"
                                     control={control}
                                     render={({ field, fieldState }) => (
                                         <TextField
                                             {...field}
-                                            label="Policy Number"
+                                            label="Policy number"
                                             fullWidth
+                                            size="small"
                                             error={!!fieldState.error}
                                             helperText={fieldState.error?.message}
                                             disabled={dialogMode === 'view'}
@@ -306,15 +318,16 @@ const CohortManagement: React.FC = () => {
                                     )}
                                 />
                             </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }}>
+                            <Grid size={{ xs: 12 }}>
                                 <Controller
                                     name="holderName"
                                     control={control}
                                     render={({ field, fieldState }) => (
                                         <TextField
                                             {...field}
-                                            label="Holder Name"
+                                            label="Policy holder name"
                                             fullWidth
+                                            size="small"
                                             error={!!fieldState.error}
                                             helperText={fieldState.error?.message}
                                             disabled={dialogMode === 'view'}
@@ -330,9 +343,10 @@ const CohortManagement: React.FC = () => {
                                         <TextField
                                             {...field}
                                             onChange={(e) => field.onChange(Number(e.target.value))}
-                                            label="Premium"
+                                            label="Annual premium ($)"
                                             type="number"
                                             fullWidth
+                                            size="small"
                                             error={!!fieldState.error}
                                             helperText={fieldState.error?.message}
                                             disabled={dialogMode === 'view'}
@@ -347,9 +361,10 @@ const CohortManagement: React.FC = () => {
                                     render={({ field, fieldState }) => (
                                         <TextField
                                             {...field}
-                                            label="Financial Year Date"
+                                            label="Financial year date"
                                             type="date"
                                             fullWidth
+                                            size="small"
                                             InputLabelProps={{ shrink: true }}
                                             error={!!fieldState.error}
                                             helperText={fieldState.error?.message}
@@ -366,8 +381,9 @@ const CohortManagement: React.FC = () => {
                                         <TextField
                                             {...field}
                                             select
-                                            label="Assumption"
+                                            label="Policy assumption"
                                             fullWidth
+                                            size="small"
                                             disabled={dialogMode === 'view'}
                                         >
                                             <MenuItem value="AGGRESSIVE">Aggressive</MenuItem>
@@ -379,11 +395,11 @@ const CohortManagement: React.FC = () => {
                             </Grid>
                         </Grid>
                     </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleCloseDialog}>Close</Button>
+                    <DialogActions sx={{ borderTop: '1px solid #e5e7eb', px: 3, py: 2 }}>
+                        <Button onClick={handleCloseDialog} sx={{ color: '#666666' }}>Cancel</Button>
                         {dialogMode !== 'view' && (
-                            <Button type="submit" variant="contained" disabled={createMutation.isPending || updateMutation.isPending}>
-                                {dialogMode === 'create' ? 'Create' : 'Save Changes'}
+                            <Button type="submit" variant="contained" sx={{ boxShadow: 'none' }} disabled={createMutation.isPending || updateMutation.isPending}>
+                                {dialogMode === 'create' ? 'Create Cohort' : 'Update Cohort'}
                             </Button>
                         )}
                     </DialogActions>

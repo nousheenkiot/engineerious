@@ -23,13 +23,14 @@ import {
 
 import { PATHS } from '../../routes/paths';
 
-const SidebarContainer = styled(Box)(() => ({
+const SidebarContainer = styled(Box)(({ theme }) => ({
     width: 260,
     height: '100%',
-    backgroundColor: '#1e293b',
-    color: '#f8fafc',
+    backgroundColor: '#ffffff',
+    color: '#1a1a1a',
     display: 'flex',
     flexDirection: 'column',
+    borderRight: `1px solid ${theme.palette.divider}`,
 }));
 
 interface SidebarProps {
@@ -54,55 +55,63 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, variant }) => {
             onClose={onClose}
             variant={variant}
             PaperProps={{
-                sx: { width: 260, bgcolor: 'background.paper', borderRight: '1px solid rgba(255, 255, 255, 0.05)' }
+                sx: { width: 260, bgcolor: 'background.paper', borderRight: '1px solid #e5e7eb' }
             }}
         >
             <SidebarContainer>
-                <Box sx={{ p: 3, display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box sx={{ p: 2.5, display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <Box
                         sx={{
-                            width: 32,
-                            height: 32,
-                            borderRadius: 1,
+                            width: 28,
+                            height: 28,
+                            borderRadius: '4px',
                             bgcolor: 'primary.main',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            boxShadow: '0 0 15px rgba(14, 165, 233, 0.5)'
                         }}
                     >
-                        <Zap size={18} color="white" />
+                        <Zap size={16} color="white" />
                     </Box>
-                    <Typography variant="h6" sx={{ fontWeight: 700, letterSpacing: -0.5 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 600, color: '#005bab', fontSize: '1.1rem' }}>
                         FinanceEngine
                     </Typography>
                 </Box>
 
-                <Divider sx={{ opacity: 0.1 }} />
+                <Divider />
 
-                <List sx={{ px: 2, py: 3 }}>
+                <List sx={{ p: 1 }}>
                     {menuItems.map((item) => (
-                        <ListItem key={item.text} disablePadding sx={{ mb: 1 }}>
+                        <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
                             <ListItemButton
                                 component={NavLink}
                                 to={item.path}
                                 onClick={variant === 'temporary' ? onClose : undefined}
                                 sx={{
-                                    borderRadius: 2,
+                                    borderRadius: '4px',
+                                    py: 1,
                                     '&.active': {
-                                        bgcolor: 'primary.main',
-                                        color: 'white',
-                                        '& .MuiListItemIcon-root': { color: 'white' }
+                                        bgcolor: '#e6eff7',
+                                        color: 'primary.main',
+                                        '& .MuiListItemIcon-root': { color: 'primary.main' },
+                                        borderRight: '3px solid #005bab',
+                                        borderRadius: '4px 0 0 4px',
                                     },
                                     '&:hover': {
-                                        bgcolor: 'rgba(14, 165, 233, 0.1)',
+                                        bgcolor: '#f3f4f6',
                                     }
                                 }}
                             >
-                                <ListItemIcon sx={{ minWidth: 40, color: 'text.secondary' }}>
+                                <ListItemIcon sx={{ minWidth: 36, color: '#666666' }}>
                                     {item.icon}
                                 </ListItemIcon>
-                                <ListItemText primary={item.text} primaryTypographyProps={{ fontSize: 14, fontWeight: 500 }} />
+                                <ListItemText
+                                    primary={item.text}
+                                    primaryTypographyProps={{
+                                        fontSize: 13,
+                                        fontWeight: 500
+                                    }}
+                                />
                             </ListItemButton>
                         </ListItem>
                     ))}

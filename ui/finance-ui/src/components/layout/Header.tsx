@@ -21,53 +21,51 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
             position="sticky"
             elevation={0}
             sx={{
-                bgcolor: 'rgba(15, 23, 42, 0.8)',
-                backdropFilter: 'blur(8px)',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+                bgcolor: '#ffffff',
+                borderBottom: '1px solid #e5e7eb',
                 zIndex: (theme) => theme.zIndex.drawer + 1
             }}
         >
-            <Toolbar sx={{ justifyContent: 'space-between' }}>
+            <Toolbar sx={{ justifyContent: 'space-between', minHeight: 64 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <IconButton
-                        color="inherit"
+                        color="default"
+                        size="small"
                         aria-label="open drawer"
                         edge="start"
                         onClick={onMenuClick}
-                        sx={{ mr: 2 }}
+                        sx={{ mr: 2, border: '1px solid #e5e7eb', borderRadius: 1 }}
                     >
-                        <Menu size={20} />
+                        <Menu size={18} />
                     </IconButton>
 
                     <Box
                         sx={{
                             display: { xs: 'none', md: 'flex' },
                             alignItems: 'center',
-                            bgcolor: '#1e293b',
-                            px: 2,
-                            py: 0.5,
-                            borderRadius: 2,
-                            border: '1px solid rgba(255, 255, 255, 0.05)'
+                            bgcolor: '#f9fafb',
+                            px: 1.5,
+                            py: 0.75,
+                            borderRadius: '4px',
+                            border: '1px solid #e5e7eb',
+                            width: 300
                         }}
                     >
-                        <Search size={16} style={{ opacity: 0.5, marginRight: 8 }} />
-                        <Typography variant="body2" sx={{ opacity: 0.5 }}>Search transactions...</Typography>
-                        <Box sx={{ ml: 4, px: 1, bgcolor: '#0f172a', borderRadius: 1, border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                            <Typography variant="caption" sx={{ fontSize: 10, fontWeight: 700 }}>⌘K</Typography>
-                        </Box>
+                        <Search size={14} style={{ color: '#666666', marginRight: 8 }} />
+                        <Typography variant="body2" sx={{ color: '#9ca3af', fontSize: '0.8rem' }}>Global search...</Typography>
                     </Box>
                 </Box>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Tooltip title="View Logs">
-                        <IconButton color="inherit" size="small" sx={{ color: 'text.secondary' }}>
+                    <Tooltip title="View System Status">
+                        <IconButton size="small" sx={{ color: '#666666' }}>
                             <Monitor size={18} />
                         </IconButton>
                     </Tooltip>
 
                     <Tooltip title="Notifications">
-                        <IconButton color="inherit" size="small" sx={{ color: 'text.secondary' }}>
-                            <Badge badgeContent={3} color="error" variant="dot">
+                        <IconButton size="small" sx={{ color: '#666666' }}>
+                            <Badge badgeContent={3} color="primary">
                                 <Bell size={18} />
                             </Badge>
                         </IconButton>
@@ -75,14 +73,22 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
 
                     <Box sx={{ ml: 2, display: 'flex', alignItems: 'center', gap: 1.5 }}>
                         <Box sx={{ textAlign: 'right', display: { xs: 'none', sm: 'block' } }}>
-                            <Typography variant="body2" sx={{ fontWeight: 600 }}>Nousheen Kiot</Typography>
-                            <Typography variant="caption" sx={{ color: 'text.secondary' }}>System Admin</Typography>
+                            <Typography variant="body2" sx={{ fontWeight: 600, color: '#1a1a1a', lineHeight: 1.2 }}>Nousheen Kiot</Typography>
+                            <Typography variant="caption" sx={{ color: '#666666' }}>System Administrator</Typography>
                         </Box>
                         <Avatar
                             alt="User Profile"
-                            src="https://github.com/shadcn.png"
-                            sx={{ width: 36, height: 36, border: '2px solid rgba(14, 165, 233, 0.3)' }}
-                        />
+                            sx={{
+                                width: 34,
+                                height: 34,
+                                border: '1px solid #e5e7eb',
+                                bgcolor: 'primary.main',
+                                fontSize: '0.9rem',
+                                fontWeight: 600
+                            }}
+                        >
+                            NK
+                        </Avatar>
                     </Box>
                 </Box>
             </Toolbar>

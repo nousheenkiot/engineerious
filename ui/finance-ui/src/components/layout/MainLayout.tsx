@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import { Box, Container, useMediaQuery, useTheme } from '@mui/material';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 
 const MainLayout: React.FC = () => {
     const theme = useTheme();
@@ -34,9 +34,9 @@ const MainLayout: React.FC = () => {
                 }}
             >
                 <Header onMenuClick={toggleSidebar} />
-                <Container maxWidth="xl" sx={{ mt: 4, mb: 4, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                <Box sx={{ flexGrow: 1, p: 0, display: 'flex', flexDirection: 'column', bgcolor: '#f8f9fa' }}>
                     <Outlet />
-                </Container>
+                </Box>
             </Box>
         </Box>
     );
