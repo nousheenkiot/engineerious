@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 
 import { PATHS } from '../../routes/paths';
+import { LABELS } from '../../constants/labels';
 
 const SidebarContainer = styled(Box)(({ theme }) => ({
     width: 260,
@@ -40,12 +41,12 @@ interface SidebarProps {
 }
 
 const menuItems = [
-    { text: 'Dashboard', icon: <LayoutDashboard size={20} />, path: PATHS.DASHBOARD },
-    { text: 'Cohort Management', icon: <Users size={20} />, path: PATHS.COHORT },
-    { text: 'Processing Runs', icon: <Zap size={20} />, path: PATHS.PROCESSING },
-    { text: 'Cashflows', icon: <Database size={20} />, path: PATHS.CASHFLOW },
-    { text: 'Reports', icon: <FileText size={20} />, path: PATHS.REPORTS },
-    { text: 'Settings', icon: <Settings size={20} />, path: PATHS.SETTINGS },
+    { text: LABELS.NAVIGATION.DASHBOARD, icon: <LayoutDashboard size={20} />, path: PATHS.DASHBOARD },
+    { text: LABELS.NAVIGATION.COHORT_MANAGEMENT, icon: <Users size={20} />, path: PATHS.COHORT },
+    { text: LABELS.NAVIGATION.PROCESSING_RUNS, icon: <Zap size={20} />, path: PATHS.PROCESSING },
+    { text: LABELS.NAVIGATION.CASHFLOWS, icon: <Database size={20} />, path: PATHS.CASHFLOW },
+    { text: LABELS.NAVIGATION.REPORTS, icon: <FileText size={20} />, path: PATHS.REPORTS },
+    { text: LABELS.NAVIGATION.SETTINGS, icon: <Settings size={20} />, path: PATHS.SETTINGS },
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ open, onClose, variant }) => {
@@ -74,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, variant }) => {
                         <Zap size={16} color="white" />
                     </Box>
                     <Typography variant="h6" sx={{ fontWeight: 600, color: '#005bab', fontSize: '1.1rem' }}>
-                        FinanceEngine
+                        {LABELS.APP_NAME}
                     </Typography>
                 </Box>
 

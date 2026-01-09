@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Button, Typography, Alert } from '@mui/material';
 import { ArrowLeft } from 'lucide-react';
 import CashflowCalculator from '../components/CashflowCalculator';
+import { LABELS } from '../constants/labels';
 
 const CashflowCalculatorPage: React.FC = () => {
     const location = useLocation();
@@ -13,14 +14,14 @@ const CashflowCalculatorPage: React.FC = () => {
         return (
             <Box sx={{ p: 4 }}>
                 <Alert severity="warning">
-                    No calculation data found. Please start from a Policy Details page.
+                    {LABELS.MESSAGES.NO_CALCULATION_DATA}
                 </Alert>
                 <Button
                     startIcon={<ArrowLeft />}
                     onClick={() => navigate(-1)}
                     sx={{ mt: 2 }}
                 >
-                    Go Back
+                    {LABELS.BUTTONS.GO_BACK}
                 </Button>
             </Box>
         );
@@ -33,11 +34,11 @@ const CashflowCalculatorPage: React.FC = () => {
                 onClick={() => navigate(-1)}
                 sx={{ mb: 3 }}
             >
-                Back to PolicyDetails
+                {LABELS.BUTTONS.BACK_TO_POLICY_DETAILS}
             </Button>
 
             <Typography variant="h4" sx={{ mb: 3, fontWeight: 600, color: '#111827' }}>
-                Cashflow Projection
+                {LABELS.PAGE_TITLES.CASHFLOW_PROJECTION}
             </Typography>
 
             <CashflowCalculator

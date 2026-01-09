@@ -94,6 +94,7 @@ export const routes: RouteObject[] = [
             },
             {
                 path: PATHS.CALCULATOR,
+                loader: requireAuth(),
                 element: (
                     <Suspense fallback={<PageLoader />}>
                         <CashflowCalculatorPage />

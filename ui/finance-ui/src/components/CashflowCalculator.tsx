@@ -1,6 +1,7 @@
 import React from 'react';
 import { Paper, Typography, Box, Grid } from '@mui/material';
 import { TrendingUp } from 'lucide-react';
+import { LABELS } from '../constants/labels';
 
 interface CashflowCalculatorProps {
     interestRate: number;
@@ -20,7 +21,7 @@ const CashflowCalculator: React.FC<CashflowCalculatorProps> = ({ interestRate, p
     return (
         <Paper sx={{ p: 3, mt: 3, borderRadius: 1, border: '1px solid #e5e7eb', bgcolor: '#fdfdff' }}>
             <Typography variant="subtitle2" sx={{ color: '#666666', mb: 2, fontWeight: 600, textTransform: 'uppercase' }}>
-                Projection Results (Rate: {interestRate}%)
+                {LABELS.CALCULATOR.PROJECTION_RESULTS.replace('{rate}', interestRate.toString())}
             </Typography>
 
             <Grid container spacing={2}>
@@ -28,13 +29,13 @@ const CashflowCalculator: React.FC<CashflowCalculatorProps> = ({ interestRate, p
                     <Box sx={{ p: 2, bgcolor: '#f0fdf4', borderRadius: 1, border: '1px solid #dcfce7', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                             <TrendingUp size={16} color="#166534" />
-                            <Typography variant="caption" sx={{ color: '#166534', fontWeight: 600 }}>Interest Generated</Typography>
+                            <Typography variant="caption" sx={{ color: '#166534', fontWeight: 600 }}>{LABELS.CALCULATOR.INTEREST_GENERATED}</Typography>
                         </Box>
                         <Typography variant="h6" sx={{ color: '#166534', fontWeight: 700 }}>
                             ${interestComponent.toLocaleString(undefined, { maximumFractionDigits: 2 })}
                         </Typography>
                         <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5 }}>
-                            ({interestRate}% of Cashflows)
+                            {LABELS.CALCULATOR.OF_CASHFLOWS.replace('{rate}', interestRate.toString())}
                         </Typography>
                     </Box>
                 </Grid>
@@ -43,13 +44,13 @@ const CashflowCalculator: React.FC<CashflowCalculatorProps> = ({ interestRate, p
                     <Box sx={{ p: 2, bgcolor: '#eff6ff', borderRadius: 1, border: '1px solid #dbeafe', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                             <TrendingUp size={16} color="#1e40af" />
-                            <Typography variant="caption" sx={{ color: '#1e40af', fontWeight: 600 }}>Total Projected Value</Typography>
+                            <Typography variant="caption" sx={{ color: '#1e40af', fontWeight: 600 }}>{LABELS.CALCULATOR.TOTAL_PROJECTED_VALUE}</Typography>
                         </Box>
                         <Typography variant="h6" sx={{ color: '#1e40af', fontWeight: 700 }}>
                             ${totalProjectedValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
                         </Typography>
                         <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5 }}>
-                            (Premium + Interest)
+                            {LABELS.CALCULATOR.PREMIUM_PLUS_INTEREST}
                         </Typography>
                     </Box>
                 </Grid>

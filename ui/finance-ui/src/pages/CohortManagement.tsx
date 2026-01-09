@@ -17,12 +17,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { cohortApi } from '../api/cohortApi';
 import type { Policy, Page } from '../types';
+import { LABELS } from '../constants/labels';
 
 const policySchema = z.object({
-    policyNumber: z.string().min(1, 'Policy Number is required'),
-    holderName: z.string().min(1, 'Holder Name is required'),
-    premium: z.coerce.number().min(0, 'Premium must be positive'),
-    fyDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Invalid date format (YYYY-MM-DD)'),
+    policyNumber: z.string().min(1, LABELS.VALIDATION.POLICY_NUMBER_REQUIRED),
+    holderName: z.string().min(1, LABELS.VALIDATION.HOLDER_NAME_REQUIRED),
+    premium: z.coerce.number().min(0, LABELS.VALIDATION.PREMIUM_POSITIVE),
+    fyDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, LABELS.VALIDATION.INVALID_DATE_FORMAT),
     assumption: z.enum(['AGGRESSIVE', 'CONSERVATIVE', 'MODERATE'])
 });
 
@@ -40,7 +41,7 @@ export const cohortLoader = async ({ request }: LoaderFunctionArgs) => {
         const data = await cohortApi.search({ page, size, query, sortBy, sortDir });
         return { data, error: null };
     } catch (error) {
-        return { data: null, error: 'Failed to fetch cohort data' };
+        return { data: null, error: LABELS.ERRORS.FAILED_TO_FETCH_COHORT };
     }
 };
 
@@ -52,24 +53,24 @@ export const cohortAction = async ({ request }: ActionFunctionArgs) => {
         if (intent === 'delete') {
             const id = Number(formData.get('id'));
             await cohortApi.delete(id);
-            return { success: true, message: 'Policy deleted successfully' };
+            return { success: true, message: LABELS.SUCCESS.POLICY_DELETED };
         }
 
         const policyData = JSON.parse(formData.get('policyData') as string);
         if (intent === 'create') {
             await cohortApi.create(policyData);
-            return { success: true, message: 'Policy created successfully' };
+            return { success: true, message: LABELS.SUCCESS.POLICY_CREATED };
         }
 
         if (intent === 'edit') {
             const id = Number(formData.get('id'));
             await cohortApi.update(id, policyData);
-            return { success: true, message: 'Policy updated successfully' };
+            return { success: true, message: LABELS.SUCCESS.POLICY_UPDATED };
         }
 
-        return { success: false, error: 'Invalid intent' };
+        return { success: false, error: LABELS.ERRORS.INVALID_INTENT };
     } catch (error) {
-        return { success: false, error: error instanceof Error ? error.message : 'Action failed' };
+        return { success: false, error: error instanceof Error ? error.message : LABELS.ERRORS.ACTION_FAILED };
     }
 };
 
@@ -101,7 +102,7 @@ const CohortManagement: React.FC = () => {
     useEffect(() => {
         if (actionData) {
             if (actionData.success) {
-                setSnackbar({ open: true, message: actionData.message || 'Operation successful', severity: 'success' });
+                setSnackbar({ open: true, message: actionData.message || LABELS.MESSAGES.OPERATION_SUCCESSFUL, severity: 'success' });
                 handleCloseDialog();
             } else if (actionData.error) {
                 setSnackbar({ open: true, message: actionData.error, severity: 'error' });
@@ -194,7 +195,7 @@ const CohortManagement: React.FC = () => {
     };
 
     const handleDelete = (id: number) => {
-        if (window.confirm('Are you sure you want to delete this policy?')) {
+        if (window.confirm(LABELS.MESSAGES.POLICY_DELETE_CONFIRM)) {
             const formData = new FormData();
             formData.append('intent', 'delete');
             formData.append('id', String(id));
@@ -207,10 +208,10 @@ const CohortManagement: React.FC = () => {
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4, alignItems: 'center', borderBottom: '1px solid #e5e7eb', pb: 2 }}>
                 <Box>
                     <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a1a' }}>
-                        Cohort Management
+                        {LABELS.PAGE_TITLES.COHORT_MANAGEMENT}
                     </Typography>
                     <Typography variant="body2" sx={{ color: '#666666', mt: 0.5 }}>
-                        Manage insurance policy cohorts and financial year data.
+                        {LABELS.PAGE_DESCRIPTIONS.COHORT_MANAGEMENT}
                     </Typography>
                 </Box>
                 <Button
@@ -219,7 +220,7 @@ const CohortManagement: React.FC = () => {
                     onClick={() => handleOpenDialog('create')}
                     sx={{ boxShadow: 'none', px: 3 }}
                 >
-                    Add New Cohort
+                    {LABELS.BUTTONS.ADD_NEW_COHORT}
                 </Button>
             </Box>
 
@@ -228,7 +229,7 @@ const CohortManagement: React.FC = () => {
                     <TextField
                         variant="outlined"
                         size="small"
-                        placeholder="Search by holder name or policy number..."
+                        placeholder={LABELS.PLACEHOLDERS.SEARCH_COHORT}
                         value={searchInput}
                         onChange={(e) => setSearchInput(e.target.value)}
                         onKeyDown={handleSearch}
@@ -244,7 +245,7 @@ const CohortManagement: React.FC = () => {
                         sx={{ minWidth: 400, '& .MuiOutlinedInput-root': { bgcolor: '#fdfdfd' } }}
                     />
                     <Box sx={{ flexGrow: 1 }} />
-                    <Tooltip title="Refresh Data">
+                    <Tooltip title={LABELS.BUTTONS.REFRESH_DATA}>
                         <IconButton onClick={() => updateParams({ _cache: Date.now() })} sx={{ border: '1px solid #e5e7eb', borderRadius: 1 }}>
                             <RefreshCw size={18} />
                         </IconButton>
@@ -255,33 +256,33 @@ const CohortManagement: React.FC = () => {
                     <Table stickyHeader size="small">
                         <TableHead>
                             <TableRow>
-                                <TableCell sx={{ width: 80 }}>
+                                <TableCell>
                                     <TableSortLabel active={orderBy === 'id'} direction={orderBy === 'id' ? order : 'asc'} onClick={() => handleRequestSort('id')}>
-                                        ID
+                                        {LABELS.TABLE_HEADERS.ID}
                                     </TableSortLabel>
                                 </TableCell>
                                 <TableCell>
                                     <TableSortLabel active={orderBy === 'policyNumber'} direction={orderBy === 'policyNumber' ? order : 'asc'} onClick={() => handleRequestSort('policyNumber')}>
-                                        Policy Number
+                                        {LABELS.TABLE_HEADERS.POLICY_NUMBER}
                                     </TableSortLabel>
                                 </TableCell>
                                 <TableCell>
                                     <TableSortLabel active={orderBy === 'holderName'} direction={orderBy === 'holderName' ? order : 'asc'} onClick={() => handleRequestSort('holderName')}>
-                                        Holder Name
+                                        {LABELS.TABLE_HEADERS.HOLDER_NAME}
                                     </TableSortLabel>
                                 </TableCell>
                                 <TableCell align="right">
                                     <TableSortLabel active={orderBy === 'premium'} direction={orderBy === 'premium' ? order : 'asc'} onClick={() => handleRequestSort('premium')}>
-                                        Premium
+                                        {LABELS.TABLE_HEADERS.PREMIUM}
                                     </TableSortLabel>
                                 </TableCell>
                                 <TableCell>
                                     <TableSortLabel active={orderBy === 'fyDate'} direction={orderBy === 'fyDate' ? order : 'asc'} onClick={() => handleRequestSort('fyDate')}>
-                                        FY Date
+                                        {LABELS.TABLE_HEADERS.FY_DATE}
                                     </TableSortLabel>
                                 </TableCell>
-                                <TableCell>Assumption</TableCell>
-                                <TableCell align="right" sx={{ pr: 3 }}>Actions</TableCell>
+                                <TableCell>{LABELS.TABLE_HEADERS.ASSUMPTION}</TableCell>
+                                <TableCell align="right" sx={{ pr: 3 }}>{LABELS.TABLE_HEADERS.ACTIONS}</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -303,7 +304,7 @@ const CohortManagement: React.FC = () => {
                             ) : loaderData?.content?.length === 0 ? (
                                 <TableRow>
                                     <TableCell colSpan={7} align="center" sx={{ py: 5, color: '#666666' }}>
-                                        No cohorts found matching your search
+                                        {LABELS.MESSAGES.NO_COHORTS_FOUND}
                                     </TableCell>
                                 </TableRow>
                             ) : (
@@ -372,7 +373,7 @@ const CohortManagement: React.FC = () => {
             <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: 1 } }}>
                 <DialogTitle sx={{ borderBottom: '1px solid #e5e7eb', px: 3, py: 2 }}>
                     <Typography component="span" sx={{ fontSize: '1.1rem', fontWeight: 600 }}>
-                        {dialogMode === 'create' ? 'Create New Cohort' : dialogMode === 'edit' ? 'Edit Cohort' : 'Cohort Details'}
+                        {dialogMode === 'create' ? LABELS.DIALOGS.CREATE_NEW_COHORT : dialogMode === 'edit' ? LABELS.DIALOGS.EDIT_COHORT : LABELS.DIALOGS.COHORT_DETAILS}
                     </Typography>
                 </DialogTitle>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -385,7 +386,7 @@ const CohortManagement: React.FC = () => {
                                     render={({ field, fieldState }) => (
                                         <TextField
                                             {...field}
-                                            label="Policy number"
+                                            label={LABELS.FORM_FIELDS.POLICY_NUMBER}
                                             fullWidth
                                             size="small"
                                             error={!!fieldState.error}
@@ -402,7 +403,7 @@ const CohortManagement: React.FC = () => {
                                     render={({ field, fieldState }) => (
                                         <TextField
                                             {...field}
-                                            label="Policy holder name"
+                                            label={LABELS.FORM_FIELDS.POLICY_HOLDER_NAME}
                                             fullWidth
                                             size="small"
                                             error={!!fieldState.error}
@@ -420,7 +421,7 @@ const CohortManagement: React.FC = () => {
                                         <TextField
                                             {...field}
                                             onChange={(e) => field.onChange(Number(e.target.value))}
-                                            label="Annual premium ($)"
+                                            label={LABELS.FORM_FIELDS.ANNUAL_PREMIUM}
                                             type="number"
                                             fullWidth
                                             size="small"
@@ -438,7 +439,7 @@ const CohortManagement: React.FC = () => {
                                     render={({ field, fieldState }) => (
                                         <TextField
                                             {...field}
-                                            label="Financial year date"
+                                            label={LABELS.FORM_FIELDS.FINANCIAL_YEAR_DATE}
                                             type="date"
                                             fullWidth
                                             size="small"
@@ -458,14 +459,14 @@ const CohortManagement: React.FC = () => {
                                         <TextField
                                             {...field}
                                             select
-                                            label="Policy assumption"
+                                            label={LABELS.FORM_FIELDS.POLICY_ASSUMPTION}
                                             fullWidth
                                             size="small"
                                             disabled={dialogMode === 'view'}
                                         >
-                                            <MenuItem value="AGGRESSIVE">Aggressive</MenuItem>
-                                            <MenuItem value="MODERATE">Moderate</MenuItem>
-                                            <MenuItem value="CONSERVATIVE">Conservative</MenuItem>
+                                            <MenuItem value="AGGRESSIVE">{LABELS.ASSUMPTIONS.AGGRESSIVE}</MenuItem>
+                                            <MenuItem value="MODERATE">{LABELS.ASSUMPTIONS.MODERATE}</MenuItem>
+                                            <MenuItem value="CONSERVATIVE">{LABELS.ASSUMPTIONS.CONSERVATIVE}</MenuItem>
                                         </TextField>
                                     )}
                                 />
@@ -473,10 +474,10 @@ const CohortManagement: React.FC = () => {
                         </Grid>
                     </DialogContent>
                     <DialogActions sx={{ borderTop: '1px solid #e5e7eb', px: 3, py: 2 }}>
-                        <Button onClick={handleCloseDialog} sx={{ color: '#666666' }}>Cancel</Button>
+                        <Button onClick={handleCloseDialog} sx={{ color: '#666666' }}>{LABELS.BUTTONS.CANCEL}</Button>
                         {dialogMode !== 'view' && (
                             <Button type="submit" variant="contained" sx={{ boxShadow: 'none' }} disabled={navigation.state === 'submitting'}>
-                                {dialogMode === 'create' ? 'Create Cohort' : 'Update Cohort'}
+                                {dialogMode === 'create' ? LABELS.BUTTONS.CREATE_COHORT : LABELS.BUTTONS.UPDATE_COHORT}
                             </Button>
                         )}
                     </DialogActions>

@@ -21,6 +21,7 @@ import {
     Zap
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { LABELS } from '../constants/labels';
 
 const StatCard: React.FC<{ title: string; value: string; trend: string; isUp: boolean; icon: React.ReactNode }> = ({
     title, value, trend, isUp, icon
@@ -81,7 +82,7 @@ const StatCard: React.FC<{ title: string; value: string; trend: string; isUp: bo
                             {isUp ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
                             <Typography variant="caption" sx={{ fontWeight: 700, ml: 0.5 }}>{trend}</Typography>
                         </Box>
-                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>vs last month</Typography>
+                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>{LABELS.STATS.VS_LAST_MONTH}</Typography>
                     </Box>
                 </CardContent>
             </Card>
@@ -94,34 +95,34 @@ const Dashboard: React.FC = () => {
         <Box sx={{ flexGrow: 1 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
                 <Box>
-                    <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>Financial Dashboard</Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>Welcome back, here's what happening with your projects today.</Typography>
+                    <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{LABELS.PAGE_TITLES.FINANCIAL_DASHBOARD}</Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>{LABELS.PAGE_DESCRIPTIONS.FINANCIAL_DASHBOARD}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', gap: 2 }}>
-                    <Button variant="outlined" startIcon={<RefreshCw size={18} />} sx={{ borderColor: 'rgba(255,255,255,0.1)' }}>Sync Services</Button>
-                    <Button variant="contained" startIcon={<Plus size={18} />} color="primary">New Process</Button>
+                    <Button variant="outlined" startIcon={<RefreshCw size={18} />} sx={{ borderColor: 'rgba(255,255,255,0.1)' }}>{LABELS.BUTTONS.SYNC_SERVICES}</Button>
+                    <Button variant="contained" startIcon={<Plus size={18} />} color="primary">{LABELS.BUTTONS.NEW_PROCESS}</Button>
                 </Box>
             </Box>
 
             <Grid container spacing={3}>
                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <StatCard title="Total Policies" value="2,482" trend="+12.5%" isUp={true} icon={<Activity size={24} />} />
+                    <StatCard title={LABELS.STATS.TOTAL_POLICIES} value="2,482" trend="+12.5%" isUp={true} icon={<Activity size={24} />} />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <StatCard title="Processing Runs" value="142" trend="+4.3%" isUp={true} icon={<TrendingUp size={24} />} />
+                    <StatCard title={LABELS.STATS.PROCESSING_RUNS} value="142" trend="+4.3%" isUp={true} icon={<TrendingUp size={24} />} />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <StatCard title="Average Latency" value="124ms" trend="-2.1%" isUp={false} icon={<Clock size={24} />} />
+                    <StatCard title={LABELS.STATS.AVERAGE_LATENCY} value="124ms" trend="-2.1%" isUp={false} icon={<Clock size={24} />} />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <StatCard title="System Health" value="99.9%" trend="+0.2%" isUp={true} icon={<Zap size={24} />} />
+                    <StatCard title={LABELS.STATS.SYSTEM_HEALTH} value="99.9%" trend="+0.2%" isUp={true} icon={<Zap size={24} />} />
                 </Grid>
 
                 <Grid size={{ xs: 12, md: 8 }}>
                     <Paper sx={{ p: 4, height: 400, display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                            <Typography variant="h6" sx={{ fontWeight: 700 }}>Processing Volume</Typography>
-                            <Button size="small" endIcon={<ArrowUpRight size={16} />}>View Details</Button>
+                            <Typography variant="h6" sx={{ fontWeight: 700 }}>{LABELS.SECTIONS.PROCESSING_VOLUME}</Typography>
+                            <Button size="small" endIcon={<ArrowUpRight size={16} />}>{LABELS.BUTTONS.VIEW_DETAILS}</Button>
                         </Box>
 
                         {/* Placeholder for a chart - real app would use Recharts/Chart.js */}
@@ -146,7 +147,7 @@ const Dashboard: React.FC = () => {
 
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Paper sx={{ p: 4, height: 400, display: 'flex', flexDirection: 'column' }}>
-                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 3 }}>Live Activity</Typography>
+                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 3 }}>{LABELS.SECTIONS.LIVE_ACTIVITY}</Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                             {[
                                 { title: 'Processing Run #42', time: '2 mins ago', status: 'SUCCESS', color: '#22c55e' },
@@ -163,7 +164,7 @@ const Dashboard: React.FC = () => {
                                 </Box>
                             ))}
                         </Box>
-                        <Button variant="text" sx={{ mt: 'auto' }}>View Full Audit Log</Button>
+                        <Button variant="text" sx={{ mt: 'auto' }}>{LABELS.BUTTONS.VIEW_FULL_AUDIT_LOG}</Button>
                     </Paper>
                 </Grid>
             </Grid>
