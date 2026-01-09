@@ -16,11 +16,20 @@ const NotFound = lazy(() => import('../pages/NotFound'));
 
 export const routes: RouteObject[] = [
     {
+        path: PATHS.LOGIN,
+        element: (
+            <Suspense fallback={<PageLoader />}>
+                <Login />
+            </Suspense>
+        ),
+    },
+    {
         path: '/',
         element: <MainLayout />,
         children: [
             {
                 index: true,
+                loader: requireAuth(),
                 element: (
                     <Suspense fallback={<PageLoader />}>
                         <Dashboard />
@@ -44,6 +53,7 @@ export const routes: RouteObject[] = [
             },
             {
                 path: PATHS.PROCESSING,
+                loader: requireAuth(),
                 element: (
                     <Suspense fallback={<PageLoader />}>
                         <ProcessingRuns />
@@ -52,6 +62,7 @@ export const routes: RouteObject[] = [
             },
             {
                 path: PATHS.CASHFLOW,
+                loader: requireAuth(),
                 element: (
                     <Suspense fallback={<PageLoader />}>
                         <CashflowManagement />
@@ -85,14 +96,6 @@ export const routes: RouteObject[] = [
                 element: (
                     <Suspense fallback={<PageLoader />}>
                         <Unauthorized />
-                    </Suspense>
-                ),
-            },
-            {
-                path: PATHS.LOGIN,
-                element: (
-                    <Suspense fallback={<PageLoader />}>
-                        <Login />
                     </Suspense>
                 ),
             },

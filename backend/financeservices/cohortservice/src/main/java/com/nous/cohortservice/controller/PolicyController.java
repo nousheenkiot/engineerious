@@ -33,6 +33,7 @@ public class PolicyController {
                         @ApiResponse(responseCode = "200", description = "Successfully retrieved all policies")
         })
         @GetMapping
+        @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('COHORT_VIEW')")
         public List<Policy> getAllPolicies() {
                 return policyService.getAllPolicies();
         }
@@ -43,6 +44,7 @@ public class PolicyController {
                         @ApiResponse(responseCode = "404", description = "Policy not found")
         })
         @GetMapping("/{id}")
+        @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('COHORT_VIEW')")
         public Policy getPolicyById(
                         @Parameter(description = "ID of the policy to retrieve", required = true) @PathVariable Long id) {
                 return policyService.getPolicyById(id);
@@ -54,6 +56,7 @@ public class PolicyController {
                         @ApiResponse(responseCode = "400", description = "Invalid input")
         })
         @PostMapping
+        @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('COHORT_CREATE') or hasAuthority('ADMIN_ACCESS')")
         public Policy createPolicy(
                         @Parameter(description = "Policy object to create", required = true) @RequestBody Policy policy) {
                 return policyService.createPolicy(policy);
@@ -63,6 +66,7 @@ public class PolicyController {
         @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Policy deleted successfully"),
                         @ApiResponse(responseCode = "404", description = "Policy not found") })
         @DeleteMapping("/{id}")
+        @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('COHORT_DELETE') or hasAuthority('ADMIN_ACCESS')")
         public String deletePolicy(
                         @Parameter(description = "ID of the policy to delete", required = true) @PathVariable Long id) {
                 policyService.deletePolicy(id);
@@ -74,6 +78,7 @@ public class PolicyController {
                         @ApiResponse(responseCode = "200", description = "All policies deleted successfully")
         })
         @DeleteMapping("/all")
+        @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN_ACCESS')")
         public String deleteAllPolicies() {
                 policyService.deleteAllPolicies();
                 return "All policies have been deleted successfully.";
@@ -85,6 +90,7 @@ public class PolicyController {
                         @ApiResponse(responseCode = "404", description = "Policy not found")
         })
         @PutMapping("/{id}")
+        @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('COHORT_UPDATE') or hasAuthority('ADMIN_ACCESS')")
         public Policy updatePolicy(
                         @Parameter(description = "ID of the policy to update", required = true) @PathVariable Long id,
                         @Parameter(description = "Updated policy object", required = true) @RequestBody Policy policy) {
@@ -94,6 +100,7 @@ public class PolicyController {
         @Operation(summary = "Load random policies", description = "Load 20 random policies for a specific financial year")
         @ApiResponse(responseCode = "200", description = "Policies loaded successfully")
         @PostMapping("/load")
+        @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN_ACCESS')")
         public String loadPolicies(
                         @Parameter(description = "Financial Year Date (yyyy-MM-dd)", required = true) @RequestParam("date") @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate date) {
                 policyLoaderService.loadPolicies(date);
@@ -103,6 +110,7 @@ public class PolicyController {
         @Operation(summary = "Get policies by FIC date", description = "Retrieve a list of policies for a specific FIC date")
         @ApiResponse(responseCode = "200", description = "Policies retrieved successfully")
         @GetMapping("/fic")
+        @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('COHORT_VIEW')")
         public List<Policy> getPoliciesByFicDate(
                         @Parameter(description = "FIC Date (yyyy-MM-dd)", required = true) @RequestParam("date") @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate date) {
                 return policyService.getPoliciesByFicDate(date);
@@ -111,6 +119,7 @@ public class PolicyController {
         @Operation(summary = "Search policies", description = "Search policies with pagination and sorting")
         @ApiResponse(responseCode = "200", description = "Policies retrieved successfully")
         @GetMapping("/search")
+        @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('COHORT_PAGINATION')")
         public Page<Policy> searchPolicies(
                         @RequestParam(required = false) String query,
                         @RequestParam(defaultValue = "0") int page,

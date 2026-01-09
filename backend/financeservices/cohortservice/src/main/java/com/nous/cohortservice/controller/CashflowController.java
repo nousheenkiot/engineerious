@@ -27,6 +27,7 @@ public class CashflowController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved all cashflows")
     })
     @GetMapping
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('CASHFLOW_VIEW') or hasAuthority('ADMIN_ACCESS')")
     public List<Cashflow> getAllCashflows() {
         return cashflowService.getAllCashflows();
     }
@@ -36,6 +37,7 @@ public class CashflowController {
             @ApiResponse(responseCode = "200", description = "Cashflow saved successfully"),
     })
     @PutMapping
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('CASHFLOW_UPDATE') or hasAuthority('ADMIN_ACCESS')")
     public Cashflow saveCashflow(@RequestBody Cashflow cashflow) {
         return cashflowService.saveCashflow(cashflow);
     }
@@ -54,6 +56,7 @@ public class CashflowController {
             @ApiResponse(responseCode = "200", description = "Cashflows deleted successfully")
     })
     @DeleteMapping("/fydate")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN_ACCESS')")
     public void deleteCashflowsByFyDate(
             @Parameter(description = "Financial Year Date (yyyy-MM-dd)", required = true) @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fyDate) {
         cashflowService.deleteCashflowsByFyDate(fyDate);
@@ -74,6 +77,7 @@ public class CashflowController {
             @ApiResponse(responseCode = "200", description = "Cashflows loaded successfully")
     })
     @PostMapping("/load")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN_ACCESS')")
     public String loadCashflows() {
         cashflowService.loadCashflows();
         return "100 Cashflows loaded successfully";

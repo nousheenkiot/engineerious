@@ -20,6 +20,7 @@ public class ProcessingController {
     private ProcessingService processingService;
 
     @PostMapping("/discounting")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('PROCESSING_RUN') or hasAuthority('ADMIN_ACCESS')")
     public String discountingByFyDate(
             @RequestParam("fyDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fyDate) {
         return processingService.discountingByFyDate(fyDate);

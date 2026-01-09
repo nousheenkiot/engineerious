@@ -40,6 +40,10 @@ export const authApi = {
     },
 
     getUserInfo: async (): Promise<UserInfo> => {
+        const token = localStorage.getItem('token');
+        if (token === 'mock-jwt-token') {
+            return authApi.getMockUserInfo();
+        }
         const response = await api.get<UserInfo>('api/auth/me');
         return response.data;
     },

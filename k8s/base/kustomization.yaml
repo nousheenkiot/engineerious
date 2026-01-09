@@ -7,6 +7,7 @@ resources:
   - cohortservice.yml
   - processingservice.yml
   - cashflowservice.yml
+  - authservice.yml
   - gateway.yml
   - httproutes.yml
   - security.yml

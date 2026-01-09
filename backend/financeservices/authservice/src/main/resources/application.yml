@@ -1,0 +1,19 @@
+server:
+  port: 8084
+  servlet:
+    context-path: /finance
+
+spring:
+  application:
+    name: authservice
+  datasource:
+    url: jdbc:postgresql://postgres:5432/financedb
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
