@@ -13,6 +13,7 @@ const CashflowManagement = lazy(() => import('../pages/CashflowManagement'));
 const Unauthorized = lazy(() => import('../pages/Unauthorized'));
 const Login = lazy(() => import('../pages/Login'));
 const NotFound = lazy(() => import('../pages/NotFound'));
+const CashflowCalculatorPage = lazy(() => import('../pages/CashflowCalculatorPage'));
 
 export const routes: RouteObject[] = [
     {
@@ -90,6 +91,14 @@ export const routes: RouteObject[] = [
                         Component: PolicyDetails,
                     };
                 },
+            },
+            {
+                path: PATHS.CALCULATOR,
+                element: (
+                    <Suspense fallback={<PageLoader />}>
+                        <CashflowCalculatorPage />
+                    </Suspense>
+                ),
             },
             {
                 path: PATHS.UNAUTHORIZED,

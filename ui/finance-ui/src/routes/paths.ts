@@ -6,6 +6,7 @@ export const PATHS = {
     REPORTS: '/reports',
     SETTINGS: '/settings',
     POLICY_DETAILS: '/cohort/:id',
+    CALCULATOR: '/calculator',
     UNAUTHORIZED: '/unauthorized',
     LOGIN: '/login',
     NOT_FOUND: '*',

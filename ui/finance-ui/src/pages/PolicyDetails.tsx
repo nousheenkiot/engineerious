@@ -1,15 +1,17 @@
+import React, { useState } from 'react';
 import { useNavigate, useLoaderData, useNavigation } from 'react-router-dom';
 import type { LoaderFunctionArgs } from 'react-router-dom';
 import {
     Box, Typography, Paper, Button,
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-    Chip, IconButton, Breadcrumbs, Link, CircularProgress, Alert, Grid
+    Chip, IconButton, Breadcrumbs, Link, CircularProgress, Alert, Grid, TextField
 } from '@mui/material';
-import { ArrowLeft, Database, Receipt, TrendingUp, Calendar } from 'lucide-react';
+import { ArrowLeft, Database, Receipt, TrendingUp, Calendar, Calculator } from 'lucide-react';
 import { cohortApi } from '../api/cohortApi';
 import { cashflowApi } from '../api/cashflowApi';
 import type { Policy } from '../types';
 import type { Cashflow } from '../api/cashflowApi';
+import { PATHS } from '../routes/paths';
 
 export const policyDetailsLoader = async ({ params }: LoaderFunctionArgs) => {
     const id = Number(params.id);
@@ -26,6 +28,23 @@ const PolicyDetails: React.FC = () => {
     const { policy, cashflows, error } = useLoaderData() as { policy: Policy | null, cashflows: Cashflow[], error: string | null };
     const navigate = useNavigate();
     const navigation = useNavigation();
+
+    const [calcInput, setCalcInput] = useState('');
+
+    const totalCashflow = cashflows?.reduce((sum, cf) => sum + (cf.status === 'SUCCESS' ? cf.amount : 0), 0) || 0;
+
+    const handleCalculate = () => {
+        const val = parseFloat(calcInput);
+        if (!isNaN(val) && policy) {
+            navigate(PATHS.CALCULATOR, {
+                state: {
+                    interestRate: val,
+                    premium: policy.premium,
+                    totalCashflow: totalCashflow,
+                }
+            });
+        }
+    };
 
     const isLoading = navigation.state === 'loading';
 
@@ -45,8 +64,6 @@ const PolicyDetails: React.FC = () => {
             </Box>
         );
     }
-
-    const totalCashflow = cashflows?.reduce((sum, cf) => sum + (cf.status === 'SUCCESS' ? cf.amount : 0), 0) || 0;
 
     return (
         <Box sx={{ p: 4, bgcolor: '#f8f9fa', minHeight: '100vh' }}>
@@ -113,6 +130,38 @@ const PolicyDetails: React.FC = () => {
                                 </Box>
                             </Box>
                         </Box>
+                    </Paper>
+
+                    {/* Calculator Input Section */}
+                    <Paper sx={{ p: 3, mt: 3, borderRadius: 1, border: '1px solid #e5e7eb' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                            <Calculator size={18} color="#666666" />
+                            <Typography variant="subtitle2" sx={{ color: '#666666', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                                Simulator
+                            </Typography>
+                        </Box>
+
+                        <Box sx={{ display: 'flex', gap: 2, mb: 1 }}>
+                            <TextField
+                                label="Interest Rate (%)"
+                                size="small"
+                                value={calcInput}
+                                onChange={(e) => setCalcInput(e.target.value)}
+                                type="number"
+                                fullWidth
+                                variant="outlined"
+                                placeholder="Enter rate (e.g. 5)"
+                            />
+                            <Button
+                                variant="contained"
+                                onClick={handleCalculate}
+                                disabled={!calcInput}
+                                sx={{ textTransform: 'none', fontWeight: 600, px: 3 }}
+                            >
+                                Calculate
+                            </Button>
+                        </Box>
+
                     </Paper>
                 </Grid>
 
