@@ -1,35 +1,35 @@
-import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useLoaderData, useNavigation } from 'react-router-dom';
+import type { LoaderFunctionArgs } from 'react-router-dom';
 import {
     Box, Typography, Paper, Button,
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
     Chip, IconButton, Breadcrumbs, Link, CircularProgress, Alert, Grid
 } from '@mui/material';
 import { ArrowLeft, Database, Receipt, TrendingUp, Calendar } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
 import { cohortApi } from '../api/cohortApi';
 import { cashflowApi } from '../api/cashflowApi';
+import type { Policy } from '../types';
+import type { Cashflow } from '../api/cashflowApi';
+
+export const policyDetailsLoader = async ({ params }: LoaderFunctionArgs) => {
+    const id = Number(params.id);
+    try {
+        const policy = await cohortApi.getById(id);
+        const cashflows = await cashflowApi.getByContractId(policy.policyNumber);
+        return { policy, cashflows, error: null };
+    } catch (error) {
+        return { policy: null, cashflows: [], error: 'Failed to load policy or cashflow details' };
+    }
+};
 
 const PolicyDetails: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
+    const { policy, cashflows, error } = useLoaderData() as { policy: Policy | null, cashflows: Cashflow[], error: string | null };
     const navigate = useNavigate();
-    const policyId = Number(id);
+    const navigation = useNavigation();
 
-    // Fetch Policy Details
-    const { data: policy, isLoading: isPolicyLoading, error: policyError } = useQuery({
-        queryKey: ['policy', policyId],
-        queryFn: () => cohortApi.getById(policyId),
-        enabled: !!policyId
-    });
+    const isLoading = navigation.state === 'loading';
 
-    // Fetch Cashflows by Policy Number (contractId)
-    const { data: cashflows, isLoading: isCashflowsLoading } = useQuery({
-        queryKey: ['cashflows', policy?.policyNumber],
-        queryFn: () => cashflowApi.getByContractId(policy!.policyNumber),
-        enabled: !!policy?.policyNumber
-    });
-
-    if (isPolicyLoading) {
+    if (isLoading) {
         return (
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                 <CircularProgress />
@@ -37,10 +37,10 @@ const PolicyDetails: React.FC = () => {
         );
     }
 
-    if (policyError || !policy) {
+    if (error || !policy) {
         return (
             <Box sx={{ p: 3 }}>
-                <Alert severity="error">Failed to load policy details. Error: {String(policyError)}</Alert>
+                <Alert severity="error">{error || 'Policy not found'}</Alert>
                 <Button startIcon={<ArrowLeft />} onClick={() => navigate(-1)} sx={{ mt: 2 }}>Back</Button>
             </Box>
         );
@@ -172,13 +172,7 @@ const PolicyDetails: React.FC = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {isCashflowsLoading ? (
-                                        <TableRow>
-                                            <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
-                                                <CircularProgress size={20} />
-                                            </TableCell>
-                                        </TableRow>
-                                    ) : cashflows?.length === 0 ? (
+                                    {cashflows?.length === 0 ? (
                                         <TableRow>
                                             <TableCell colSpan={6} align="center" sx={{ py: 4, color: 'text.secondary' }}>
                                                 No cashflows recorded for this policy.

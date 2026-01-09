@@ -6,5 +6,7 @@ export const PATHS = {
     REPORTS: '/reports',
     SETTINGS: '/settings',
     POLICY_DETAILS: '/cohort/:id',
+    UNAUTHORIZED: '/unauthorized',
+    LOGIN: '/login',
     NOT_FOUND: '*',
 } as const;

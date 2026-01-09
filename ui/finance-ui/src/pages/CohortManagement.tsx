@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLoaderData, useSearchParams, useSubmit, useNavigation, useActionData } from 'react-router-dom';
+import type { LoaderFunctionArgs, ActionFunctionArgs } from 'react-router-dom';
 import {
     Box, Typography, Paper, Button, TextField, IconButton,
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
     TablePagination, Chip, Dialog, DialogTitle, DialogContent,
     DialogActions, MenuItem, Grid, InputAdornment, Tooltip, CircularProgress,
-    TableSortLabel, Link
+    TableSortLabel, Link, Alert, Snackbar
 } from '@mui/material';
 import {
     Plus, Search, Edit2, Eye, Trash2, RefreshCw, AlertCircle
 } from 'lucide-react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm, Controller } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { cohortApi } from '../api/cohortApi';
-import type { Policy } from '../types';
+import type { Policy, Page } from '../types';
 
 const policySchema = z.object({
     policyNumber: z.string().min(1, 'Policy Number is required'),
@@ -28,58 +28,86 @@ const policySchema = z.object({
 
 type PolicyFormData = z.infer<typeof policySchema>;
 
+export const cohortLoader = async ({ request }: LoaderFunctionArgs) => {
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get('page') || '0', 10);
+    const size = parseInt(url.searchParams.get('size') || '10', 10);
+    const query = url.searchParams.get('query') || '';
+    const sortBy = url.searchParams.get('sortBy') || 'id';
+    const sortDir = (url.searchParams.get('sortDir') || 'asc') as 'asc' | 'desc';
+
+    try {
+        const data = await cohortApi.search({ page, size, query, sortBy, sortDir });
+        return { data, error: null };
+    } catch (error) {
+        return { data: null, error: 'Failed to fetch cohort data' };
+    }
+};
+
+export const cohortAction = async ({ request }: ActionFunctionArgs) => {
+    const formData = await request.formData();
+    const intent = formData.get('intent');
+
+    try {
+        if (intent === 'delete') {
+            const id = Number(formData.get('id'));
+            await cohortApi.delete(id);
+            return { success: true, message: 'Policy deleted successfully' };
+        }
+
+        const policyData = JSON.parse(formData.get('policyData') as string);
+        if (intent === 'create') {
+            await cohortApi.create(policyData);
+            return { success: true, message: 'Policy created successfully' };
+        }
+
+        if (intent === 'edit') {
+            const id = Number(formData.get('id'));
+            await cohortApi.update(id, policyData);
+            return { success: true, message: 'Policy updated successfully' };
+        }
+
+        return { success: false, error: 'Invalid intent' };
+    } catch (error) {
+        return { success: false, error: error instanceof Error ? error.message : 'Action failed' };
+    }
+};
+
 const CohortManagement: React.FC = () => {
-    const navigate = useNavigate();
-    const queryClient = useQueryClient();
+    const { data: loaderData, error: loaderError } = useLoaderData() as { data: Page<Policy> | null, error: string | null };
+    const actionData = useActionData() as { success: boolean, message?: string, error?: string } | undefined;
+    const [searchParams, setSearchParams] = useSearchParams();
+    const submit = useSubmit();
+    const navigation = useNavigation();
 
-    // State
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [orderBy, setOrderBy] = useState<keyof Policy>('id');
-    const [order, setOrder] = useState<'asc' | 'desc'>('asc');
+    // Search Params
+    const page = parseInt(searchParams.get('page') || '0', 10);
+    const rowsPerPage = parseInt(searchParams.get('size') || '10', 10);
+    const searchTerm = searchParams.get('query') || '';
+    const orderBy = (searchParams.get('sortBy') || 'id') as keyof Policy;
+    const order = (searchParams.get('sortDir') || 'asc') as 'asc' | 'desc';
 
-    // Dialog State
+    // Local UI state
+    const [searchInput, setSearchInput] = useState(searchTerm);
     const [openDialog, setOpenDialog] = useState(false);
     const [dialogMode, setDialogMode] = useState<'create' | 'edit' | 'view'>('create');
     const [selectedPolicy, setSelectedPolicy] = useState<Policy | null>(null);
-
-    // Queries
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ['policies', page, rowsPerPage, searchTerm, orderBy, order],
-        queryFn: () => cohortApi.search({
-            page,
-            size: rowsPerPage,
-            query: searchTerm,
-            sortBy: orderBy,
-            sortDir: order
-        }),
-        placeholderData: (previousData) => previousData
+    const [snackbar, setSnackbar] = useState<{ open: boolean, message: string, severity: 'success' | 'error' }>({
+        open: false, message: '', severity: 'success'
     });
 
-    // Mutations
-    const createMutation = useMutation({
-        mutationFn: cohortApi.create,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['policies'] });
-            handleCloseDialog();
+    const isLoading = navigation.state === 'loading';
+
+    useEffect(() => {
+        if (actionData) {
+            if (actionData.success) {
+                setSnackbar({ open: true, message: actionData.message || 'Operation successful', severity: 'success' });
+                handleCloseDialog();
+            } else if (actionData.error) {
+                setSnackbar({ open: true, message: actionData.error, severity: 'error' });
+            }
         }
-    });
-
-    const updateMutation = useMutation({
-        mutationFn: (data: { id: number, policy: Partial<Policy> }) => cohortApi.update(data.id, data.policy),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['policies'] });
-            handleCloseDialog();
-        }
-    });
-
-    const deleteMutation = useMutation({
-        mutationFn: cohortApi.delete,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['policies'] });
-        }
-    });
+    }, [actionData]);
 
     // Form
     const { control, handleSubmit, reset, setValue } = useForm<PolicyFormData>({
@@ -106,19 +134,41 @@ const CohortManagement: React.FC = () => {
     }, [selectedPolicy, dialogMode, setValue, reset]);
 
     // Handlers
+    const updateParams = (updates: Record<string, string | number>) => {
+        const newParams = new URLSearchParams(searchParams);
+        Object.entries(updates).forEach(([key, value]) => {
+            if (value === undefined || value === null || value === '') {
+                newParams.delete(key);
+            } else {
+                newParams.set(key, String(value));
+            }
+        });
+        setSearchParams(newParams);
+    };
+
     const handleRequestSort = (property: keyof Policy) => {
         const isAsc = orderBy === property && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
+        updateParams({
+            sortBy: property,
+            sortDir: isAsc ? 'desc' : 'asc'
+        });
     };
 
     const handleChangePage = (_: unknown, newPage: number) => {
-        setPage(newPage);
+        updateParams({ page: newPage });
     };
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
+        updateParams({
+            size: event.target.value,
+            page: 0
+        });
+    };
+
+    const handleSearch = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            updateParams({ query: searchInput, page: 0 });
+        }
     };
 
     const handleOpenDialog = (mode: 'create' | 'edit' | 'view', policy?: Policy) => {
@@ -134,10 +184,21 @@ const CohortManagement: React.FC = () => {
     };
 
     const onSubmit: SubmitHandler<PolicyFormData> = (data) => {
-        if (dialogMode === 'create') {
-            createMutation.mutate(data);
-        } else if (dialogMode === 'edit' && selectedPolicy) {
-            updateMutation.mutate({ id: selectedPolicy.id, policy: data });
+        const formData = new FormData();
+        formData.append('intent', dialogMode);
+        formData.append('policyData', JSON.stringify(data));
+        if (selectedPolicy) {
+            formData.append('id', String(selectedPolicy.id));
+        }
+        submit(formData, { method: 'post' });
+    };
+
+    const handleDelete = (id: number) => {
+        if (window.confirm('Are you sure you want to delete this policy?')) {
+            const formData = new FormData();
+            formData.append('intent', 'delete');
+            formData.append('id', String(id));
+            submit(formData, { method: 'post' });
         }
     };
 
@@ -168,7 +229,9 @@ const CohortManagement: React.FC = () => {
                         variant="outlined"
                         size="small"
                         placeholder="Search by holder name or policy number..."
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        onKeyDown={handleSearch}
                         slotProps={{
                             input: {
                                 startAdornment: (
@@ -182,7 +245,7 @@ const CohortManagement: React.FC = () => {
                     />
                     <Box sx={{ flexGrow: 1 }} />
                     <Tooltip title="Refresh Data">
-                        <IconButton onClick={() => queryClient.invalidateQueries({ queryKey: ['policies'] })} sx={{ border: '1px solid #e5e7eb', borderRadius: 1 }}>
+                        <IconButton onClick={() => updateParams({ _cache: Date.now() })} sx={{ border: '1px solid #e5e7eb', borderRadius: 1 }}>
                             <RefreshCw size={18} />
                         </IconButton>
                     </Tooltip>
@@ -228,23 +291,23 @@ const CohortManagement: React.FC = () => {
                                         <CircularProgress size={30} />
                                     </TableCell>
                                 </TableRow>
-                            ) : isError ? (
+                            ) : loaderError ? (
                                 <TableRow>
                                     <TableCell colSpan={7} align="center" sx={{ py: 5, color: '#dc2626' }}>
                                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
                                             <AlertCircle size={18} />
-                                            <Typography variant="body2">Failed to load cohort data</Typography>
+                                            <Typography variant="body2">{loaderError}</Typography>
                                         </Box>
                                     </TableCell>
                                 </TableRow>
-                            ) : data?.content?.length === 0 ? (
+                            ) : loaderData?.content?.length === 0 ? (
                                 <TableRow>
                                     <TableCell colSpan={7} align="center" sx={{ py: 5, color: '#666666' }}>
                                         No cohorts found matching your search
                                     </TableCell>
                                 </TableRow>
                             ) : (
-                                data?.content?.map((row) => (
+                                loaderData?.content?.map((row) => (
                                     <TableRow hover key={row.id}>
                                         <TableCell sx={{ color: '#666666' }}>{row.id}</TableCell>
                                         <TableCell sx={{ fontWeight: 600 }}>
@@ -286,7 +349,7 @@ const CohortManagement: React.FC = () => {
                                         <TableCell align="right" sx={{ pr: 2 }}>
                                             <IconButton size="small" sx={{ mr: 1, color: '#666666' }} onClick={() => handleOpenDialog('view', row)}><Eye size={16} /></IconButton>
                                             <IconButton size="small" sx={{ mr: 1, color: '#005bab' }} onClick={() => handleOpenDialog('edit', row)}><Edit2 size={16} /></IconButton>
-                                            <IconButton size="small" sx={{ color: '#dc2626' }} onClick={() => deleteMutation.mutate(row.id)}><Trash2 size={16} /></IconButton>
+                                            <IconButton size="small" sx={{ color: '#dc2626' }} onClick={() => handleDelete(row.id)}><Trash2 size={16} /></IconButton>
                                         </TableCell>
                                     </TableRow>
                                 ))
@@ -297,7 +360,7 @@ const CohortManagement: React.FC = () => {
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 50]}
                     component="div"
-                    count={data?.totalElements || 0}
+                    count={loaderData?.totalElements || 0}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
@@ -412,13 +475,24 @@ const CohortManagement: React.FC = () => {
                     <DialogActions sx={{ borderTop: '1px solid #e5e7eb', px: 3, py: 2 }}>
                         <Button onClick={handleCloseDialog} sx={{ color: '#666666' }}>Cancel</Button>
                         {dialogMode !== 'view' && (
-                            <Button type="submit" variant="contained" sx={{ boxShadow: 'none' }} disabled={createMutation.isPending || updateMutation.isPending}>
+                            <Button type="submit" variant="contained" sx={{ boxShadow: 'none' }} disabled={navigation.state === 'submitting'}>
                                 {dialogMode === 'create' ? 'Create Cohort' : 'Update Cohort'}
                             </Button>
                         )}
                     </DialogActions>
                 </form>
             </Dialog>
+
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={6000}
+                onClose={() => setSnackbar({ ...snackbar, open: false })}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            >
+                <Alert onClose={() => setSnackbar({ ...snackbar, open: false })} severity={snackbar.severity} sx={{ width: '100%' }}>
+                    {snackbar.message}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };
