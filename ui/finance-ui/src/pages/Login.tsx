@@ -157,11 +157,6 @@ const Login: React.FC = () => {
                         </Button>
                     </form>
 
-                    <Box sx={{ mt: 4, p: 2, bgcolor: '#f9fafb', borderRadius: 2, border: '1px dashed #d1d5db' }}>
-                        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center' }}>
-                            Demo Credentials: <b>user</b> / <b>test</b>
-                        </Typography>
-                    </Box>
                 </Paper>
             </Container>
         </Box>

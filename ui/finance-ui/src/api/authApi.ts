@@ -19,45 +19,40 @@ export interface LoginResponse {
 
 export const authApi = {
     login: async (credentials: { username: string; password: string }): Promise<LoginResponse> => {
-        // In a real app, this would be an actual API call
-        // For this task, we implement the mock logic here
-        if (credentials.username === 'user' && credentials.password === 'test') {
-            return {
-                token: 'mock-jwt-token',
-                user: {
-                    username: 'user',
-                    activities: ['COHORT_PAGINATION', 'COHORT_VIEW', 'CASHFLOW_PAGINATION', 'CASHFLOW_VIEW'],
-                    roles: ['ROLE_USER']
-                }
-            };
+        try {
+            const response = await api.post<LoginResponse>('api/auth/login', credentials);
+            const data = response.data;
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+                // After login, fetch user info to get roles/activities
+                const userInfo = await authApi.getUserInfo();
+                return { token: data.token, user: userInfo };
+            }
+            throw new Error('No token received');
+        } catch (error: any) {
+            console.error("Login failed:", error);
+            throw new Error(error.response?.data?.message || 'Login failed');
         }
-
-        throw new Error('Invalid username or password');
-
-        // Real implementation would be:
-        // const response = await api.post<LoginResponse>('api/auth/login', credentials);
-        // return response.data;
     },
 
     getUserInfo: async (): Promise<UserInfo> => {
         const token = localStorage.getItem('token');
-        if (token === 'mock-jwt-token') {
-            return authApi.getMockUserInfo();
+        if (!token) {
+            throw new Error('No token found');
         }
-        const response = await api.get<UserInfo>('api/auth/me');
-        return response.data;
+        try {
+            const response = await api.get<UserInfo>('api/auth/userinfo');
+            return response.data;
+        } catch (error) {
+            // If fetching user info fails (e.g., token expired), clear token
+            localStorage.removeItem('token');
+            throw error;
+        }
     },
 
     logout: async (): Promise<void> => {
-        // localStorage.removeItem('token');
+        localStorage.removeItem('token');
+        // If there's a backend logout endpoint that invalidates tokens (e.g. blocklist), call it here
         // await api.post('api/auth/logout');
-    },
-
-    getMockUserInfo: async (): Promise<UserInfo> => {
-        return {
-            username: 'user',
-            activities: ['COHORT_PAGINATION', 'COHORT_VIEW', 'CASHFLOW_PAGINATION', 'CASHFLOW_VIEW'],
-            roles: ['ROLE_USER']
-        };
     }
 };

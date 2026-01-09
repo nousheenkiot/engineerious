@@ -23,6 +23,10 @@ export default defineConfig({
         target: 'http://localhost:8083',
         changeOrigin: true,
       },
+      '/finance/api/auth': {
+        target: 'http://localhost:8084',
+        changeOrigin: true,
+      },
       '/finance/v3/api-docs': {
         target: 'http://localhost:8081',
         changeOrigin: true,
