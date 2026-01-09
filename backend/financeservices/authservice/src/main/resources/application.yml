@@ -17,6 +17,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          time_zone: Asia/Kolkata
 
 jwt:
   secret: ${JWT_SECRET:very-secret-key-that-should-be-at-least-thirty-two-characters-long}
