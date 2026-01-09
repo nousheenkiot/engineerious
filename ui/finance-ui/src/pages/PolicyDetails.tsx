@@ -13,7 +13,7 @@ import { cashflowApi } from '../api/cashflowApi';
 import type { Policy } from '../types';
 import type { Cashflow } from '../api/cashflowApi';
 import { LABELS } from '../constants/labels';
-import CashflowCalculator from '../components/CashflowCalculator';
+import { PATHS } from '../routes/paths';
 
 export const policyDetailsLoader = async ({ params }: LoaderFunctionArgs) => {
     const id = Number(params.id);
@@ -35,12 +35,16 @@ const PolicyDetails: React.FC = () => {
 
     const totalCashflow = cashflows?.reduce((sum, cf) => sum + (cf.status === 'SUCCESS' ? cf.amount : 0), 0) || 0;
 
-    const [showCalculator, setShowCalculator] = useState(false);
-
     const handleCalculate = () => {
         const val = parseFloat(calcInput);
         if (!isNaN(val) && val > 0) {
-            setShowCalculator(true);
+            navigate(PATHS.CALCULATOR, {
+                state: {
+                    interestRate: val,
+                    premium: policy?.premium || 0,
+                    totalCashflow: totalCashflow
+                }
+            });
         }
     };
 
@@ -97,7 +101,8 @@ const PolicyDetails: React.FC = () => {
 
             <Grid container spacing={3}>
                 {/* Policy Summary Card */}
-                <Grid size={{ xs: 12, md: 4 }}>
+                {/* Policy Summary Card */}
+                <Grid size={{ xs: 12, md: 6 }}>
                     <Paper sx={{ p: 3, height: '100%', borderRadius: 1, border: '1px solid #e5e7eb' }}>
                         <Typography variant="subtitle2" sx={{ color: '#666666', mb: 2, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                             {LABELS.SECTIONS.POLICY_SUMMARY}
@@ -129,15 +134,21 @@ const PolicyDetails: React.FC = () => {
                             </Box>
                         </Box>
                     </Paper>
+                </Grid>
 
-                    {/* Calculator Input Section */}
-                    <Paper sx={{ p: 3, mt: 3, borderRadius: 1, border: '1px solid #e5e7eb' }}>
+                {/* Calculator Input Section */}
+                <Grid size={{ xs: 12, md: 6 }}>
+                    <Paper sx={{ p: 3, height: '100%', borderRadius: 1, border: '1px solid #e5e7eb' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                             <Calculator size={18} color="#666666" />
                             <Typography variant="subtitle2" sx={{ color: '#666666', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                                 {LABELS.SECTIONS.SIMULATOR}
                             </Typography>
                         </Box>
+
+                        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                            {LABELS.MESSAGES.CALCULATOR_PLACEHOLDER}
+                        </Typography>
 
                         <Box sx={{ display: 'flex', gap: 2, mb: 1 }}>
                             <TextField
@@ -159,28 +170,7 @@ const PolicyDetails: React.FC = () => {
                                 {LABELS.BUTTONS.CALCULATE}
                             </Button>
                         </Box>
-
                     </Paper>
-                </Grid>
-
-                {/* Cashflow Calculator Results */}
-                <Grid size={{ xs: 12, md: 8 }}>
-                    {showCalculator && calcInput ? (
-                        <CashflowCalculator
-                            interestRate={parseFloat(calcInput)}
-                            premium={policy.premium}
-                            totalCashflow={totalCashflow}
-                        />
-                    ) : (
-                        <Paper sx={{ p: 4, height: '100%', borderRadius: 1, border: '1px solid #e5e7eb', bgcolor: '#f8f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <Box sx={{ textAlign: 'center' }}>
-                                <Calculator size={48} color="#9ca3af" />
-                                <Typography variant="body1" sx={{ color: '#6b7280', mt: 2 }}>
-                                    {LABELS.MESSAGES.CALCULATOR_PLACEHOLDER}
-                                </Typography>
-                            </Box>
-                        </Paper>
-                    )}
                 </Grid>
 
                 {/* Cashflow Table */}

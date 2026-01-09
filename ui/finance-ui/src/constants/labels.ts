@@ -59,6 +59,7 @@ export const LABELS = {
         VIEW_FULL_AUDIT_LOG: 'View Full Audit Log',
         CREATE_COHORT: 'Create Cohort',
         UPDATE_COHORT: 'Update Cohort',
+        CALCULATE_NEW_PREMIUM: 'Calculate New Premium',
     },
 
     // Dialog Titles
@@ -78,6 +79,8 @@ export const LABELS = {
         INTEREST_RATE: 'Interest Rate (%)',
         PREMIUM_AMOUNT: 'Premium Amount',
         CURRENT_ASSUMPTION: 'Current Assumption',
+        YEARS: 'Number of Years',
+        NEW_PREMIUM: 'New Premium',
     },
 
     // Table Headers
