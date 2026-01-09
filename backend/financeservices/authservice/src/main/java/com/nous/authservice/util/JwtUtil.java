@@ -15,16 +15,23 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    private final String SECRET = "very-secret-key-that-should-be-at-least-thirty-two-characters-long";
-    private final SecretKey SIGNING_KEY = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+    @org.springframework.beans.factory.annotation.Value("${jwt.secret}")
+    private String secret;
+
+    @org.springframework.beans.factory.annotation.Value("${jwt.expiration}")
+    private long jwtExpirationInMs;
+
+    private SecretKey getSigningKey() {
+        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
 
     public String generateToken(String username, Map<String, Object> claims) {
         return Jwts.builder()
                 .claims(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
-                .signWith(SIGNING_KEY)
+                .expiration(new Date(System.currentTimeMillis() + jwtExpirationInMs))
+                .signWith(getSigningKey())
                 .compact();
     }
 
@@ -48,7 +55,7 @@ public class JwtUtil {
 
     public Claims extractAllClaims(String token) {
         return Jwts.parser()
-                .verifyWith(SIGNING_KEY)
+                .verifyWith(getSigningKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();

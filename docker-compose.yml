@@ -109,6 +109,26 @@ services:
     networks:
       - finance-net
 
+  authservice:
+    build:
+      context: ./backend/financeservices/authservice
+    container_name: authservice
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: mydb
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      JWT_SECRET: very-secret-key-that-should-be-at-least-thirty-two-characters-long
+      JWT_EXPIRATION_MS: 36000000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8084:8084"
+    networks:
+      - finance-net
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
