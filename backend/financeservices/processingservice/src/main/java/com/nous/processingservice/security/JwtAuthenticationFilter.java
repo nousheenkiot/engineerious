@@ -20,8 +20,15 @@ import java.util.stream.Collectors;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final String SECRET = "very-secret-key-that-should-be-at-least-thirty-two-characters-long";
-    private final SecretKey SIGNING_KEY = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+    private final String secret;
+
+    public JwtAuthenticationFilter(String secret) {
+        this.secret = secret;
+    }
+
+    private SecretKey getSigningKey() {
+        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -33,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = authHeader.substring(7);
             try {
                 Claims claims = Jwts.parser()
-                        .verifyWith(SIGNING_KEY)
+                        .verifyWith(getSigningKey())
                         .build()
                         .parseSignedClaims(token)
                         .getPayload();
