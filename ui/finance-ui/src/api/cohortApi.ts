@@ -31,3 +31,4 @@ export const cohortApi = {
         return response.data;
     }
 };
+
