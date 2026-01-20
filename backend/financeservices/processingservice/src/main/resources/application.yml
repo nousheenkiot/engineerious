@@ -39,6 +39,11 @@ spring:
           time_zone: Asia/Kolkata
   kafka:
     bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:29092}
+    streams:
+      application-id: finance-processing-aggregator
+      properties:
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
 
 springdoc:
   api-docs:

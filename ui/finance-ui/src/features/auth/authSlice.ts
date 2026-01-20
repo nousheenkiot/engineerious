@@ -52,4 +52,12 @@ const authSlice = createSlice({
 });
 
 export const { setCredentials, logout, setLoading, setError, setUserInfo } = authSlice.actions;
+
+export const selectCurrentUser = (state: { auth: AuthState }) => state.auth.user;
+export const selectIsAuthenticated = (state: { auth: AuthState }) => state.auth.isAuthenticated;
+export const selectHasActivity = (activity: string) => (state: { auth: AuthState }) =>
+    state.auth.user?.activities?.includes(activity) ?? false;
+export const selectHasRole = (role: string) => (state: { auth: AuthState }) =>
+    state.auth.user?.roles?.includes(role) ?? false;
+
 export default authSlice.reducer;

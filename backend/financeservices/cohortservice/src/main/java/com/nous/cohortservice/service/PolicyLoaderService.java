@@ -16,6 +16,12 @@ public class PolicyLoaderService {
     @Autowired
     private PolicyRepository policyRepository;
 
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
+
+    @Autowired
+    private com.fasterxml.jackson.databind.ObjectMapper objectMapper;
+
     private final Random random = new Random();
 
     public void loadPolicies(LocalDate fyDate) {
@@ -41,10 +47,16 @@ public class PolicyLoaderService {
             PolicyAssumption[] assumptions = PolicyAssumption.values();
             policy.setAssumption(assumptions[random.nextInt(assumptions.length)]);
 
-            // Set Financial Year
             policy.setFyDate(fyDate);
 
             policyRepository.save(policy);
+
+            try {
+                String policyJson = objectMapper.writeValueAsString(policy);
+                kafkaProducerService.sendMessage("policy-events", policy.getPolicyNumber(), policyJson);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
