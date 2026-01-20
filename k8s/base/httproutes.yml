@@ -12,6 +12,12 @@ spec:
         - path:
             type: PathPrefix
             value: /finance/api/processing
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefix: /finance
       backendRefs:
         - name: processingservice
           port: 8082

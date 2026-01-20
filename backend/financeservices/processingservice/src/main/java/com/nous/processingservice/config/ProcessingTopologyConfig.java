@@ -33,18 +33,16 @@ public class ProcessingTopologyConfig {
         public static final String POLICY_STORE = "policy-store";
         public static final String AGGREGATION_STORE = "policy-cashflow-aggregation-store";
 
+        @org.springframework.beans.factory.annotation.Value("${spring.kafka.bootstrap-servers}")
+        private String bootstrapServers;
+
         @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)
         public KafkaStreamsConfiguration kStreamsConfigs() {
                 Map<String, Object> props = new HashMap<>();
                 props.put(StreamsConfig.APPLICATION_ID_CONFIG, "finance-processing-aggregator");
-                props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092"); // Should use env var but for now
-                                                                                      // hardcoded fallback
+                props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
                 props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
-                props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName()); // Default
-                                                                                                                 // string,
-                                                                                                                 // usage
-                                                                                                                 // handles
-                                                                                                                 // others
+                props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
                 // Improve processing guarantee if needed, e.g. EXACTLY_ONCE_V2
                 props.put(StreamsConfig.PROCESSING_GUARANTEE_CONFIG, StreamsConfig.AT_LEAST_ONCE);
 
