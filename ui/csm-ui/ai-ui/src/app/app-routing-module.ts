@@ -11,8 +11,12 @@ const routes: Routes = [
     loadChildren: () => import('./features/csm/csm.module').then(m => m.CsmModule)
   },
   {
+    path: 'home',
+    loadChildren: () => import('./features/home/home-module').then(m => m.HomeModule)
+  },
+  {
     path: '',
-    redirectTo: 'csm',
+    redirectTo: 'home',
     pathMatch: 'full'
   }
 ];

@@ -105,6 +105,10 @@ export class CsmService {
     constructor(private http: HttpClient) { }
 
     getContracts(page: number = 0, size: number = 10): Observable<Page<ContractCsm>> {
+        // Use HttpClient to fetch data from real API
+        // return this.http.get<Page<ContractCsm>>(`${this.apiUrl}?page=${page}&size=${size}`);
+
+        // For now, keep mock implementation
         const start = page * size;
         const end = start + size;
         const pagedData = this.mockData.slice(start, end);
@@ -121,11 +125,13 @@ export class CsmService {
     }
 
     getContract(id: string): Observable<ContractCsm | undefined> {
+        // return this.http.get<ContractCsm>(`${this.apiUrl}/${id}`);
         const contract = this.mockData.find(c => c.id === id);
         return of(contract ? { ...contract } : undefined).pipe(delay(500));
     }
 
     updateContract(id: string, contract: ContractCsm): Observable<ContractCsm> {
+        // return this.http.put<ContractCsm>(`${this.apiUrl}/${id}`, contract);
         const index = this.mockData.findIndex(c => c.id === id);
         if (index !== -1) {
             this.mockData[index] = { ...contract, id }; // Ensure ID matches

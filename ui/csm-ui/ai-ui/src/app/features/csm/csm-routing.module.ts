@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CsmListComponent } from './components/csm-list/csm-list.component';
 import { CsmDetailComponent } from './components/csm-detail/csm-detail.component';
+import { CsmEditComponent } from './components/csm-edit/csm-edit.component';
 import { AuthGuard } from '../../core/auth/auth.guard';
 
 const routes: Routes = [
@@ -10,6 +11,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
             { path: '', component: CsmListComponent },
+            { path: ':id/edit', component: CsmEditComponent },
             { path: ':id', component: CsmDetailComponent }
         ]
     }

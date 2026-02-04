@@ -1,6 +1,7 @@
 <nav class="navbar" *ngIf="authService.isLoggedIn$ | async">
   <div class="nav-brand">CSM Management</div>
   <div class="nav-links">
+    <a routerLink="/home" routerLinkActive="active">Home</a>
     <a routerLink="/csm" routerLinkActive="active">Contracts</a>
     <a href="#" (click)="logout()">Logout</a>
   </div>

@@ -1,0 +1,77 @@
+<div class="edit-container">
+    <h2>Edit Contract</h2>
+
+    <div *ngIf="loading" class="loading-state">
+        Loading contract details...
+    </div>
+
+    <div *ngIf="error" class="error-message">
+        {{ error }}
+    </div>
+
+    <form *ngIf="!loading && !error" [formGroup]="editForm" (ngSubmit)="onSubmit()" class="edit-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Contract ID</label>
+                <input type="text" formControlName="contractId" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Portfolio ID</label>
+                <input type="text" formControlName="portfolioId" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Currency</label>
+                <input type="text" formControlName="currency" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <select formControlName="status" class="form-control">
+                    <option value="Active">Active</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Closed">Closed</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="section-title">IFRS 17 Financials</div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Current CSM</label>
+                <input type="number" formControlName="currentCsm" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Risk Adjustment</label>
+                <input type="number" formControlName="riskAdjustment" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Loss Component</label>
+                <input type="number" formControlName="lossComponent" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Fulfillment Cash Flows</label>
+                <input type="number" formControlName="fulfillmentCashFlows" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Recognized Profit (P&L)</label>
+                <input type="number" formControlName="recognizedProfit" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" (click)="cancel()" class="btn-secondary">Cancel</button>
+            <button type="submit" [disabled]="editForm.invalid || saving" class="btn-primary">
+                {{ saving ? 'Saving...' : 'Save Changes' }}
+            </button>
+        </div>
+    </form>
+</div>
