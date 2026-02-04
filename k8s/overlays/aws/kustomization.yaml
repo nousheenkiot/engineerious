@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+
+# CHANGE THESE TO MATCH YOUR ECR REPO URLs
+# Example: 123456789012.dkr.ecr.us-east-1.amazonaws.com/authservice
+images:
+  - name: authservice
+    newName: REPLACE_WITH_YOUR_ACCOUNT_ID.dkr.ecr.REPLACE_WITH_REGION.amazonaws.com/authservice
+    newTag: latest
+  - name: cashflowservice
+    newName: REPLACE_WITH_YOUR_ACCOUNT_ID.dkr.ecr.REPLACE_WITH_REGION.amazonaws.com/cashflowservice
+    newTag: latest
+  - name: cohortservice
+    newName: REPLACE_WITH_YOUR_ACCOUNT_ID.dkr.ecr.REPLACE_WITH_REGION.amazonaws.com/cohortservice
+    newTag: latest
+  - name: processingservice
+    newName: REPLACE_WITH_YOUR_ACCOUNT_ID.dkr.ecr.REPLACE_WITH_REGION.amazonaws.com/processingservice
+    newTag: latest
+  - name: finance-ui
+    newName: REPLACE_WITH_YOUR_ACCOUNT_ID.dkr.ecr.REPLACE_WITH_REGION.amazonaws.com/finance-ui
+    newTag: latest
+
+# AWS Specific Patches can go here (e.g., LoadBalancer annotations)

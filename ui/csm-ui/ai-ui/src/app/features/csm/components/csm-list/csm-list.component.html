@@ -1,0 +1,51 @@
+<div class="csm-container">
+    <h2>Contract Service Margin (IFRS 17)</h2>
+
+    <div *ngIf="loading" class="loading-state">
+        Loading contracts...
+    </div>
+
+    <div *ngIf="!loading" class="table-responsive">
+        <table class="csm-table">
+            <thead>
+                <tr>
+                    <th>Contract ID</th>
+                    <th>Portfolio</th>
+                    <th>Initial CSM</th>
+                    <th>Current CSM</th>
+                    <th>Recognized Profit</th>
+                    <th>Currency</th>
+                    <th>Status</th>
+                    <th>Start Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let contract of contracts">
+                    <td>{{ contract.contractId }}</td>
+                    <td>{{ contract.portfolioId }}</td>
+                    <td>{{ contract.initialCsm | number:'1.2-2' }}</td>
+                    <td>{{ contract.currentCsm | number:'1.2-2' }}</td>
+                    <td>{{ contract.recognizedProfit | number:'1.2-2' }}</td>
+                    <td>{{ contract.currency }}</td>
+                    <td>
+                        <span class="status-badge" [ngClass]="contract.status.toLowerCase()">
+                            {{ contract.status }}
+                        </span>
+                    </td>
+                    <td>{{ contract.startDate | date }}</td>
+                    <td>
+                        <a [routerLink]="['/csm', contract.id]" class="btn-details">View</a>
+                        <a [routerLink]="['/csm', contract.id, 'edit']" class="btn-details btn-edit">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination-controls">
+            <button [disabled]="currentPage === 0" (click)="onPageChange(currentPage - 1)">Previous</button>
+            <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+            <button [disabled]="currentPage === totalPages - 1" (click)="onPageChange(currentPage + 1)">Next</button>
+        </div>
+    </div>
+</div>

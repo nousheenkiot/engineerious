@@ -1,0 +1,40 @@
+global:
+  environment: dev
+
+images:
+  registry: "" # Set this to your ECR URL (e.g., 12345.dkr.ecr.us-east-1.amazonaws.com)
+  pullPolicy: IfNotPresent
+  tags:
+    authservice: latest
+    cashflowservice: latest
+    cohortservice: latest
+    processingservice: latest
+    financeui: latest
+    postgres: "15"
+    kafka: "7.4.0"
+    zookeeper: "latest"
+
+postgres:
+  username: "postgres"
+  password: "password" # Change this!
+  db: "mydb"
+
+kafka:
+  brokerId: 1
+  zookeeperConnect: "zookeeper:2181"
+
+services:
+  authservice:
+    replicas: 1
+    port: 8084
+  cashflowservice:
+    replicas: 1
+    port: 8083
+  cohortservice:
+    replicas: 1
+    port: 8080
+  processingservice:
+    replicas: 1
+    port: 8082
+  financeui:
+    replicas: 1

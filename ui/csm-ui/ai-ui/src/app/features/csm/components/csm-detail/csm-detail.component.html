@@ -1,0 +1,55 @@
+<div class="detail-container" *ngIf="contract; else loadingOrError">
+    <div class="header">
+        <h2>Contract Details: {{ contract.contractId }}</h2>
+        <a routerLink="/csm" class="back-link">Back to List</a>
+    </div>
+
+    <div class="cards-grid">
+        <div class="card">
+            <h3>General Info</h3>
+            <div class="field">
+                <label>Portfolio ID:</label>
+                <span>{{ contract.portfolioId }}</span>
+            </div>
+            <div class="field">
+                <label>Currency:</label>
+                <span>{{ contract.currency }}</span>
+            </div>
+            <div class="field">
+                <label>Status:</label>
+                <span class="status-badge" [ngClass]="contract.status.toLowerCase()">{{ contract.status }}</span>
+            </div>
+            <div class="field">
+                <label>Period:</label>
+                <span>{{ contract.startDate | date }} - {{ contract.endDate | date }}</span>
+            </div>
+        </div>
+
+        <div class="card money-card">
+            <h3>Financials (IFRS 17)</h3>
+            <div class="field highlight">
+                <label>Current CSM:</label>
+                <span>{{ contract.currentCsm | currency:contract.currency }}</span>
+            </div>
+            <div class="field">
+                <label>Initial CSM:</label>
+                <span>{{ contract.initialCsm | currency:contract.currency }}</span>
+            </div>
+            <div class="field">
+                <label>Fulfillment Cash Flows:</label>
+                <span>{{ contract.fulfillmentCashFlows | currency:contract.currency }}</span>
+            </div>
+            <div class="field">
+                <label>Risk Adjustment:</label>
+                <span>{{ contract.riskAdjustment | currency:contract.currency }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #loadingOrError>
+    <div class="loading-state">
+        <p *ngIf="loading">Loading details...</p>
+        <p *ngIf="!loading && !contract">Contract not found.</p>
+    </div>
+</ng-template>
