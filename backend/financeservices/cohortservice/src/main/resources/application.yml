@@ -43,6 +43,12 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       transaction-id-prefix: cohort-tx-
+      acks: all # Wait for full set of in-sync replicas to acknowledge the record
+      retries: 3 # Retry up to 3 times on retriable errors before failing
+      properties:
+        enable.idempotence: true # Ensures exactly-once semantics
+        max.in.flight.requests.per.connection: 5 # Allows parallel sends while maintaining order if idempotence is true
+        delivery.timeout.ms: 120000 # Wait up to 2 minutes for a successful delivery (including retries)
     consumer:
       group-id: cohort-group
       auto-offset-reset: earliest

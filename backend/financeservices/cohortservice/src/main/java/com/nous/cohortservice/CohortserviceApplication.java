@@ -9,7 +9,10 @@ import com.nous.cohortservice.service.StorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.scheduling.annotation.EnableScheduling;
+
 @SpringBootApplication
+@EnableScheduling
 public class CohortserviceApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(CohortserviceApplication.class);
