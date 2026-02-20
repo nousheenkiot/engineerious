@@ -68,7 +68,7 @@ const PolicyDetails: React.FC = () => {
     }
 
     return (
-        <Box sx={{ p: 4, bgcolor: '#f8f9fa', minHeight: '100vh' }}>
+        <Box sx={{ p: 4, bgcolor: 'background.default', minHeight: '100vh' }}>
             {/* Header & Breadcrumbs */}
             <Box sx={{ mb: 4 }}>
                 <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
@@ -79,11 +79,11 @@ const PolicyDetails: React.FC = () => {
                 </Breadcrumbs>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <IconButton onClick={() => navigate(-1)} sx={{ border: '1px solid #e5e7eb' }}>
+                    <IconButton onClick={() => navigate(-1)} sx={{ border: '1px solid', borderColor: 'divider' }}>
                         <ArrowLeft size={18} />
                     </IconButton>
                     <Box>
-                        <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a1a' }}>
+                        <Typography variant="h5" sx={{ fontWeight: 600, color: 'text.primary' }}>
                             {policy.policyNumber}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
@@ -101,16 +101,15 @@ const PolicyDetails: React.FC = () => {
 
             <Grid container spacing={3}>
                 {/* Policy Summary Card */}
-                {/* Policy Summary Card */}
                 <Grid size={{ xs: 12, md: 6 }}>
-                    <Paper sx={{ p: 3, height: '100%', borderRadius: 1, border: '1px solid #e5e7eb' }}>
-                        <Typography variant="subtitle2" sx={{ color: '#666666', mb: 2, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    <Paper sx={{ p: 3, height: '100%', borderRadius: 1, border: '1px solid', borderColor: 'divider' }}>
+                        <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 2, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                             {LABELS.SECTIONS.POLICY_SUMMARY}
                         </Typography>
 
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                <Receipt size={20} color="#005bab" />
+                                <Receipt size={20} color="primary.main" />
                                 <Box>
                                     <Typography variant="caption" color="text.secondary">{LABELS.FORM_FIELDS.PREMIUM_AMOUNT}</Typography>
                                     <Typography variant="h6" sx={{ fontWeight: 600 }}>${policy.premium.toLocaleString()}</Typography>
@@ -118,7 +117,7 @@ const PolicyDetails: React.FC = () => {
                             </Box>
 
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                <Calendar size={20} color="#005bab" />
+                                <Calendar size={20} color="primary.main" />
                                 <Box>
                                     <Typography variant="caption" color="text.secondary">{LABELS.FORM_FIELDS.FINANCIAL_YEAR_DATE}</Typography>
                                     <Typography variant="body1" sx={{ fontWeight: 500 }}>{policy.fyDate}</Typography>
@@ -126,7 +125,7 @@ const PolicyDetails: React.FC = () => {
                             </Box>
 
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                <TrendingUp size={20} color="#005bab" />
+                                <TrendingUp size={20} color="primary.main" />
                                 <Box>
                                     <Typography variant="caption" color="text.secondary">{LABELS.FORM_FIELDS.CURRENT_ASSUMPTION}</Typography>
                                     <Typography variant="body1" sx={{ fontWeight: 500 }}>{policy.assumption}</Typography>
@@ -138,10 +137,10 @@ const PolicyDetails: React.FC = () => {
 
                 {/* Calculator Input Section */}
                 <Grid size={{ xs: 12, md: 6 }}>
-                    <Paper sx={{ p: 3, height: '100%', borderRadius: 1, border: '1px solid #e5e7eb' }}>
+                    <Paper sx={{ p: 3, height: '100%', borderRadius: 1, border: '1px solid', borderColor: 'divider' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                            <Calculator size={18} color="#666666" />
-                            <Typography variant="subtitle2" sx={{ color: '#666666', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                            <Calculator size={18} color="text.secondary" />
+                            <Typography variant="subtitle2" sx={{ color: 'text.secondary', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                                 {LABELS.SECTIONS.SIMULATOR}
                             </Typography>
                         </Box>
@@ -175,9 +174,9 @@ const PolicyDetails: React.FC = () => {
 
                 {/* Cashflow Table */}
                 <Grid size={12}>
-                    <Paper sx={{ borderRadius: 1, border: '1px solid #e5e7eb', overflow: 'hidden' }}>
-                        <Box sx={{ p: 2, borderBottom: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <Database size={18} color="#666666" />
+                    <Paper sx={{ borderRadius: 1, border: '1px solid', borderColor: 'divider', overflow: 'hidden' }}>
+                        <Box sx={{ p: 2, borderBottom: '1px solid', borderColor: 'divider', display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Database size={18} color="text.secondary" />
                             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>{LABELS.SECTIONS.DETAILED_CASHFLOWS}</Typography>
                         </Box>
                         <TableContainer sx={{ maxHeight: 400 }}>
@@ -202,7 +201,7 @@ const PolicyDetails: React.FC = () => {
                                     ) : (
                                         cashflows?.map((cf) => (
                                             <TableRow key={cf.id} hover>
-                                                <TableCell sx={{ color: '#666666' }}>{cf.id}</TableCell>
+                                                <TableCell sx={{ color: 'text.secondary' }}>{cf.id}</TableCell>
                                                 <TableCell sx={{ fontWeight: 500 }}>{cf.cashflowDate}</TableCell>
                                                 <TableCell sx={{ fontWeight: 600 }}>${cf.amount.toLocaleString()}</TableCell>
                                                 <TableCell>
@@ -215,8 +214,14 @@ const PolicyDetails: React.FC = () => {
                                                         sx={{
                                                             fontSize: '0.7rem',
                                                             fontWeight: 600,
-                                                            bgcolor: cf.status === 'SUCCESS' ? '#f0fdf4' : cf.status === 'REVERSED' ? '#fef2f2' : '#f9fafb',
-                                                            color: cf.status === 'SUCCESS' ? '#166534' : cf.status === 'REVERSED' ? '#991b1b' : '#666666'
+                                                            bgcolor: (theme) =>
+                                                                cf.status === 'SUCCESS' ? (theme.palette.mode === 'dark' ? 'rgba(34, 197, 94, 0.2)' : '#f0fdf4') :
+                                                                    cf.status === 'REVERSED' ? (theme.palette.mode === 'dark' ? 'rgba(239, 68, 68, 0.2)' : '#fef2f2') :
+                                                                        (theme.palette.mode === 'dark' ? 'rgba(128, 128, 128, 0.2)' : '#f9fafb'),
+                                                            color: (theme) =>
+                                                                cf.status === 'SUCCESS' ? (theme.palette.mode === 'dark' ? '#4ade80' : '#166534') :
+                                                                    cf.status === 'REVERSED' ? (theme.palette.mode === 'dark' ? '#f87171' : '#991b1b') :
+                                                                        'text.secondary'
                                                         }}
                                                     />
                                                 </TableCell>

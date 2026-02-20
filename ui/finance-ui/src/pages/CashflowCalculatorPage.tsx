@@ -46,7 +46,7 @@ const CashflowCalculatorPage: React.FC = () => {
     }
 
     return (
-        <Box sx={{ p: 4, bgcolor: '#f8f9fa', minHeight: '100vh' }}>
+        <Box sx={{ p: 4, bgcolor: 'background.default', minHeight: '100vh' }}>
             <Button
                 startIcon={<ArrowLeft />}
                 onClick={() => navigate(-1)}
@@ -55,14 +55,14 @@ const CashflowCalculatorPage: React.FC = () => {
                 {LABELS.BUTTONS.BACK_TO_POLICY_DETAILS}
             </Button>
 
-            <Typography variant="h4" sx={{ mb: 3, fontWeight: 600, color: '#111827' }}>
+            <Typography variant="h4" sx={{ mb: 3, fontWeight: 600, color: 'text.primary' }}>
                 {LABELS.PAGE_TITLES.CASHFLOW_PROJECTION}
             </Typography>
 
             <Grid container spacing={3}>
                 <Grid size={{ xs: 12, md: 6 }}>
-                    <Paper sx={{ p: 3, borderRadius: 1 }}>
-                        <Typography variant="h6" gutterBottom>{LABELS.SECTIONS.SIMULATOR}</Typography>
+                    <Paper sx={{ p: 3, borderRadius: 1, border: '1px solid', borderColor: 'divider' }}>
+                        <Typography variant="h6" gutterBottom color="text.primary">{LABELS.SECTIONS.SIMULATOR}</Typography>
                         <Box sx={{ display: 'grid', gap: 2 }}>
                             <TextField
                                 label={LABELS.FORM_FIELDS.INTEREST_RATE}
@@ -87,11 +87,17 @@ const CashflowCalculatorPage: React.FC = () => {
 
                 <Grid size={{ xs: 12, md: 6 }}>
                     {calculatedPremium > 0 && (
-                        <Paper sx={{ p: 3, borderRadius: 1, bgcolor: '#f0fdf4', border: '1px solid #dcfce7' }}>
-                            <Typography variant="subtitle2" sx={{ color: '#166534', fontWeight: 600 }}>
+                        <Paper sx={{
+                            p: 3,
+                            borderRadius: 1,
+                            bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(34, 197, 94, 0.1)' : '#f0fdf4',
+                            border: '1px solid',
+                            borderColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(34, 197, 94, 0.2)' : '#dcfce7'
+                        }}>
+                            <Typography variant="subtitle2" sx={{ color: 'success.main', fontWeight: 600 }}>
                                 {LABELS.FORM_FIELDS.NEW_PREMIUM}
                             </Typography>
-                            <Typography variant="h4" sx={{ color: '#166534', fontWeight: 700, mt: 1 }}>
+                            <Typography variant="h4" sx={{ color: 'success.main', fontWeight: 700, mt: 1 }}>
                                 ${calculatedPremium.toLocaleString(undefined, { maximumFractionDigits: 2 })}
                             </Typography>
                             <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>

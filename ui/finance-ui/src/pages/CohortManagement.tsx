@@ -204,13 +204,13 @@ const CohortManagement: React.FC = () => {
     };
 
     return (
-        <Box sx={{ p: 3, bgcolor: '#f8f9fa', minHeight: '100vh' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4, alignItems: 'center', borderBottom: '1px solid #e5e7eb', pb: 2 }}>
+        <Box sx={{ p: 3, bgcolor: 'background.default', minHeight: '100vh' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4, alignItems: 'center', borderBottom: '1px solid', borderColor: 'divider', pb: 2 }}>
                 <Box>
-                    <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a1a' }}>
+                    <Typography variant="h5" sx={{ fontWeight: 600, color: 'text.primary' }}>
                         {LABELS.PAGE_TITLES.COHORT_MANAGEMENT}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: '#666666', mt: 0.5 }}>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
                         {LABELS.PAGE_DESCRIPTIONS.COHORT_MANAGEMENT}
                     </Typography>
                 </Box>
@@ -224,8 +224,8 @@ const CohortManagement: React.FC = () => {
                 </Button>
             </Box>
 
-            <Paper sx={{ width: '100%', mb: 2, borderRadius: 1, border: '1px solid #e5e7eb' }}>
-                <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2, bgcolor: '#ffffff' }}>
+            <Paper sx={{ width: '100%', mb: 2, borderRadius: 1, border: '1px solid', borderColor: 'divider' }}>
+                <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2, bgcolor: 'background.paper' }}>
                     <TextField
                         variant="outlined"
                         size="small"
@@ -242,11 +242,11 @@ const CohortManagement: React.FC = () => {
                                 ),
                             },
                         }}
-                        sx={{ minWidth: 400, '& .MuiOutlinedInput-root': { bgcolor: '#fdfdfd' } }}
+                        sx={{ minWidth: 400 }}
                     />
                     <Box sx={{ flexGrow: 1 }} />
                     <Tooltip title={LABELS.BUTTONS.REFRESH_DATA}>
-                        <IconButton onClick={() => updateParams({ _cache: Date.now() })} sx={{ border: '1px solid #e5e7eb', borderRadius: 1 }}>
+                        <IconButton onClick={() => updateParams({ _cache: Date.now() })} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1 }}>
                             <RefreshCw size={18} />
                         </IconButton>
                     </Tooltip>
@@ -310,13 +310,13 @@ const CohortManagement: React.FC = () => {
                             ) : (
                                 loaderData?.content?.map((row) => (
                                     <TableRow hover key={row.id}>
-                                        <TableCell sx={{ color: '#666666' }}>{row.id}</TableCell>
+                                        <TableCell sx={{ color: 'text.secondary' }}>{row.id}</TableCell>
                                         <TableCell sx={{ fontWeight: 600 }}>
                                             <Link
                                                 component={RouterLink}
                                                 to={`/cohort/${row.id}`}
                                                 sx={{
-                                                    color: '#005bab',
+                                                    color: 'primary.main',
                                                     textDecoration: 'none',
                                                     '&:hover': { textDecoration: 'underline' }
                                                 }}
@@ -326,7 +326,7 @@ const CohortManagement: React.FC = () => {
                                         </TableCell>
                                         <TableCell>{row.holderName}</TableCell>
                                         <TableCell align="right" sx={{ fontWeight: 500 }}>${row.premium.toLocaleString()}</TableCell>
-                                        <TableCell color="textSecondary">{row.fyDate}</TableCell>
+                                        <TableCell sx={{ color: 'text.secondary' }}>{row.fyDate}</TableCell>
                                         <TableCell>
                                             <Chip
                                                 label={row.assumption}
@@ -337,20 +337,22 @@ const CohortManagement: React.FC = () => {
                                                     fontSize: '0.65rem',
                                                     fontWeight: 700,
                                                     height: 20,
-                                                    bgcolor:
-                                                        row.assumption === 'AGGRESSIVE' ? '#fef2f2' :
-                                                            row.assumption === 'CONSERVATIVE' ? '#f0fdf4' : '#fffbeb',
-                                                    color:
-                                                        row.assumption === 'AGGRESSIVE' ? '#991b1b' :
-                                                            row.assumption === 'CONSERVATIVE' ? '#166534' : '#92400e',
+                                                    bgcolor: (theme) =>
+                                                        row.assumption === 'AGGRESSIVE' ? (theme.palette.mode === 'dark' ? 'rgba(239, 68, 68, 0.2)' : '#fef2f2') :
+                                                            row.assumption === 'CONSERVATIVE' ? (theme.palette.mode === 'dark' ? 'rgba(34, 197, 94, 0.2)' : '#f0fdf4') :
+                                                                (theme.palette.mode === 'dark' ? 'rgba(234, 179, 8, 0.2)' : '#fffbeb'),
+                                                    color: (theme) =>
+                                                        row.assumption === 'AGGRESSIVE' ? (theme.palette.mode === 'dark' ? '#f87171' : '#991b1b') :
+                                                            row.assumption === 'CONSERVATIVE' ? (theme.palette.mode === 'dark' ? '#4ade80' : '#166534') :
+                                                                (theme.palette.mode === 'dark' ? '#fbbf24' : '#92400e'),
                                                     border: '1px solid transparent'
                                                 }}
                                             />
                                         </TableCell>
                                         <TableCell align="right" sx={{ pr: 2 }}>
-                                            <IconButton size="small" sx={{ mr: 1, color: '#666666' }} onClick={() => handleOpenDialog('view', row)}><Eye size={16} /></IconButton>
-                                            <IconButton size="small" sx={{ mr: 1, color: '#005bab' }} onClick={() => handleOpenDialog('edit', row)}><Edit2 size={16} /></IconButton>
-                                            <IconButton size="small" sx={{ color: '#dc2626' }} onClick={() => handleDelete(row.id)}><Trash2 size={16} /></IconButton>
+                                            <IconButton size="small" sx={{ mr: 1, color: 'text.secondary' }} onClick={() => handleOpenDialog('view', row)}><Eye size={16} /></IconButton>
+                                            <IconButton size="small" sx={{ mr: 1, color: 'primary.main' }} onClick={() => handleOpenDialog('edit', row)}><Edit2 size={16} /></IconButton>
+                                            <IconButton size="small" sx={{ color: 'error.main' }} onClick={() => handleDelete(row.id)}><Trash2 size={16} /></IconButton>
                                         </TableCell>
                                     </TableRow>
                                 ))
@@ -366,12 +368,12 @@ const CohortManagement: React.FC = () => {
                     page={page}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
-                    sx={{ borderTop: '1px solid #e5e7eb' }}
+                    sx={{ borderTop: '1px solid', borderColor: 'divider' }}
                 />
             </Paper>
 
             <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: 1 } }}>
-                <DialogTitle sx={{ borderBottom: '1px solid #e5e7eb', px: 3, py: 2 }}>
+                <DialogTitle sx={{ borderBottom: '1px solid', borderColor: 'divider', px: 3, py: 2 }}>
                     <Typography component="span" sx={{ fontSize: '1.1rem', fontWeight: 600 }}>
                         {dialogMode === 'create' ? LABELS.DIALOGS.CREATE_NEW_COHORT : dialogMode === 'edit' ? LABELS.DIALOGS.EDIT_COHORT : LABELS.DIALOGS.COHORT_DETAILS}
                     </Typography>
@@ -473,8 +475,8 @@ const CohortManagement: React.FC = () => {
                             </Grid>
                         </Grid>
                     </DialogContent>
-                    <DialogActions sx={{ borderTop: '1px solid #e5e7eb', px: 3, py: 2 }}>
-                        <Button onClick={handleCloseDialog} sx={{ color: '#666666' }}>{LABELS.BUTTONS.CANCEL}</Button>
+                    <DialogActions sx={{ borderTop: '1px solid', borderColor: 'divider', px: 3, py: 2 }}>
+                        <Button onClick={handleCloseDialog} sx={{ color: 'text.secondary' }}>{LABELS.BUTTONS.CANCEL}</Button>
                         {dialogMode !== 'view' && (
                             <Button type="submit" variant="contained" sx={{ boxShadow: 'none' }} disabled={navigation.state === 'submitting'}>
                                 {dialogMode === 'create' ? LABELS.BUTTONS.CREATE_COHORT : LABELS.BUTTONS.UPDATE_COHORT}

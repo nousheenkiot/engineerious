@@ -33,9 +33,9 @@ const ProcessingRuns: React.FC = () => {
     });
 
     return (
-        <Box>
+        <Box sx={{ p: 4, bgcolor: 'background.default', minHeight: '100vh' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3, alignItems: 'center' }}>
-                <Typography variant="h4" sx={{ fontWeight: 800 }}>Processing Runs</Typography>
+                <Typography variant="h4" sx={{ fontWeight: 800, color: 'text.primary' }}>Processing Runs</Typography>
                 {canTriggerRun && (
                     <Button variant="contained" color="primary" startIcon={<PlayCircle size={18} />}>
                         Trigger New Run
@@ -43,8 +43,8 @@ const ProcessingRuns: React.FC = () => {
                 )}
             </Box>
 
-            <Paper sx={{ p: 2, mb: 3, display: 'flex', gap: 2, alignItems: 'center' }} className="glass">
-                <Filter size={20} className="text-gray-400" />
+            <Paper sx={{ p: 2, mb: 3, display: 'flex', gap: 2, alignItems: 'center', border: '1px solid', borderColor: 'divider' }}>
+                <Filter size={20} style={{ opacity: 0.5 }} />
                 <TextField
                     label="Search Run ID"
                     variant="outlined"
@@ -69,9 +69,9 @@ const ProcessingRuns: React.FC = () => {
                 </TextField>
             </Paper>
 
-            <TableContainer component={Paper} className="glass">
+            <TableContainer component={Paper} sx={{ border: '1px solid', borderColor: 'divider' }}>
                 <Table>
-                    <TableHead sx={{ bgcolor: 'rgba(255,255,255,0.02)' }}>
+                    <TableHead sx={{ bgcolor: 'action.hover' }}>
                         <TableRow>
                             <TableCell sx={{ fontWeight: 700 }}>Run ID</TableCell>
                             <TableCell sx={{ fontWeight: 700 }}>Date/Time</TableCell>
@@ -82,10 +82,10 @@ const ProcessingRuns: React.FC = () => {
                     </TableHead>
                     <TableBody>
                         {filteredRuns.map((run) => (
-                            <TableRow key={run.id} sx={{ '&:hover': { bgcolor: 'rgba(255,255,255,0.02)' } }}>
+                            <TableRow key={run.id} sx={{ '&:hover': { bgcolor: 'action.hover' } }}>
                                 <TableCell sx={{ fontWeight: 600 }}>{run.id}</TableCell>
                                 <TableCell>
-                                    <Typography variant="body2">{run.date}</Typography>
+                                    <Typography variant="body2" sx={{ color: 'text.primary' }}>{run.date}</Typography>
                                     <Typography variant="caption" sx={{ color: 'text.secondary' }}>{run.time}</Typography>
                                 </TableCell>
                                 <TableCell>
@@ -94,12 +94,18 @@ const ProcessingRuns: React.FC = () => {
                                         size="small"
                                         sx={{
                                             fontWeight: 700,
-                                            bgcolor: run.status === 'SUCCESS' ? 'rgba(34, 197, 94, 0.1)' : run.status === 'FAILED' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(245, 158, 11, 0.1)',
-                                            color: run.status === 'SUCCESS' ? '#22c55e' : run.status === 'FAILED' ? '#ef4444' : '#f59e0b',
+                                            bgcolor: (theme) =>
+                                                run.status === 'SUCCESS' ? (theme.palette.mode === 'dark' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.1)') :
+                                                    run.status === 'FAILED' ? (theme.palette.mode === 'dark' ? 'rgba(239, 68, 68, 0.2)' : 'rgba(239, 68, 68, 0.1)') :
+                                                        (theme.palette.mode === 'dark' ? 'rgba(245, 158, 11, 0.2)' : 'rgba(245, 158, 11, 0.1)'),
+                                            color:
+                                                run.status === 'SUCCESS' ? 'success.main' :
+                                                    run.status === 'FAILED' ? 'error.main' :
+                                                        'warning.main',
                                         }}
                                     />
                                 </TableCell>
-                                <TableCell>{run.count.toLocaleString()}</TableCell>
+                                <TableCell sx={{ color: 'text.primary' }}>{run.count.toLocaleString()}</TableCell>
                                 <TableCell>
                                     <Button size="small">View Logs</Button>
                                 </TableCell>

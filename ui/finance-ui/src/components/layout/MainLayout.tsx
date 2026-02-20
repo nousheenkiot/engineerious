@@ -34,7 +34,7 @@ const MainLayout: React.FC = () => {
                 }}
             >
                 <Header onMenuClick={toggleSidebar} />
-                <Box sx={{ flexGrow: 1, p: 0, display: 'flex', flexDirection: 'column', bgcolor: '#f8f9fa' }}>
+                <Box sx={{ flexGrow: 1, p: 0, display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
                     <Outlet />
                 </Box>
             </Box>

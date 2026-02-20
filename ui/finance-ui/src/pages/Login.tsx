@@ -44,27 +44,33 @@ const Login: React.FC = () => {
             minHeight: '100vh',
             display: 'flex',
             alignItems: 'center',
-            background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)'
+            background: (theme) => theme.palette.mode === 'dark'
+                ? 'linear-gradient(135deg, #0a1929 0%, #101f33 100%)'
+                : 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)'
         }}>
             <Container maxWidth="sm">
                 <Paper elevation={0} sx={{
                     p: { xs: 4, md: 6 },
                     borderRadius: 4,
-                    border: '1px solid #e5e7eb',
-                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05)'
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    boxShadow: (theme) => theme.palette.mode === 'dark'
+                        ? '0 10px 25px -5px rgba(0, 0, 0, 0.4)'
+                        : '0 10px 25px -5px rgba(0, 0, 0, 0.05)'
                 }}>
                     <Box sx={{ textAlign: 'center', mb: 5 }}>
                         <Box sx={{
                             display: 'inline-flex',
                             p: 2,
                             borderRadius: 3,
-                            bgcolor: '#f0f7ff',
-                            color: '#005bab',
+                            bgcolor: 'primary.main',
+                            color: 'primary.contrastText',
+                            opacity: 0.9,
                             mb: 2
                         }}>
                             <ShieldCheck size={40} />
                         </Box>
-                        <Typography variant="h4" sx={{ fontWeight: 800, color: '#1a1a1a', mb: 1 }}>
+                        <Typography variant="h4" sx={{ fontWeight: 800, color: 'text.primary', mb: 1 }}>
                             Welcome Back
                         </Typography>
                         <Typography variant="body1" color="text.secondary">
@@ -80,7 +86,7 @@ const Login: React.FC = () => {
 
                     <form onSubmit={handleLogin}>
                         <Box sx={{ mb: 3 }}>
-                            <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600, color: '#374151' }}>
+                            <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600, color: 'text.primary' }}>
                                 Username
                             </Typography>
                             <TextField
@@ -93,7 +99,7 @@ const Login: React.FC = () => {
                                     input: {
                                         startAdornment: (
                                             <InputAdornment position="start">
-                                                <User size={20} color="#9ca3af" />
+                                                <User size={20} color="currentColor" style={{ opacity: 0.5 }} />
                                             </InputAdornment>
                                         ),
                                     },
@@ -105,7 +111,7 @@ const Login: React.FC = () => {
                         </Box>
 
                         <Box sx={{ mb: 4 }}>
-                            <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600, color: '#374151' }}>
+                            <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600, color: 'text.primary' }}>
                                 Password
                             </Typography>
                             <TextField
@@ -119,7 +125,7 @@ const Login: React.FC = () => {
                                     input: {
                                         startAdornment: (
                                             <InputAdornment position="start">
-                                                <Lock size={20} color="#9ca3af" />
+                                                <Lock size={20} color="currentColor" style={{ opacity: 0.5 }} />
                                             </InputAdornment>
                                         ),
                                         endAdornment: (
@@ -147,16 +153,15 @@ const Login: React.FC = () => {
                                 borderRadius: 2,
                                 fontWeight: 700,
                                 fontSize: '1rem',
-                                boxShadow: '0 4px 6px -1px rgba(0, 91, 171, 0.2)',
+                                boxShadow: (theme) => `0 4px 6px -1px ${theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.4)' : 'rgba(0, 91, 171, 0.2)'}`,
                                 '&:hover': {
-                                    boxShadow: '0 10px 15px -3px rgba(0, 91, 171, 0.3)',
+                                    boxShadow: (theme) => `0 10px 15px -3px ${theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 91, 171, 0.3)'}`,
                                 }
                             }}
                         >
                             {loading ? <CircularProgress size={24} color="inherit" /> : 'Sign In'}
                         </Button>
                     </form>
-
                 </Paper>
             </Container>
         </Box>

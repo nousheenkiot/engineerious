@@ -3,6 +3,7 @@ import cohortReducer from '../features/cohort/cohortSlice';
 import processingReducer from '../features/processing/processingSlice';
 import authReducer from '../features/auth/authSlice';
 import filterReducer from '../features/filters/filterSlice';
+import themeReducer from '../features/theme/themeSlice';
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
         processing: processingReducer,
         auth: authReducer,
         filters: filterReducer,
+        theme: themeReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

@@ -27,8 +27,8 @@ import { LABELS } from '../../constants/labels';
 const SidebarContainer = styled(Box)(({ theme }) => ({
     width: 260,
     height: '100%',
-    backgroundColor: '#ffffff',
-    color: '#1a1a1a',
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.text.primary,
     display: 'flex',
     flexDirection: 'column',
     borderRight: `1px solid ${theme.palette.divider}`,
@@ -56,7 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, variant }) => {
             onClose={onClose}
             variant={variant}
             PaperProps={{
-                sx: { width: 260, bgcolor: 'background.paper', borderRight: '1px solid #e5e7eb' }
+                sx: { width: 260, bgcolor: 'background.paper', borderRight: '1px solid', borderColor: 'divider' }
             }}
         >
             <SidebarContainer>
@@ -74,7 +74,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, variant }) => {
                     >
                         <Zap size={16} color="white" />
                     </Box>
-                    <Typography variant="h6" sx={{ fontWeight: 600, color: '#005bab', fontSize: '1.1rem' }}>
+                    <Typography variant="h6" sx={{ fontWeight: 600, color: 'primary.main', fontSize: '1.1rem' }}>
                         {LABELS.APP_NAME}
                     </Typography>
                 </Box>
@@ -92,18 +92,18 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, variant }) => {
                                     borderRadius: '4px',
                                     py: 1,
                                     '&.active': {
-                                        bgcolor: '#e6eff7',
+                                        bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(77, 171, 245, 0.12)' : '#e6eff7',
                                         color: 'primary.main',
                                         '& .MuiListItemIcon-root': { color: 'primary.main' },
-                                        borderRight: '3px solid #005bab',
+                                        borderRight: (theme) => `3px solid ${theme.palette.primary.main}`,
                                         borderRadius: '4px 0 0 4px',
                                     },
                                     '&:hover': {
-                                        bgcolor: '#f3f4f6',
+                                        bgcolor: 'action.hover',
                                     }
                                 }}
                             >
-                                <ListItemIcon sx={{ minWidth: 36, color: '#666666' }}>
+                                <ListItemIcon sx={{ minWidth: 36, color: 'text.secondary' }}>
                                     {item.icon}
                                 </ListItemIcon>
                                 <ListItemText

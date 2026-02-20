@@ -38,7 +38,7 @@ const StatCard: React.FC<{ title: string; value: string; trend: string; isUp: bo
                 position: 'relative',
                 overflow: 'hidden',
                 '&:hover': {
-                    boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+                    boxShadow: (theme) => theme.palette.mode === 'dark' ? '0 8px 32px rgba(0,0,0,0.5)' : '0 8px 32px rgba(0,0,0,0.1)',
                     transform: 'translateY(-4px)',
                     transition: 'all 0.3s ease'
                 }
@@ -49,7 +49,8 @@ const StatCard: React.FC<{ title: string; value: string; trend: string; isUp: bo
                     right: -10,
                     width: 80,
                     height: 80,
-                    bgcolor: isUp ? 'rgba(34, 197, 94, 0.05)' : 'rgba(239, 68, 68, 0.05)',
+                    bgcolor: isUp ? 'success.main' : 'error.main',
+                    opacity: 0.05,
                     borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',
@@ -61,10 +62,13 @@ const StatCard: React.FC<{ title: string; value: string; trend: string; isUp: bo
                         <Box sx={{
                             p: 1.5,
                             borderRadius: 2,
-                            bgcolor: isUp ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
-                            color: isUp ? '#22c55e' : '#ef4444'
+                            bgcolor: isUp ? 'success.main' : 'error.main',
+                            color: isUp ? 'success.main' : 'error.main',
+                            '& > *': { opacity: 1 },
+                            position: 'relative'
                         }}>
-                            {icon}
+                            <Box sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', bgcolor: 'currentColor', opacity: 0.2, borderRadius: 'inherit' }} />
+                            <Box sx={{ position: 'relative' }}>{icon}</Box>
                         </Box>
                         <IconButton size="small"><MoreVertical size={16} /></IconButton>
                     </Box>
@@ -74,13 +78,17 @@ const StatCard: React.FC<{ title: string; value: string; trend: string; isUp: bo
                         <Box sx={{
                             display: 'flex',
                             alignItems: 'center',
-                            color: isUp ? '#22c55e' : '#ef4444',
-                            bgcolor: isUp ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
-                            px: 0.5,
-                            borderRadius: 1
+                            color: isUp ? 'success.main' : 'error.main',
+                            bgcolor: isUp ? 'success.main' : 'error.main',
+                            px: 1,
+                            borderRadius: 1,
+                            position: 'relative'
                         }}>
-                            {isUp ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-                            <Typography variant="caption" sx={{ fontWeight: 700, ml: 0.5 }}>{trend}</Typography>
+                            <Box sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', bgcolor: 'currentColor', opacity: 0.1, borderRadius: 'inherit' }} />
+                            <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                {isUp ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+                                <Typography variant="caption" sx={{ fontWeight: 700, ml: 0.5 }}>{trend}</Typography>
+                            </Box>
                         </Box>
                         <Typography variant="caption" sx={{ color: 'text.secondary' }}>{LABELS.STATS.VS_LAST_MONTH}</Typography>
                     </Box>
@@ -99,7 +107,7 @@ const Dashboard: React.FC = () => {
                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>{LABELS.PAGE_DESCRIPTIONS.FINANCIAL_DASHBOARD}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', gap: 2 }}>
-                    <Button variant="outlined" startIcon={<RefreshCw size={18} />} sx={{ borderColor: 'rgba(255,255,255,0.1)' }}>{LABELS.BUTTONS.SYNC_SERVICES}</Button>
+                    <Button variant="outlined" startIcon={<RefreshCw size={18} />} sx={{ borderColor: 'divider' }}>{LABELS.BUTTONS.SYNC_SERVICES}</Button>
                     <Button variant="contained" startIcon={<Plus size={18} />} color="primary">{LABELS.BUTTONS.NEW_PROCESS}</Button>
                 </Box>
             </Box>
@@ -125,7 +133,6 @@ const Dashboard: React.FC = () => {
                             <Button size="small" endIcon={<ArrowUpRight size={16} />}>{LABELS.BUTTONS.VIEW_DETAILS}</Button>
                         </Box>
 
-                        {/* Placeholder for a chart - real app would use Recharts/Chart.js */}
                         <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'flex-end', gap: 2, px: 2, pb: 2 }}>
                             {[40, 70, 45, 90, 65, 85, 55, 75, 50, 95, 80, 100].map((h, i) => (
                                 <motion.div
@@ -135,7 +142,7 @@ const Dashboard: React.FC = () => {
                                     transition={{ duration: 1, delay: i * 0.05 }}
                                     style={{
                                         flex: 1,
-                                        background: `linear-gradient(180deg, ${i % 2 === 0 ? '#0ea5e9' : '#6366f1'} 0%, rgba(14, 165, 233, 0.1) 100%)`,
+                                        background: `linear-gradient(180deg, ${i % 2 === 0 ? '#4dabf5' : '#818cf8'} 0%, rgba(77, 171, 245, 0.1) 100%)`,
                                         borderRadius: '4px 4px 0 0',
                                         boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
                                     }}
@@ -150,13 +157,20 @@ const Dashboard: React.FC = () => {
                         <Typography variant="h6" sx={{ fontWeight: 700, mb: 3 }}>{LABELS.SECTIONS.LIVE_ACTIVITY}</Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                             {[
-                                { title: 'Processing Run #42', time: '2 mins ago', status: 'SUCCESS', color: '#22c55e' },
-                                { title: 'New Policies Loaded', time: '15 mins ago', status: 'FINISHED', color: '#0ea5e9' },
-                                { title: 'Sync with Cohort Service', time: '1 hour ago', status: 'FAILED', color: '#ef4444' },
-                                { title: 'Backup Completed', time: '3 hours ago', status: 'SUCCESS', color: '#22c55e' },
+                                { title: 'Processing Run #42', time: '2 mins ago', status: 'SUCCESS', color: 'success.main' },
+                                { title: 'New Policies Loaded', time: '15 mins ago', status: 'FINISHED', color: 'info.main' },
+                                { title: 'Sync with Cohort Service', time: '1 hour ago', status: 'FAILED', color: 'error.main' },
+                                { title: 'Backup Completed', time: '3 hours ago', status: 'SUCCESS', color: 'success.main' },
                             ].map((activity, i) => (
                                 <Box key={i} sx={{ display: 'flex', gap: 2 }}>
-                                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: activity.color, mt: 0.5, boxShadow: `0 0 10px ${activity.color}` }} />
+                                    <Box sx={{
+                                        width: 12,
+                                        height: 12,
+                                        borderRadius: '50%',
+                                        bgcolor: activity.color,
+                                        mt: 0.5,
+                                        boxShadow: (theme) => `0 0 8px ${theme.palette[activity.color.split('.')[0] as 'success' | 'error' | 'info'].main}`
+                                    }} />
                                     <Box>
                                         <Typography variant="body2" sx={{ fontWeight: 600 }}>{activity.title}</Typography>
                                         <Typography variant="caption" sx={{ color: 'text.secondary' }}>{activity.time} • {activity.status}</Typography>

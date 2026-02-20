@@ -18,10 +18,10 @@ const NotFound: React.FC = () => {
                     textAlign: 'center',
                 }}
             >
-                <Typography variant="h1" sx={{ fontSize: '10rem', fontWeight: 800, opacity: 0.1 }}>
+                <Typography variant="h1" sx={{ fontSize: '10rem', fontWeight: 800, opacity: (theme) => theme.palette.mode === 'dark' ? 0.05 : 0.1, color: 'text.primary' }}>
                     404
                 </Typography>
-                <Typography variant="h4" gutterBottom>
+                <Typography variant="h4" gutterBottom sx={{ color: 'text.primary' }}>
                     Oops! Page not found
                 </Typography>
                 <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
@@ -35,8 +35,10 @@ const NotFound: React.FC = () => {
                         borderRadius: 2,
                         px: 4,
                         py: 1.5,
-                        background: 'linear-gradient(45deg, #3b82f6 30%, #2563eb 90%)',
-                        boxShadow: '0 4px 20px rgba(37, 99, 235, 0.3)',
+                        background: (theme) => theme.palette.mode === 'dark'
+                            ? 'linear-gradient(45deg, #4dabf5 30%, #2196f3 90%)'
+                            : 'linear-gradient(45deg, #3b82f6 30%, #2563eb 90%)',
+                        boxShadow: (theme) => theme.palette.mode === 'dark' ? '0 4px 20px rgba(0, 0, 0, 0.4)' : '0 4px 20px rgba(37, 99, 235, 0.3)',
                     }}
                 >
                     Back to Dashboard

@@ -24,20 +24,21 @@ const Unauthorized: React.FC = () => {
                     sx={{
                         p: 5,
                         borderRadius: 4,
-                        border: '1px solid #fee2e2',
-                        bgcolor: '#fffafb',
+                        border: '1px solid',
+                        borderColor: 'error.light',
+                        bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(211, 47, 47, 0.05)' : '#fffafb',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         gap: 3
                     }}
                 >
-                    <Box sx={{ bgcolor: '#fee2e2', p: 2, borderRadius: '50%', color: '#dc2626' }}>
+                    <Box sx={{ bgcolor: 'error.light', opacity: (theme) => theme.palette.mode === 'dark' ? 0.2 : 1, p: 2, borderRadius: '50%', color: 'error.main' }}>
                         <ShieldAlert size={48} />
                     </Box>
 
                     <Box>
-                        <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, color: '#1a1a1a' }}>
+                        <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, color: 'text.primary' }}>
                             Access Denied
                         </Typography>
                         <Typography variant="body1" color="text.secondary">
@@ -57,12 +58,11 @@ const Unauthorized: React.FC = () => {
                         </Button>
                         <Button
                             variant="contained"
+                            color="error"
                             onClick={() => navigate(PATHS.DASHBOARD)}
                             sx={{
                                 borderRadius: 2,
                                 px: 3,
-                                bgcolor: '#dc2626',
-                                '&:hover': { bgcolor: '#b91c1c' }
                             }}
                         >
                             Dashboard

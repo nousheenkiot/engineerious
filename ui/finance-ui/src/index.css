@@ -5,10 +5,6 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light;
-  color: #1a1a1a;
-  background-color: #f8f9fa;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -28,30 +24,24 @@ body {
 
 /* Professional Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 5px;
-  border: 2px solid #f1f1f1;
+  background: rgba(128, 128, 128, 0.3);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #999;
+  background: rgba(128, 128, 128, 0.5);
 }
 
 /* Professional Transitions */
 .page-transition {
   transition: all 0.2s ease-in-out;
-}
-
-/* Table Row Hover */
-.table-row-hover:hover {
-  background-color: #f9fafb !important;
 }
