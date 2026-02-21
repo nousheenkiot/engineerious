@@ -31,7 +31,13 @@ const Login: React.FC = () => {
         try {
             const response = await authApi.login({ username, password });
             dispatch(setCredentials(response));
-            navigate(from, { replace: true });
+
+            // Handle the 'from' path or default to DASHBOARD, replacing the :username param
+            const redirectPath = from.includes(':username')
+                ? from.replace(':username', response.user.username)
+                : `/${response.user.username}${from === '/' ? '/dashboard' : from}`;
+
+            navigate(redirectPath, { replace: true });
         } catch (err: any) {
             dispatch(setError(err.message || 'Login failed. Please check your credentials.'));
         } finally {

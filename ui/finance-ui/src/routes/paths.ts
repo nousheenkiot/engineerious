@@ -1,13 +1,13 @@
 export const PATHS = {
-    DASHBOARD: '/',
-    COHORT: '/cohort',
-    PROCESSING: '/processing',
-    CASHFLOW: '/cashflow', // New service we just added backend for
-    REPORTS: '/reports',
-    SETTINGS: '/settings',
-    POLICY_DETAILS: '/cohort/:id',
-    CALCULATOR: '/calculator',
-    UNAUTHORIZED: '/unauthorized',
+    DASHBOARD: '/:username/dashboard',
+    COHORT: '/:username/cohort',
+    PROCESSING: '/:username/processing',
+    CASHFLOW: '/:username/cashflow',
+    REPORTS: '/:username/reports',
+    SETTINGS: '/:username/settings',
+    POLICY_DETAILS: '/:username/cohort/:id',
+    CALCULATOR: '/:username/calculator',
+    UNAUTHORIZED: '/:username/unauthorized',
     LOGIN: '/login',
     NOT_FOUND: '*',
 } as const;

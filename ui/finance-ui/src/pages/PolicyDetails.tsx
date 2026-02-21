@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useLoaderData, useNavigation } from 'react-router-dom';
+import { useNavigate, useLoaderData, useNavigation, useParams } from 'react-router-dom';
 import type { LoaderFunctionArgs } from 'react-router-dom';
 import {
     Box, Typography, Paper, Button,
@@ -33,12 +33,14 @@ const PolicyDetails: React.FC = () => {
 
     const [calcInput, setCalcInput] = useState('');
 
+    const { username } = useParams<{ username: string }>();
     const totalCashflow = cashflows?.reduce((sum, cf) => sum + (cf.status === 'SUCCESS' ? cf.amount : 0), 0) || 0;
 
     const handleCalculate = () => {
         const val = parseFloat(calcInput);
         if (!isNaN(val) && val > 0) {
-            navigate(PATHS.CALCULATOR, {
+            const calculatorPath = PATHS.CALCULATOR.replace(':username', username || '');
+            navigate(calculatorPath, {
                 state: {
                     interestRate: val,
                     premium: policy?.premium || 0,

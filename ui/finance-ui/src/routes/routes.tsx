@@ -17,6 +17,10 @@ const CashflowCalculatorPage = lazy(() => import('../pages/CashflowCalculatorPag
 
 export const routes: RouteObject[] = [
     {
+        path: '/',
+        element: <Navigate to={PATHS.LOGIN} replace />,
+    },
+    {
         path: PATHS.LOGIN,
         element: (
             <Suspense fallback={<PageLoader />}>
@@ -25,11 +29,15 @@ export const routes: RouteObject[] = [
         ),
     },
     {
-        path: '/',
+        path: '/:username',
         element: <MainLayout />,
         children: [
             {
                 index: true,
+                element: <Navigate to="dashboard" replace />,
+            },
+            {
+                path: 'dashboard',
                 loader: requireAuth(),
                 element: (
                     <Suspense fallback={<PageLoader />}>
@@ -38,7 +46,7 @@ export const routes: RouteObject[] = [
                 ),
             },
             {
-                path: PATHS.COHORT,
+                path: 'cohort',
                 async loader(args) {
                     await requireAuth(['COHORT_PAGINATION', 'COHORT_VIEW'])(args);
                     const { cohortLoader } = await import('../pages/CohortManagement');
@@ -53,7 +61,7 @@ export const routes: RouteObject[] = [
                 },
             },
             {
-                path: PATHS.PROCESSING,
+                path: 'processing',
                 loader: requireAuth(),
                 element: (
                     <Suspense fallback={<PageLoader />}>
@@ -62,7 +70,7 @@ export const routes: RouteObject[] = [
                 ),
             },
             {
-                path: PATHS.CASHFLOW,
+                path: 'cashflow',
                 loader: requireAuth(),
                 element: (
                     <Suspense fallback={<PageLoader />}>
@@ -79,7 +87,7 @@ export const routes: RouteObject[] = [
                 ),
             },
             {
-                path: PATHS.POLICY_DETAILS,
+                path: 'cohort/:id',
                 async loader(args) {
                     await requireAuth(['COHORT_VIEW'])(args);
                     const { policyDetailsLoader } = await import('../pages/PolicyDetails');
@@ -93,7 +101,7 @@ export const routes: RouteObject[] = [
                 },
             },
             {
-                path: PATHS.CALCULATOR,
+                path: 'calculator',
                 loader: requireAuth(),
                 element: (
                     <Suspense fallback={<PageLoader />}>
@@ -102,7 +110,7 @@ export const routes: RouteObject[] = [
                 ),
             },
             {
-                path: PATHS.UNAUTHORIZED,
+                path: 'unauthorized',
                 element: (
                     <Suspense fallback={<PageLoader />}>
                         <Unauthorized />
@@ -110,8 +118,8 @@ export const routes: RouteObject[] = [
                 ),
             },
             {
-                path: PATHS.NOT_FOUND,
-                element: <Navigate to="/404" replace />,
+                path: '*',
+                element: <Navigate to="404" replace />,
             },
         ],
     },

@@ -1,10 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Typography, Container, Box } from '@mui/material';
 import { PATHS } from '../routes/paths';
 
 const NotFound: React.FC = () => {
     const navigate = useNavigate();
+    const { username } = useParams<{ username: string }>();
 
     return (
         <Container maxWidth="md">
@@ -30,7 +31,7 @@ const NotFound: React.FC = () => {
                 <Button
                     variant="contained"
                     size="large"
-                    onClick={() => navigate(PATHS.DASHBOARD)}
+                    onClick={() => navigate(PATHS.DASHBOARD.replace(':username', username || ''))}
                     sx={{
                         borderRadius: 2,
                         px: 4,

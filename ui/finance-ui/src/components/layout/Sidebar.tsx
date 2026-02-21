@@ -34,22 +34,26 @@ const SidebarContainer = styled(Box)(({ theme }) => ({
     borderRight: `1px solid ${theme.palette.divider}`,
 }));
 
+import { useParams } from 'react-router-dom';
+
 interface SidebarProps {
     open: boolean;
     onClose: () => void;
     variant: 'temporary' | 'persistent';
 }
 
-const menuItems = [
-    { text: LABELS.NAVIGATION.DASHBOARD, icon: <LayoutDashboard size={20} />, path: PATHS.DASHBOARD },
-    { text: LABELS.NAVIGATION.COHORT_MANAGEMENT, icon: <Users size={20} />, path: PATHS.COHORT },
-    { text: LABELS.NAVIGATION.PROCESSING_RUNS, icon: <Zap size={20} />, path: PATHS.PROCESSING },
-    { text: LABELS.NAVIGATION.CASHFLOWS, icon: <Database size={20} />, path: PATHS.CASHFLOW },
-    { text: LABELS.NAVIGATION.REPORTS, icon: <FileText size={20} />, path: PATHS.REPORTS },
-    { text: LABELS.NAVIGATION.SETTINGS, icon: <Settings size={20} />, path: PATHS.SETTINGS },
-];
-
 const Sidebar: React.FC<SidebarProps> = ({ open, onClose, variant }) => {
+    const { username } = useParams<{ username: string }>();
+
+    const menuItems = [
+        { text: LABELS.NAVIGATION.DASHBOARD, icon: <LayoutDashboard size={20} />, path: PATHS.DASHBOARD.replace(':username', username || '') },
+        { text: LABELS.NAVIGATION.COHORT_MANAGEMENT, icon: <Users size={20} />, path: PATHS.COHORT.replace(':username', username || '') },
+        { text: LABELS.NAVIGATION.PROCESSING_RUNS, icon: <Zap size={20} />, path: PATHS.PROCESSING.replace(':username', username || '') },
+        { text: LABELS.NAVIGATION.CASHFLOWS, icon: <Database size={20} />, path: PATHS.CASHFLOW.replace(':username', username || '') },
+        { text: LABELS.NAVIGATION.REPORTS, icon: <FileText size={20} />, path: PATHS.REPORTS.replace(':username', username || '') },
+        { text: LABELS.NAVIGATION.SETTINGS, icon: <Settings size={20} />, path: PATHS.SETTINGS.replace(':username', username || '') },
+    ];
+
     return (
         <Drawer
             open={open}

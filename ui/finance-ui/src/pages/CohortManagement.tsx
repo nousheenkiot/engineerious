@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, useLoaderData, useSearchParams, useSubmit, useNavigation, useActionData } from 'react-router-dom';
+import { Link as RouterLink, useLoaderData, useSearchParams, useSubmit, useNavigation, useActionData, useParams } from 'react-router-dom';
 import type { LoaderFunctionArgs, ActionFunctionArgs } from 'react-router-dom';
 import {
     Box, Typography, Paper, Button, TextField, IconButton,
@@ -78,6 +78,7 @@ const CohortManagement: React.FC = () => {
     const { data: loaderData, error: loaderError } = useLoaderData() as { data: Page<Policy> | null, error: string | null };
     const actionData = useActionData() as { success: boolean, message?: string, error?: string } | undefined;
     const [searchParams, setSearchParams] = useSearchParams();
+    const { username } = useParams<{ username: string }>();
     const submit = useSubmit();
     const navigation = useNavigation();
 
@@ -314,7 +315,7 @@ const CohortManagement: React.FC = () => {
                                         <TableCell sx={{ fontWeight: 600 }}>
                                             <Link
                                                 component={RouterLink}
-                                                to={`/cohort/${row.id}`}
+                                                to={`/${username}/cohort/${row.id}`}
                                                 sx={{
                                                     color: 'primary.main',
                                                     textDecoration: 'none',

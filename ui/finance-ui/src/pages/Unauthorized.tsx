@@ -1,11 +1,12 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Typography, Container, Box, Paper } from '@mui/material';
 import { ShieldAlert, ArrowLeft } from 'lucide-react';
 import { PATHS } from '../routes/paths';
 
 const Unauthorized: React.FC = () => {
     const navigate = useNavigate();
+    const { username } = useParams<{ username: string }>();
 
     return (
         <Container maxWidth="sm">
@@ -59,7 +60,7 @@ const Unauthorized: React.FC = () => {
                         <Button
                             variant="contained"
                             color="error"
-                            onClick={() => navigate(PATHS.DASHBOARD)}
+                            onClick={() => navigate(PATHS.DASHBOARD.replace(':username', username || ''))}
                             sx={{
                                 borderRadius: 2,
                                 px: 3,

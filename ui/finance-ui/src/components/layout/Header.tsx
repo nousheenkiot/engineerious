@@ -13,13 +13,19 @@ import { Menu, Bell, Search, Monitor, Sun, Moon } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { toggleTheme } from '../../features/theme/themeSlice';
 
+import { useParams } from 'react-router-dom';
+
 interface HeaderProps {
     onMenuClick: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
+    const { username } = useParams<{ username: string }>();
     const dispatch = useAppDispatch();
     const mode = useAppSelector((state) => state.theme.mode);
+
+    const displayName = username ? username.charAt(0).toUpperCase() + username.slice(1) : 'User';
+    const initals = username ? username.slice(0, 2).toUpperCase() : 'U';
 
     return (
         <AppBar
@@ -86,11 +92,11 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
 
                     <Box sx={{ ml: 2, display: 'flex', alignItems: 'center', gap: 1.5 }}>
                         <Box sx={{ textAlign: 'right', display: { xs: 'none', sm: 'block' } }}>
-                            <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary', lineHeight: 1.2 }}>Nousheen Kiot</Typography>
-                            <Typography variant="caption" sx={{ color: 'text.secondary' }}>System Administrator</Typography>
+                            <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary', lineHeight: 1.2 }}>{displayName}</Typography>
+                            <Typography variant="caption" sx={{ color: 'text.secondary' }}>System User</Typography>
                         </Box>
                         <Avatar
-                            alt="User Profile"
+                            alt={displayName}
                             sx={{
                                 width: 34,
                                 height: 34,
@@ -101,7 +107,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                                 fontWeight: 600
                             }}
                         >
-                            NK
+                            {initals}
                         </Avatar>
                     </Box>
                 </Box>
