@@ -1,37 +1,25 @@
 import React from 'react';
-import { Typography, Paper, Box } from '@mui/material';
+import { Container, Card } from 'react-bootstrap';
 import { LABELS } from '../constants/labels';
+import { useAppSelector } from '../store/hooks';
 
 const CashflowManagement: React.FC = () => {
-    return (
-        <Box sx={{ p: 3, bgcolor: 'background.default', minHeight: '100vh' }}>
-            <Box sx={{ mb: 4, borderBottom: '1px solid', borderColor: 'divider', pb: 2 }}>
-                <Typography variant="h5" sx={{ fontWeight: 600, color: 'text.primary' }}>
-                    {LABELS.PAGE_TITLES.CASHFLOW_MANAGEMENT}
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
-                    {LABELS.PAGE_DESCRIPTIONS.CASHFLOW_MANAGEMENT}
-                </Typography>
-            </Box>
+    const mode = useAppSelector((state) => state.theme.mode);
 
-            <Paper
-                sx={{
-                    p: 8,
-                    textAlign: 'center',
-                    borderRadius: 1,
-                    bgcolor: 'background.paper',
-                    border: '1px solid',
-                    borderColor: 'divider',
-                }}
-            >
-                <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 500 }}>
-                    {LABELS.MESSAGES.CASHFLOW_INTERFACE_COMING_SOON}
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary', mt: 2 }}>
-                    {LABELS.MESSAGES.CASHFLOW_SAGA_INTEGRATION}
-                </Typography>
-            </Paper>
-        </Box>
+    return (
+        <Container fluid className="p-4">
+            <div className="mb-4 border-bottom pb-3">
+                <h4 className="fw-bold mb-1">{LABELS.PAGE_TITLES.CASHFLOW_MANAGEMENT}</h4>
+                <p className="text-secondary small mb-0">{LABELS.PAGE_DESCRIPTIONS.CASHFLOW_MANAGEMENT}</p>
+            </div>
+
+            <Card className={`border-0 shadow-sm rounded-4 p-5 text-center ${mode === 'dark' ? 'bg-dark text-white border border-secondary' : 'bg-white'}`}>
+                <Card.Body className="py-5">
+                    <h5 className="fw-bold mb-3">{LABELS.MESSAGES.CASHFLOW_INTERFACE_COMING_SOON}</h5>
+                    <p className="text-secondary mb-0">{LABELS.MESSAGES.CASHFLOW_SAGA_INTEGRATION}</p>
+                </Card.Body>
+            </Card>
+        </Container>
     );
 };
 

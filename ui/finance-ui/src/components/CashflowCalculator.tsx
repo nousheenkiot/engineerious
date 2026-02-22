@@ -1,7 +1,8 @@
 import React from 'react';
-import { Paper, Typography, Box, Grid } from '@mui/material';
+import { Card, Row, Col, Badge } from 'react-bootstrap';
 import { TrendingUp } from 'lucide-react';
 import { LABELS } from '../constants/labels';
+import { useAppSelector } from '../store/hooks';
 
 interface CashflowCalculatorProps {
     interestRate: number;
@@ -10,6 +11,8 @@ interface CashflowCalculatorProps {
 }
 
 const CashflowCalculator: React.FC<CashflowCalculatorProps> = ({ interestRate, premium, totalCashflow }) => {
+    const mode = useAppSelector((state) => state.theme.mode);
+
     // Logic: New Cashflow = Interest Rate(%) * Total Cashflow
     // Total Value = Premium Amount + New Cashflow
 
@@ -19,43 +22,45 @@ const CashflowCalculator: React.FC<CashflowCalculatorProps> = ({ interestRate, p
     const totalProjectedValue = premium + interestComponent;
 
     return (
-        <Paper sx={{ p: 3, mt: 3, borderRadius: 1, border: '1px solid #e5e7eb', bgcolor: '#fdfdff' }}>
-            <Typography variant="subtitle2" sx={{ color: '#666666', mb: 2, fontWeight: 600, textTransform: 'uppercase' }}>
-                {LABELS.CALCULATOR.PROJECTION_RESULTS.replace('{rate}', interestRate.toString())}
-            </Typography>
+        <Card className={`border-0 shadow-sm rounded-4 p-4 mt-4 ${mode === 'dark' ? 'bg-dark text-white border border-secondary' : 'bg-white'}`}>
+            <Card.Body className="p-0">
+                <h6 className="text-secondary fw-bold text-uppercase mb-4 small" style={{ letterSpacing: '0.05em' }}>
+                    {LABELS.CALCULATOR.PROJECTION_RESULTS.replace('{rate}', interestRate.toString())}
+                </h6>
 
-            <Grid container spacing={2}>
-                <Grid size={{ xs: 6 }}>
-                    <Box sx={{ p: 2, bgcolor: '#f0fdf4', borderRadius: 1, border: '1px solid #dcfce7', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                            <TrendingUp size={16} color="#166534" />
-                            <Typography variant="caption" sx={{ color: '#166534', fontWeight: 600 }}>{LABELS.CALCULATOR.INTEREST_GENERATED}</Typography>
-                        </Box>
-                        <Typography variant="h6" sx={{ color: '#166534', fontWeight: 700 }}>
-                            ${interestComponent.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5 }}>
-                            {LABELS.CALCULATOR.OF_CASHFLOWS.replace('{rate}', interestRate.toString())}
-                        </Typography>
-                    </Box>
-                </Grid>
+                <Row className="g-3">
+                    <Col xs={6}>
+                        <div className={`p-3 rounded-4 h-100 text-center border ${mode === 'dark' ? 'bg-success-subtle border-success text-success' : 'bg-success-subtle border-success-subtle text-success-emphasis text-success'}`}>
+                            <div className="d-flex align-items-center justify-content-center gap-2 mb-2">
+                                <TrendingUp size={16} />
+                                <span className="small fw-bold text-uppercase">{LABELS.CALCULATOR.INTEREST_GENERATED}</span>
+                            </div>
+                            <h4 className="fw-bold mb-1">
+                                ${interestComponent.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                            </h4>
+                            <div className="small opacity-75" style={{ fontSize: '0.7rem' }}>
+                                {LABELS.CALCULATOR.OF_CASHFLOWS.replace('{rate}', interestRate.toString())}
+                            </div>
+                        </div>
+                    </Col>
 
-                <Grid size={{ xs: 6 }}>
-                    <Box sx={{ p: 2, bgcolor: '#eff6ff', borderRadius: 1, border: '1px solid #dbeafe', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                            <TrendingUp size={16} color="#1e40af" />
-                            <Typography variant="caption" sx={{ color: '#1e40af', fontWeight: 600 }}>{LABELS.CALCULATOR.TOTAL_PROJECTED_VALUE}</Typography>
-                        </Box>
-                        <Typography variant="h6" sx={{ color: '#1e40af', fontWeight: 700 }}>
-                            ${totalProjectedValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5 }}>
-                            {LABELS.CALCULATOR.PREMIUM_PLUS_INTEREST}
-                        </Typography>
-                    </Box>
-                </Grid>
-            </Grid>
-        </Paper>
+                    <Col xs={6}>
+                        <div className={`p-3 rounded-4 h-100 text-center border ${mode === 'dark' ? 'bg-primary-subtle border-primary text-primary' : 'bg-primary-subtle border-primary-subtle text-primary-emphasis text-primary'}`}>
+                            <div className="d-flex align-items-center justify-content-center gap-2 mb-2">
+                                <TrendingUp size={16} />
+                                <span className="small fw-bold text-uppercase">{LABELS.CALCULATOR.TOTAL_PROJECTED_VALUE}</span>
+                            </div>
+                            <h4 className="fw-bold mb-1">
+                                ${totalProjectedValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                            </h4>
+                            <div className="small opacity-75" style={{ fontSize: '0.7rem' }}>
+                                {LABELS.CALCULATOR.PREMIUM_PLUS_INTEREST}
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+            </Card.Body>
+        </Card>
     );
 };
 

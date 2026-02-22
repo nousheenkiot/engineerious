@@ -1,44 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { useAppSelector } from '../../store/hooks';
 
 const MainLayout: React.FC = () => {
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const mode = useAppSelector((state) => state.theme.mode);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
+
+    useEffect(() => {
+        const handleResize = () => {
+            const mobile = window.innerWidth < 768;
+            setIsMobile(mobile);
+            if (mobile) setSidebarOpen(false);
+            else setSidebarOpen(true);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
     return (
-        <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
-            <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} variant={isMobile ? 'temporary' : 'persistent'} />
-            <Box
-                component="main"
-                sx={{
-                    flexGrow: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    transition: theme.transitions.create('margin', {
-                        easing: theme.transitions.easing.sharp,
-                        duration: theme.transitions.duration.leavingScreen,
-                    }),
-                    ...(sidebarOpen && !isMobile && {
-                        marginLeft: '260px',
-                        transition: theme.transitions.create('margin', {
-                            easing: theme.transitions.easing.easeOut,
-                            duration: theme.transitions.duration.enteringScreen,
-                        }),
-                    }),
+        <div className={`d-flex min-vh-100 ${mode === 'dark' ? 'bg-dark text-white' : 'bg-light text-dark'}`}>
+            <Sidebar
+                open={sidebarOpen}
+                onClose={() => setSidebarOpen(false)}
+                variant={isMobile ? 'temporary' : 'persistent'}
+            />
+
+            <main
+                className="flex-grow-1 d-flex flex-column"
+                style={{
+                    marginLeft: (!isMobile && sidebarOpen) ? '260px' : '0',
+                    transition: 'margin-left 0.25s ease-out',
+                    width: '100%'
                 }}
             >
                 <Header onMenuClick={toggleSidebar} />
-                <Box sx={{ flexGrow: 1, p: 0, display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
+                <div className="flex-grow-1 p-0 d-flex flex-column">
                     <Outlet />
-                </Box>
-            </Box>
-        </Box>
+                </div>
+            </main>
+        </div>
     );
 };
 

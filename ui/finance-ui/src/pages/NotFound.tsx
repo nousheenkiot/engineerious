@@ -1,50 +1,38 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Typography, Container, Box } from '@mui/material';
+import { Container, Button } from 'react-bootstrap';
 import { PATHS } from '../routes/paths';
+import { useAppSelector } from '../store/hooks';
 
 const NotFound: React.FC = () => {
     const navigate = useNavigate();
     const { username } = useParams<{ username: string }>();
+    const mode = useAppSelector((state) => state.theme.mode);
 
     return (
-        <Container maxWidth="md">
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    minHeight: '80vh',
-                    textAlign: 'center',
-                }}
+        <Container className="d-flex flex-column align-items-center justify-content-center text-center py-5" style={{ minHeight: '80vh' }}>
+            <h1
+                className={`fw-bold mb-0 ${mode === 'dark' ? 'text-white' : 'text-dark'}`}
+                style={{ fontSize: '10rem', opacity: 0.1 }}
             >
-                <Typography variant="h1" sx={{ fontSize: '10rem', fontWeight: 800, opacity: (theme) => theme.palette.mode === 'dark' ? 0.05 : 0.1, color: 'text.primary' }}>
-                    404
-                </Typography>
-                <Typography variant="h4" gutterBottom sx={{ color: 'text.primary' }}>
-                    Oops! Page not found
-                </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-                    The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
-                </Typography>
-                <Button
-                    variant="contained"
-                    size="large"
-                    onClick={() => navigate(PATHS.DASHBOARD.replace(':username', username || ''))}
-                    sx={{
-                        borderRadius: 2,
-                        px: 4,
-                        py: 1.5,
-                        background: (theme) => theme.palette.mode === 'dark'
-                            ? 'linear-gradient(45deg, #4dabf5 30%, #2196f3 90%)'
-                            : 'linear-gradient(45deg, #3b82f6 30%, #2563eb 90%)',
-                        boxShadow: (theme) => theme.palette.mode === 'dark' ? '0 4px 20px rgba(0, 0, 0, 0.4)' : '0 4px 20px rgba(37, 99, 235, 0.3)',
-                    }}
-                >
-                    Back to Dashboard
-                </Button>
-            </Box>
+                404
+            </h1>
+            <h2 className="fw-bold mb-3">Oops! Page not found</h2>
+            <p className="text-secondary mb-5 maxWidth-500 mx-auto">
+                The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+            </p>
+            <Button
+                variant="primary"
+                size="lg"
+                className="px-5 py-3 fw-bold rounded-3 shadow-sm"
+                onClick={() => navigate(PATHS.DASHBOARD.replace(':username', username || ''))}
+            >
+                Back to Dashboard
+            </Button>
+
+            <style>{`
+                .maxWidth-500 { max-width: 500px; }
+            `}</style>
         </Container>
     );
 };

@@ -12,6 +12,7 @@ const ProcessingRuns = lazy(() => import('../pages/ProcessingRuns'));
 const CashflowManagement = lazy(() => import('../pages/CashflowManagement'));
 const Unauthorized = lazy(() => import('../pages/Unauthorized'));
 const Login = lazy(() => import('../pages/Login'));
+const Register = lazy(() => import('../pages/Register'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 const CashflowCalculatorPage = lazy(() => import('../pages/CashflowCalculatorPage'));
 
@@ -25,6 +26,14 @@ export const routes: RouteObject[] = [
         element: (
             <Suspense fallback={<PageLoader />}>
                 <Login />
+            </Suspense>
+        ),
+    },
+    {
+        path: PATHS.REGISTER,
+        element: (
+            <Suspense fallback={<PageLoader />}>
+                <Register />
             </Suspense>
         ),
     },

@@ -1,8 +1,11 @@
 import React from 'react';
+import { Spinner } from 'react-bootstrap';
 
 const PageLoader: React.FC = () => (
-    <div className="flex h-full w-full items-center justify-center p-20">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+    <div className="d-flex h-100 w-100 align-items-center justify-content-center p-5 min-vh-100">
+        <Spinner animation="border" variant="primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+        </Spinner>
     </div>
 );
 

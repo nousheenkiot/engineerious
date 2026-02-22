@@ -9,5 +9,6 @@ export const PATHS = {
     CALCULATOR: '/:username/calculator',
     UNAUTHORIZED: '/:username/unauthorized',
     LOGIN: '/login',
+    REGISTER: '/register',
     NOT_FOUND: '*',
 } as const;

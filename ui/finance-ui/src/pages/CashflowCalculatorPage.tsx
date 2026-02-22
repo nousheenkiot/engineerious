@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Box, Button, Typography, Alert, Grid, Paper, TextField } from '@mui/material';
-import { ArrowLeft } from 'lucide-react';
+import { Container, Row, Col, Card, Button, Form, Alert } from 'react-bootstrap';
+import { ArrowLeft, Calculator, TrendingUp } from 'lucide-react';
 import CashflowCalculator from '../components/CashflowCalculator';
 import { LABELS } from '../constants/labels';
+import { useAppSelector } from '../store/hooks';
 
 const CashflowCalculatorPage: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const mode = useAppSelector((state) => state.theme.mode);
     const state = location.state as { interestRate: number; premium: number; totalCashflow: number } | null;
 
     const [rate, setRate] = useState(state?.interestRate?.toString() || '');
@@ -30,94 +32,98 @@ const CashflowCalculatorPage: React.FC = () => {
 
     if (!state) {
         return (
-            <Box sx={{ p: 4 }}>
-                <Alert severity="warning">
+            <Container className="p-4 text-center">
+                <Alert variant="warning" className="d-inline-block px-5 shadow-sm rounded-3">
                     {LABELS.MESSAGES.NO_CALCULATION_DATA}
                 </Alert>
-                <Button
-                    startIcon={<ArrowLeft />}
-                    onClick={() => navigate(-1)}
-                    sx={{ mt: 2 }}
-                >
-                    {LABELS.BUTTONS.GO_BACK}
-                </Button>
-            </Box>
+                <div className="mt-3">
+                    <Button
+                        variant="link"
+                        onClick={() => navigate(-1)}
+                        className="text-primary text-decoration-none fw-bold"
+                    >
+                        <ArrowLeft size={18} className="me-2" /> {LABELS.BUTTONS.GO_BACK}
+                    </Button>
+                </div>
+            </Container>
         );
     }
 
     return (
-        <Box sx={{ p: 4, bgcolor: 'background.default', minHeight: '100vh' }}>
+        <Container fluid className="p-4">
             <Button
-                startIcon={<ArrowLeft />}
+                variant="link"
                 onClick={() => navigate(-1)}
-                sx={{ mb: 3 }}
+                className="text-primary text-decoration-none fw-bold px-0 mb-4"
             >
-                {LABELS.BUTTONS.BACK_TO_POLICY_DETAILS}
+                <ArrowLeft size={18} className="me-2" /> {LABELS.BUTTONS.BACK_TO_POLICY_DETAILS}
             </Button>
 
-            <Typography variant="h4" sx={{ mb: 3, fontWeight: 600, color: 'text.primary' }}>
-                {LABELS.PAGE_TITLES.CASHFLOW_PROJECTION}
-            </Typography>
+            <h4 className="fw-bold mb-4">{LABELS.PAGE_TITLES.CASHFLOW_PROJECTION}</h4>
 
-            <Grid container spacing={3}>
-                <Grid size={{ xs: 12, md: 6 }}>
-                    <Paper sx={{ p: 3, borderRadius: 1, border: '1px solid', borderColor: 'divider' }}>
-                        <Typography variant="h6" gutterBottom color="text.primary">{LABELS.SECTIONS.SIMULATOR}</Typography>
-                        <Box sx={{ display: 'grid', gap: 2 }}>
-                            <TextField
-                                label={LABELS.FORM_FIELDS.INTEREST_RATE}
-                                value={rate}
-                                onChange={(e) => setRate(e.target.value)}
-                                type="number"
-                                fullWidth
-                            />
-                            <TextField
-                                label={LABELS.FORM_FIELDS.YEARS}
-                                value={years}
-                                onChange={(e) => setYears(e.target.value)}
-                                type="number"
-                                fullWidth
-                            />
-                            <Button variant="contained" onClick={handleCalculateNewPremium}>
-                                {LABELS.BUTTONS.CALCULATE_NEW_PREMIUM}
-                            </Button>
-                        </Box>
-                    </Paper>
-                </Grid>
+            <Row className="g-4">
+                <Col md={6}>
+                    <Card className={`border-0 shadow-sm rounded-4 h-100 ${mode === 'dark' ? 'bg-dark text-white border border-secondary' : 'bg-white'}`}>
+                        <Card.Body className="p-4">
+                            <div className="d-flex align-items-center gap-2 mb-4">
+                                <Calculator size={20} className="text-secondary" />
+                                <h6 className="fw-bold mb-0 text-uppercase small" style={{ letterSpacing: '0.05em' }}>{LABELS.SECTIONS.SIMULATOR}</h6>
+                            </div>
 
-                <Grid size={{ xs: 12, md: 6 }}>
+                            <div className="d-grid gap-3">
+                                <Form.Group>
+                                    <Form.Label className="small fw-bold">Interest Rate (%)</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        value={rate}
+                                        onChange={(e) => setRate(e.target.value)}
+                                        className={mode === 'dark' ? 'bg-dark border-secondary text-white' : ''}
+                                    />
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label className="small fw-bold">Duration (Years)</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        value={years}
+                                        onChange={(e) => setYears(e.target.value)}
+                                        className={mode === 'dark' ? 'bg-dark border-secondary text-white' : ''}
+                                    />
+                                </Form.Group>
+                                <Button variant="primary" onClick={handleCalculateNewPremium} className="fw-bold py-2 mt-2">
+                                    {LABELS.BUTTONS.CALCULATE_NEW_PREMIUM}
+                                </Button>
+                            </div>
+                        </Card.Body>
+                    </Card>
+                </Col>
+
+                <Col md={6}>
                     {calculatedPremium > 0 && (
-                        <Paper sx={{
-                            p: 3,
-                            borderRadius: 1,
-                            bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(34, 197, 94, 0.1)' : '#f0fdf4',
-                            border: '1px solid',
-                            borderColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(34, 197, 94, 0.2)' : '#dcfce7'
-                        }}>
-                            <Typography variant="subtitle2" sx={{ color: 'success.main', fontWeight: 600 }}>
-                                {LABELS.FORM_FIELDS.NEW_PREMIUM}
-                            </Typography>
-                            <Typography variant="h4" sx={{ color: 'success.main', fontWeight: 700, mt: 1 }}>
-                                ${calculatedPremium.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                                Based on {years} years at {rate}% interest.
-                            </Typography>
-                        </Paper>
+                        <Card className={`border-0 shadow-sm rounded-4 h-100 border-start border-4 border-success ${mode === 'dark' ? 'bg-success-subtle bg-opacity-10 text-success' : 'bg-success-subtle bg-opacity-50 text-success-emphasis'}`}>
+                            <Card.Body className="p-4">
+                                <div className="d-flex align-items-center gap-2 mb-2">
+                                    <TrendingUp size={20} />
+                                    <h6 className="fw-bold mb-0 small text-uppercase" style={{ letterSpacing: '0.05em' }}>{LABELS.FORM_FIELDS.NEW_PREMIUM}</h6>
+                                </div>
+                                <h2 className="fw-bold mb-2">
+                                    ${calculatedPremium.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                                </h2>
+                                <p className="text-secondary small mb-0">
+                                    Based on {years} years at {rate}% interest compounding annually.
+                                </p>
+                            </Card.Body>
+                        </Card>
                     )}
-                </Grid>
-            </Grid>
+                </Col>
+            </Row>
 
-            <Box sx={{ mt: 4 }}>
-                <CashflowCalculator
-                    interestRate={Number(rate)}
-                    premium={state.premium}
-                    totalCashflow={state.totalCashflow}
-                />
-            </Box>
-        </Box>
+            <CashflowCalculator
+                interestRate={Number(rate)}
+                premium={state.premium}
+                totalCashflow={state.totalCashflow}
+            />
+        </Container>
     );
 };
 
 export default CashflowCalculatorPage;
-

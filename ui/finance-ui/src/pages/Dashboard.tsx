@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-    Grid,
-    Paper,
-    Typography,
-    Box,
-    Button,
-    IconButton,
-    Card,
-    CardContent
-} from '@mui/material';
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import {
     TrendingUp,
     TrendingDown,
@@ -22,168 +13,170 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { LABELS } from '../constants/labels';
+import { useAppSelector } from '../store/hooks';
+import { withAuth, withErrorLogging } from '../hoc';
 
 const StatCard: React.FC<{ title: string; value: string; trend: string; isUp: boolean; icon: React.ReactNode }> = ({
     title, value, trend, isUp, icon
 }) => {
+    const mode = useAppSelector((state) => state.theme.mode);
 
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
+            className="h-100"
         >
-            <Card sx={{
-                height: '100%',
-                position: 'relative',
-                overflow: 'hidden',
-                '&:hover': {
-                    boxShadow: (theme) => theme.palette.mode === 'dark' ? '0 8px 32px rgba(0,0,0,0.5)' : '0 8px 32px rgba(0,0,0,0.1)',
-                    transform: 'translateY(-4px)',
-                    transition: 'all 0.3s ease'
-                }
-            }}>
-                <Box sx={{
-                    position: 'absolute',
-                    top: -10,
-                    right: -10,
-                    width: 80,
-                    height: 80,
-                    bgcolor: isUp ? 'success.main' : 'error.main',
-                    opacity: 0.05,
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 0
-                }} />
-                <CardContent sx={{ position: 'relative', zIndex: 1 }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                        <Box sx={{
-                            p: 1.5,
-                            borderRadius: 2,
-                            bgcolor: isUp ? 'success.main' : 'error.main',
-                            color: isUp ? 'success.main' : 'error.main',
-                            '& > *': { opacity: 1 },
-                            position: 'relative'
-                        }}>
-                            <Box sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', bgcolor: 'currentColor', opacity: 0.2, borderRadius: 'inherit' }} />
-                            <Box sx={{ position: 'relative' }}>{icon}</Box>
-                        </Box>
-                        <IconButton size="small"><MoreVertical size={16} /></IconButton>
-                    </Box>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500 }}>{title}</Typography>
-                    <Typography variant="h4" sx={{ fontWeight: 700, my: 1 }}>{value}</Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Box sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            color: isUp ? 'success.main' : 'error.main',
-                            bgcolor: isUp ? 'success.main' : 'error.main',
-                            px: 1,
-                            borderRadius: 1,
-                            position: 'relative'
-                        }}>
-                            <Box sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', bgcolor: 'currentColor', opacity: 0.1, borderRadius: 'inherit' }} />
-                            <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                                {isUp ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-                                <Typography variant="caption" sx={{ fontWeight: 700, ml: 0.5 }}>{trend}</Typography>
-                            </Box>
-                        </Box>
-                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>{LABELS.STATS.VS_LAST_MONTH}</Typography>
-                    </Box>
-                </CardContent>
+            <Card
+                className={`h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative stat-card transition-all ${mode === 'dark' ? 'bg-dark text-white border border-secondary' : 'bg-white text-dark'}`}
+            >
+                <div
+                    className={`position-absolute rounded-circle opacity-10 bg-${isUp ? 'success' : 'danger'}`}
+                    style={{ top: '-10px', right: '-10px', width: '80px', height: '80px' }}
+                />
+                <Card.Body className="p-4 position-relative z-index-1">
+                    <div className="d-flex justify-content-between mb-3">
+                        <div
+                            className={`p-2 rounded-3 d-flex align-items-center justify-content-center bg-${isUp ? 'success' : 'danger'}-subtle text-${isUp ? 'success' : 'danger'}`}
+                            style={{ width: '42px', height: '42px' }}
+                        >
+                            {icon}
+                        </div>
+                        <Button variant="link" className="text-secondary p-0">
+                            <MoreVertical size={16} />
+                        </Button>
+                    </div>
+                    <div className="text-secondary small fw-medium mb-1">{title}</div>
+                    <h3 className="fw-bold mb-2">{value}</h3>
+                    <div className="d-flex align-items-center gap-2">
+                        <div className={`badge bg-${isUp ? 'success' : 'danger'}-subtle text-${isUp ? 'success' : 'danger'} border-0 px-2 py-1`}>
+                            <span className="d-flex align-items-center gap-1">
+                                {isUp ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+                                {trend}
+                            </span>
+                        </div>
+                        <span className="text-secondary" style={{ fontSize: '0.7rem' }}>{LABELS.STATS.VS_LAST_MONTH}</span>
+                    </div>
+                </Card.Body>
             </Card>
         </motion.div>
     );
 };
 
 const Dashboard: React.FC = () => {
+    const mode = useAppSelector((state) => state.theme.mode);
+
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-                <Box>
-                    <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{LABELS.PAGE_TITLES.FINANCIAL_DASHBOARD}</Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>{LABELS.PAGE_DESCRIPTIONS.FINANCIAL_DASHBOARD}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', gap: 2 }}>
-                    <Button variant="outlined" startIcon={<RefreshCw size={18} />} sx={{ borderColor: 'divider' }}>{LABELS.BUTTONS.SYNC_SERVICES}</Button>
-                    <Button variant="contained" startIcon={<Plus size={18} />} color="primary">{LABELS.BUTTONS.NEW_PROCESS}</Button>
-                </Box>
-            </Box>
+        <Container fluid className="p-4">
+            <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+                <div>
+                    <h2 className="fw-bold mb-1">{LABELS.PAGE_TITLES.FINANCIAL_DASHBOARD}</h2>
+                    <p className="text-secondary mb-0">{LABELS.PAGE_DESCRIPTIONS.FINANCIAL_DASHBOARD}</p>
+                </div>
+                <div className="d-flex gap-2">
+                    <Button variant="outline-secondary" className="d-flex align-items-center gap-2 bg-transparent text-secondary border-secondary-subtle">
+                        <RefreshCw size={18} /> {LABELS.BUTTONS.SYNC_SERVICES}
+                    </Button>
+                    <Button variant="primary" className="d-flex align-items-center gap-2 px-4 fw-bold shadow-sm">
+                        <Plus size={18} /> {LABELS.BUTTONS.NEW_PROCESS}
+                    </Button>
+                </div>
+            </div>
 
-            <Grid container spacing={3}>
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <StatCard title={LABELS.STATS.TOTAL_POLICIES} value="2,482" trend="+12.5%" isUp={true} icon={<Activity size={24} />} />
-                </Grid>
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <StatCard title={LABELS.STATS.PROCESSING_RUNS} value="142" trend="+4.3%" isUp={true} icon={<TrendingUp size={24} />} />
-                </Grid>
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <StatCard title={LABELS.STATS.AVERAGE_LATENCY} value="124ms" trend="-2.1%" isUp={false} icon={<Clock size={24} />} />
-                </Grid>
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <StatCard title={LABELS.STATS.SYSTEM_HEALTH} value="99.9%" trend="+0.2%" isUp={true} icon={<Zap size={24} />} />
-                </Grid>
+            <Row className="g-4 mb-4">
+                <Col xs={12} sm={6} md={3}>
+                    <StatCard title={LABELS.STATS.TOTAL_POLICIES} value="2,482" trend="+12.5%" isUp={true} icon={<Activity size={20} />} />
+                </Col>
+                <Col xs={12} sm={6} md={3}>
+                    <StatCard title={LABELS.STATS.PROCESSING_RUNS} value="142" trend="+4.3%" isUp={true} icon={<TrendingUp size={20} />} />
+                </Col>
+                <Col xs={12} sm={6} md={3}>
+                    <StatCard title={LABELS.STATS.AVERAGE_LATENCY} value="124ms" trend="-2.1%" isUp={false} icon={<Clock size={20} />} />
+                </Col>
+                <Col xs={12} sm={6} md={3}>
+                    <StatCard title={LABELS.STATS.SYSTEM_HEALTH} value="99.9%" trend="+0.2%" isUp={true} icon={<Zap size={20} />} />
+                </Col>
+            </Row>
 
-                <Grid size={{ xs: 12, md: 8 }}>
-                    <Paper sx={{ p: 4, height: 400, display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                            <Typography variant="h6" sx={{ fontWeight: 700 }}>{LABELS.SECTIONS.PROCESSING_VOLUME}</Typography>
-                            <Button size="small" endIcon={<ArrowUpRight size={16} />}>{LABELS.BUTTONS.VIEW_DETAILS}</Button>
-                        </Box>
+            <Row className="g-4">
+                <Col xs={12} lg={8}>
+                    <Card className={`border-0 shadow-sm rounded-4 h-100 ${mode === 'dark' ? 'bg-dark text-white border border-secondary' : 'bg-white text-dark'}`} style={{ minHeight: '400px' }}>
+                        <Card.Body className="p-4 d-flex flex-column">
+                            <div className="d-flex justify-content-between align-items-center mb-4">
+                                <h5 className="fw-bold mb-0">{LABELS.SECTIONS.PROCESSING_VOLUME}</h5>
+                                <Button variant="link" className="text-primary text-decoration-none p-0 d-flex align-items-center gap-1 small fw-bold">
+                                    {LABELS.BUTTONS.VIEW_DETAILS} <ArrowUpRight size={14} />
+                                </Button>
+                            </div>
 
-                        <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'flex-end', gap: 2, px: 2, pb: 2 }}>
-                            {[40, 70, 45, 90, 65, 85, 55, 75, 50, 95, 80, 100].map((h, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ height: 0 }}
-                                    animate={{ height: `${h}%` }}
-                                    transition={{ duration: 1, delay: i * 0.05 }}
-                                    style={{
-                                        flex: 1,
-                                        background: `linear-gradient(180deg, ${i % 2 === 0 ? '#4dabf5' : '#818cf8'} 0%, rgba(77, 171, 245, 0.1) 100%)`,
-                                        borderRadius: '4px 4px 0 0',
-                                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-                                    }}
-                                />
-                            ))}
-                        </Box>
-                    </Paper>
-                </Grid>
+                            <div className="flex-grow-1 d-flex align-items-end gap-2 px-2 pb-2">
+                                {[40, 70, 45, 90, 65, 85, 55, 75, 50, 95, 80, 100].map((h, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ height: 0 }}
+                                        animate={{ height: `${h}%` }}
+                                        transition={{ duration: 1, delay: i * 0.05 }}
+                                        className="flex-grow-1 rounded-top"
+                                        style={{
+                                            background: `linear-gradient(180deg, ${i % 2 === 0 ? '#007bff' : '#6366f1'} 0%, rgba(0, 123, 255, 0.1) 100%)`,
+                                            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                                        }}
+                                    />
+                                ))}
+                            </div>
+                        </Card.Body>
+                    </Card>
+                </Col>
 
-                <Grid size={{ xs: 12, md: 4 }}>
-                    <Paper sx={{ p: 4, height: 400, display: 'flex', flexDirection: 'column' }}>
-                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 3 }}>{LABELS.SECTIONS.LIVE_ACTIVITY}</Typography>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                            {[
-                                { title: 'Processing Run #42', time: '2 mins ago', status: 'SUCCESS', color: 'success.main' },
-                                { title: 'New Policies Loaded', time: '15 mins ago', status: 'FINISHED', color: 'info.main' },
-                                { title: 'Sync with Cohort Service', time: '1 hour ago', status: 'FAILED', color: 'error.main' },
-                                { title: 'Backup Completed', time: '3 hours ago', status: 'SUCCESS', color: 'success.main' },
-                            ].map((activity, i) => (
-                                <Box key={i} sx={{ display: 'flex', gap: 2 }}>
-                                    <Box sx={{
-                                        width: 12,
-                                        height: 12,
-                                        borderRadius: '50%',
-                                        bgcolor: activity.color,
-                                        mt: 0.5,
-                                        boxShadow: (theme) => `0 0 8px ${theme.palette[activity.color.split('.')[0] as 'success' | 'error' | 'info'].main}`
-                                    }} />
-                                    <Box>
-                                        <Typography variant="body2" sx={{ fontWeight: 600 }}>{activity.title}</Typography>
-                                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>{activity.time} • {activity.status}</Typography>
-                                    </Box>
-                                </Box>
-                            ))}
-                        </Box>
-                        <Button variant="text" sx={{ mt: 'auto' }}>{LABELS.BUTTONS.VIEW_FULL_AUDIT_LOG}</Button>
-                    </Paper>
-                </Grid>
-            </Grid>
-        </Box>
+                <Col xs={12} lg={4}>
+                    <Card className={`border-0 shadow-sm rounded-4 h-100 ${mode === 'dark' ? 'bg-dark text-white border border-secondary' : 'bg-white text-dark'}`} style={{ minHeight: '400px' }}>
+                        <Card.Body className="p-4 d-flex flex-column">
+                            <h5 className="fw-bold mb-4">{LABELS.SECTIONS.LIVE_ACTIVITY}</h5>
+                            <div className="d-flex flex-column gap-4">
+                                {[
+                                    { title: 'Processing Run #42', time: '2 mins ago', status: 'SUCCESS', color: 'success' },
+                                    { title: 'New Policies Loaded', time: '15 mins ago', status: 'FINISHED', color: 'info' },
+                                    { title: 'Sync with Cohort Service', time: '1 hour ago', status: 'FAILED', color: 'danger' },
+                                    { title: 'Backup Completed', time: '3 hours ago', status: 'SUCCESS', color: 'success' },
+                                ].map((activity, i) => (
+                                    <div key={i} className="d-flex gap-3 align-items-start">
+                                        <div
+                                            className={`rounded-circle mt-1 shadow-sm bg-${activity.color}`}
+                                            style={{
+                                                width: '10px',
+                                                height: '10px',
+                                                flexShrink: 0,
+                                                boxShadow: `0 0 8px var(--bs-${activity.color})`
+                                            }}
+                                        />
+                                        <div>
+                                            <div className="fw-bold small">{activity.title}</div>
+                                            <div className="text-secondary" style={{ fontSize: '0.75rem' }}>{activity.time} • {activity.status}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <Button variant="link" className="mt-auto text-primary text-decoration-none fw-bold small p-0 text-center w-100 mt-4">
+                                {LABELS.BUTTONS.VIEW_FULL_AUDIT_LOG}
+                            </Button>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+
+            <style>{`
+                .stat-card:hover {
+                    transform: translateY(-4px);
+                    box-shadow: 0 12px 24px rgba(0,0,0,0.1) !important;
+                }
+                .transition-all {
+                    transition: all 0.3s ease;
+                }
+                .z-index-1 { z-index: 1; }
+            `}</style>
+        </Container>
     );
 };
 
-export default Dashboard;
+export default withErrorLogging(withAuth(Dashboard));

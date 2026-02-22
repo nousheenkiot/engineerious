@@ -1,14 +1,16 @@
 import React from 'react';
-import { Box, Typography, Paper, Button, Chip, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, MenuItem } from '@mui/material';
-import { PlayCircle, Filter } from 'lucide-react';
+import { Container, Row, Col, Card, Button, Table, Badge, Form, InputGroup } from 'react-bootstrap';
+import { PlayCircle, Filter, Search, FileText } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { updateFilter } from '../features/filters/filterSlice';
 import { selectHasActivity } from '../features/auth/authSlice';
+import { withAuth, withErrorLogging } from '../hoc';
 
 const PAGE_ID = 'processingRuns';
 
 const ProcessingRuns: React.FC = () => {
     const dispatch = useAppDispatch();
+    const mode = useAppSelector((state) => state.theme.mode);
     const filters = useAppSelector((state) => state.filters[PAGE_ID] || {});
     const canTriggerRun = useAppSelector(selectHasActivity('PROCESSING_RUN_CREATE'));
 
@@ -32,97 +34,103 @@ const ProcessingRuns: React.FC = () => {
         return matchesSearch && matchesStatus;
     });
 
+    const getStatusBadge = (status: string) => {
+        switch (status) {
+            case 'SUCCESS': return <Badge bg="success-subtle" className="text-success fw-bold px-2 py-1 rounded-1">SUCCESS</Badge>;
+            case 'FAILED': return <Badge bg="danger-subtle" className="text-danger fw-bold px-2 py-1 rounded-1">FAILED</Badge>;
+            default: return <Badge bg="warning-subtle" className="text-warning-emphasis fw-bold px-2 py-1 rounded-1">PARTIAL</Badge>;
+        }
+    };
+
     return (
-        <Box sx={{ p: 4, bgcolor: 'background.default', minHeight: '100vh' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3, alignItems: 'center' }}>
-                <Typography variant="h4" sx={{ fontWeight: 800, color: 'text.primary' }}>Processing Runs</Typography>
+        <Container fluid className="p-4">
+            <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+                <h4 className="fw-bold mb-0">Processing Runs</h4>
                 {canTriggerRun && (
-                    <Button variant="contained" color="primary" startIcon={<PlayCircle size={18} />}>
-                        Trigger New Run
+                    <Button variant="primary" className="d-flex align-items-center gap-2 fw-bold px-4 shadow-sm">
+                        <PlayCircle size={18} /> Trigger New Run
                     </Button>
                 )}
-            </Box>
+            </div>
 
-            <Paper sx={{ p: 2, mb: 3, display: 'flex', gap: 2, alignItems: 'center', border: '1px solid', borderColor: 'divider' }}>
-                <Filter size={20} style={{ opacity: 0.5 }} />
-                <TextField
-                    label="Search Run ID"
-                    variant="outlined"
-                    size="small"
-                    value={search}
-                    onChange={(e) => handleFilterChange('search', e.target.value)}
-                    sx={{ width: 200 }}
-                />
-                <TextField
-                    select
-                    label="Status"
-                    variant="outlined"
-                    size="small"
-                    value={statusFilter}
-                    onChange={(e) => handleFilterChange('status', e.target.value)}
-                    sx={{ width: 150 }}
-                >
-                    <MenuItem value="ALL">All Statuses</MenuItem>
-                    <MenuItem value="SUCCESS">Success</MenuItem>
-                    <MenuItem value="PARTIAL">Partial</MenuItem>
-                    <MenuItem value="FAILED">Failed</MenuItem>
-                </TextField>
-            </Paper>
+            <Card className={`border-0 shadow-sm rounded-4 mb-4 ${mode === 'dark' ? 'bg-dark text-white border border-secondary' : 'bg-white'}`}>
+                <Card.Body className="p-3">
+                    <Row className="g-3 align-items-center">
+                        <Col xs="auto" className="text-secondary opacity-50">
+                            <Filter size={20} />
+                        </Col>
+                        <Col xs={12} md={4} lg={3}>
+                            <InputGroup size="sm" className="rounded-2 overflow-hidden border">
+                                <InputGroup.Text className={mode === 'dark' ? 'bg-dark border-0 text-secondary' : 'bg-white border-0 text-secondary'}>
+                                    <Search size={14} />
+                                </InputGroup.Text>
+                                <Form.Control
+                                    placeholder="Search Run ID"
+                                    value={search}
+                                    onChange={(e) => handleFilterChange('search', e.target.value)}
+                                    className={`border-0 ${mode === 'dark' ? 'bg-dark text-white' : ''} shadow-none`}
+                                />
+                            </InputGroup>
+                        </Col>
+                        <Col xs={12} md={3} lg={2}>
+                            <Form.Select
+                                size="sm"
+                                value={statusFilter}
+                                onChange={(e) => handleFilterChange('status', e.target.value)}
+                                className={`rounded-2 shadow-none ${mode === 'dark' ? 'bg-dark text-white border-secondary' : ''}`}
+                            >
+                                <option value="ALL">All Statuses</option>
+                                <option value="SUCCESS">Success</option>
+                                <option value="PARTIAL">Partial</option>
+                                <option value="FAILED">Failed</option>
+                            </Form.Select>
+                        </Col>
+                    </Row>
+                </Card.Body>
+            </Card>
 
-            <TableContainer component={Paper} sx={{ border: '1px solid', borderColor: 'divider' }}>
-                <Table>
-                    <TableHead sx={{ bgcolor: 'action.hover' }}>
-                        <TableRow>
-                            <TableCell sx={{ fontWeight: 700 }}>Run ID</TableCell>
-                            <TableCell sx={{ fontWeight: 700 }}>Date/Time</TableCell>
-                            <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
-                            <TableCell sx={{ fontWeight: 700 }}>Processed Items</TableCell>
-                            <TableCell sx={{ fontWeight: 700 }}>Action</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {filteredRuns.map((run) => (
-                            <TableRow key={run.id} sx={{ '&:hover': { bgcolor: 'action.hover' } }}>
-                                <TableCell sx={{ fontWeight: 600 }}>{run.id}</TableCell>
-                                <TableCell>
-                                    <Typography variant="body2" sx={{ color: 'text.primary' }}>{run.date}</Typography>
-                                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>{run.time}</Typography>
-                                </TableCell>
-                                <TableCell>
-                                    <Chip
-                                        label={run.status}
-                                        size="small"
-                                        sx={{
-                                            fontWeight: 700,
-                                            bgcolor: (theme) =>
-                                                run.status === 'SUCCESS' ? (theme.palette.mode === 'dark' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.1)') :
-                                                    run.status === 'FAILED' ? (theme.palette.mode === 'dark' ? 'rgba(239, 68, 68, 0.2)' : 'rgba(239, 68, 68, 0.1)') :
-                                                        (theme.palette.mode === 'dark' ? 'rgba(245, 158, 11, 0.2)' : 'rgba(245, 158, 11, 0.1)'),
-                                            color:
-                                                run.status === 'SUCCESS' ? 'success.main' :
-                                                    run.status === 'FAILED' ? 'error.main' :
-                                                        'warning.main',
-                                        }}
-                                    />
-                                </TableCell>
-                                <TableCell sx={{ color: 'text.primary' }}>{run.count.toLocaleString()}</TableCell>
-                                <TableCell>
-                                    <Button size="small">View Logs</Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                        {filteredRuns.length === 0 && (
-                            <TableRow>
-                                <TableCell colSpan={5} align="center" sx={{ py: 3 }}>
-                                    <Typography variant="body2" color="text.secondary">No runs found matching filters.</Typography>
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Box>
+            <Card className={`border-0 shadow-sm rounded-4 overflow-hidden ${mode === 'dark' ? 'bg-dark text-white border border-secondary' : 'bg-white'}`}>
+                <div className="table-responsive">
+                    <Table hover className={`mb-0 align-middle ${mode === 'dark' ? 'table-dark' : ''}`}>
+                        <thead className={mode === 'dark' ? '' : 'table-light'}>
+                            <tr className="small text-uppercase fw-bold text-secondary" style={{ letterSpacing: '0.05em' }}>
+                                <th className="px-4 py-3">Run ID</th>
+                                <th className="py-3">Date / Time</th>
+                                <th className="py-3">Status</th>
+                                <th className="py-3">Processed Items</th>
+                                <th className="py-3 px-4 text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredRuns.map((run) => (
+                                <tr key={run.id}>
+                                    <td className="px-4 fw-bold">{run.id}</td>
+                                    <td>
+                                        <div className="fw-medium small">{run.date}</div>
+                                        <div className="text-secondary small" style={{ fontSize: '0.7rem' }}>{run.time}</div>
+                                    </td>
+                                    <td>{getStatusBadge(run.status)}</td>
+                                    <td className="small fw-medium">{run.count.toLocaleString()}</td>
+                                    <td className="px-4 text-end">
+                                        <Button variant="outline-primary" size="sm" className="rounded-2 d-inline-flex align-items-center gap-1">
+                                            <FileText size={14} /> View Logs
+                                        </Button>
+                                    </td>
+                                </tr>
+                            ))}
+                            {filteredRuns.length === 0 && (
+                                <tr>
+                                    <td colSpan={5} className="text-center py-5 text-secondary">
+                                        No runs found matching filters.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </Table>
+                </div>
+            </Card>
+        </Container>
     );
 };
 
-export default ProcessingRuns;
+export default withErrorLogging(withAuth(ProcessingRuns));

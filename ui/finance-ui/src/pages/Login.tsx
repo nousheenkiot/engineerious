@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import {
-    Box, Paper, TextField, Button, Typography, IconButton,
-    InputAdornment, Alert, CircularProgress, Container
-} from '@mui/material';
+import { Container, Row, Col, Card, Form, Button, Alert, Spinner, InputGroup } from 'react-bootstrap';
 import { Eye, EyeOff, Lock, User, ShieldCheck } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setCredentials, setLoading, setError } from '../features/auth/authSlice';
@@ -19,6 +16,7 @@ const Login: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { loading, error } = useAppSelector((state) => state.auth);
+    const mode = useAppSelector((state) => state.theme.mode);
 
     const from = location.state?.from?.pathname || PATHS.DASHBOARD;
 
@@ -32,7 +30,6 @@ const Login: React.FC = () => {
             const response = await authApi.login({ username, password });
             dispatch(setCredentials(response));
 
-            // Handle the 'from' path or default to DASHBOARD, replacing the :username param
             const redirectPath = from.includes(':username')
                 ? from.replace(':username', response.user.username)
                 : `/${response.user.username}${from === '/' ? '/dashboard' : from}`;
@@ -46,131 +43,112 @@ const Login: React.FC = () => {
     };
 
     return (
-        <Box sx={{
-            minHeight: '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            background: (theme) => theme.palette.mode === 'dark'
-                ? 'linear-gradient(135deg, #0a1929 0%, #101f33 100%)'
-                : 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)'
-        }}>
-            <Container maxWidth="sm">
-                <Paper elevation={0} sx={{
-                    p: { xs: 4, md: 6 },
-                    borderRadius: 4,
-                    border: '1px solid',
-                    borderColor: 'divider',
-                    boxShadow: (theme) => theme.palette.mode === 'dark'
-                        ? '0 10px 25px -5px rgba(0, 0, 0, 0.4)'
-                        : '0 10px 25px -5px rgba(0, 0, 0, 0.05)'
-                }}>
-                    <Box sx={{ textAlign: 'center', mb: 5 }}>
-                        <Box sx={{
-                            display: 'inline-flex',
-                            p: 2,
-                            borderRadius: 3,
-                            bgcolor: 'primary.main',
-                            color: 'primary.contrastText',
-                            opacity: 0.9,
-                            mb: 2
-                        }}>
-                            <ShieldCheck size={40} />
-                        </Box>
-                        <Typography variant="h4" sx={{ fontWeight: 800, color: 'text.primary', mb: 1 }}>
-                            Welcome Back
-                        </Typography>
-                        <Typography variant="body1" color="text.secondary">
-                            Please enter your details to sign in
-                        </Typography>
-                    </Box>
-
-                    {error && (
-                        <Alert severity="error" sx={{ mb: 4, borderRadius: 2 }}>
-                            {error}
-                        </Alert>
-                    )}
-
-                    <form onSubmit={handleLogin}>
-                        <Box sx={{ mb: 3 }}>
-                            <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600, color: 'text.primary' }}>
-                                Username
-                            </Typography>
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                placeholder="Enter your username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                slotProps={{
-                                    input: {
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <User size={20} color="currentColor" style={{ opacity: 0.5 }} />
-                                            </InputAdornment>
-                                        ),
-                                    },
-                                }}
-                                sx={{
-                                    '& .MuiOutlinedInput-root': { borderRadius: 2 }
-                                }}
-                            />
-                        </Box>
-
-                        <Box sx={{ mb: 4 }}>
-                            <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600, color: 'text.primary' }}>
-                                Password
-                            </Typography>
-                            <TextField
-                                fullWidth
-                                type={showPassword ? 'text' : 'password'}
-                                variant="outlined"
-                                placeholder="••••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                slotProps={{
-                                    input: {
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <Lock size={20} color="currentColor" style={{ opacity: 0.5 }} />
-                                            </InputAdornment>
-                                        ),
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                                                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        ),
-                                    },
-                                }}
-                                sx={{
-                                    '& .MuiOutlinedInput-root': { borderRadius: 2 }
-                                }}
-                            />
-                        </Box>
-
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            disabled={loading || !username || !password}
-                            sx={{
-                                py: 1.5,
-                                borderRadius: 2,
-                                fontWeight: 700,
-                                fontSize: '1rem',
-                                boxShadow: (theme) => `0 4px 6px -1px ${theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.4)' : 'rgba(0, 91, 171, 0.2)'}`,
-                                '&:hover': {
-                                    boxShadow: (theme) => `0 10px 15px -3px ${theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 91, 171, 0.3)'}`,
-                                }
-                            }}
+        <div
+            className={`min-vh-100 d-flex align-items-center py-5 ${mode === 'dark' ? 'bg-dark text-white' : 'bg-light text-dark'}`}
+            style={{
+                background: mode === 'dark'
+                    ? 'linear-gradient(135deg, #0a1929 0%, #101f33 100%)'
+                    : 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)'
+            }}
+        >
+            <Container>
+                <Row className="justify-content-center">
+                    <Col xs={12} sm={10} md={8} lg={6} xl={5}>
+                        <Card
+                            className={`border-0 shadow-sm rounded-4 ${mode === 'dark' ? 'bg-dark text-white border-secondary' : 'bg-white'}`}
+                            style={{ border: mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.05)' }}
                         >
-                            {loading ? <CircularProgress size={24} color="inherit" /> : 'Sign In'}
-                        </Button>
-                    </form>
-                </Paper>
+                            <Card.Body className="p-4 p-md-5 text-center">
+                                <div
+                                    className="d-inline-flex p-3 rounded-3 mb-4 text-white"
+                                    style={{ backgroundColor: '#007bff' }}
+                                >
+                                    <ShieldCheck size={40} />
+                                </div>
+                                <h2 className="fw-bold mb-2">Welcome Back</h2>
+                                <p className="text-secondary mb-5">Please enter your details to sign in</p>
+
+                                {error && (
+                                    <Alert variant="danger" className="text-start mb-4 rounded-3">
+                                        {error}
+                                    </Alert>
+                                )}
+
+                                <Form onSubmit={handleLogin} className="text-start">
+                                    <Form.Group className="mb-4" controlId="loginUsername">
+                                        <Form.Label className="fw-semibold small mb-2">Username</Form.Label>
+                                        <InputGroup className="overflow-hidden rounded-3">
+                                            <InputGroup.Text className={mode === 'dark' ? 'bg-dark border-secondary text-secondary' : 'bg-white border-end-0'}>
+                                                <User size={20} />
+                                            </InputGroup.Text>
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="Enter your username"
+                                                value={username}
+                                                onChange={(e) => setUsername(e.target.value)}
+                                                className={mode === 'dark' ? 'bg-dark text-white border-secondary' : 'border-start-0'}
+                                                required
+                                            />
+                                        </InputGroup>
+                                    </Form.Group>
+
+                                    <Form.Group className="mb-4" controlId="loginPassword">
+                                        <Form.Label className="fw-semibold small mb-2">Password</Form.Label>
+                                        <InputGroup className="overflow-hidden rounded-3">
+                                            <InputGroup.Text className={mode === 'dark' ? 'bg-dark border-secondary text-secondary' : 'bg-white border-end-0'}>
+                                                <Lock size={20} />
+                                            </InputGroup.Text>
+                                            <Form.Control
+                                                type={showPassword ? 'text' : 'password'}
+                                                placeholder="••••••••"
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                className={mode === 'dark' ? 'bg-dark text-white border-secondary' : 'border-start-0 border-end-0'}
+                                                required
+                                            />
+                                            <Button
+                                                variant="link"
+                                                className={`text-secondary p-2 ${mode === 'dark' ? 'bg-dark border-secondary' : 'bg-white border-start-0 border-top border-bottom border-end'}`}
+                                                onClick={() => setShowPassword(!showPassword)}
+                                            >
+                                                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                            </Button>
+                                        </InputGroup>
+                                    </Form.Group>
+
+                                    <Button
+                                        type="submit"
+                                        className="w-100 py-3 fw-bold rounded-3 mt-2 shadow-sm"
+                                        variant="primary"
+                                        disabled={loading || !username || !password}
+                                    >
+                                        {loading ? (
+                                            <>
+                                                <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
+                                                Signing In...
+                                            </>
+                                        ) : 'Sign In'}
+                                    </Button>
+                                </Form>
+
+                                <div className="mt-5 pt-4 border-top border-secondary-subtle">
+                                    <p className="text-secondary small mb-0">
+                                        Don't have an account?{' '}
+                                        <Button
+                                            variant="link"
+                                            className="p-0 text-primary fw-bold text-decoration-none"
+                                            onClick={() => navigate(PATHS.REGISTER)}
+                                        >
+                                            Create Account
+                                        </Button>
+                                    </p>
+                                </div>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
             </Container>
-        </Box>
+        </div>
     );
 };
 
