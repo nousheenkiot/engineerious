@@ -1,19 +1,34 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { CanActivate, ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 import { AuthService } from './auth.service';
-import { map, take } from 'rxjs/operators';
+import { UserRole } from '../models/user.model';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
     constructor(private authService: AuthService, private router: Router) { }
 
-    canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        if (this.authService.isAuthenticated()) {
-            return true;
+    canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
+        if (!this.authService.isAuthenticated()) {
+            return this.router.createUrlTree(['/auth/login']);
         }
-        return this.router.createUrlTree(['/auth/login']);
+
+        const requiredRoles: UserRole[] = route.data?.['roles'] ?? [];
+        const requiredActivities: string[] = route.data?.['activities'] ?? [];
+
+        if (requiredRoles.length > 0) {
+            const userRole = this.authService.getCurrentUser()?.role;
+            if (!requiredRoles.includes(userRole as UserRole)) {
+                return this.router.createUrlTree(['/auth/unauthorized']);
+            }
+        }
+
+        if (requiredActivities.length > 0) {
+            const hasAll = requiredActivities.every(act => this.authService.hasActivity(act));
+            if (!hasAll) {
+                return this.router.createUrlTree(['/auth/unauthorized']);
+            }
+        }
+
+        return true;
     }
 }

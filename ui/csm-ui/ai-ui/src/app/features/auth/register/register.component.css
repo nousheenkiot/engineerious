@@ -1,0 +1,734 @@
+/* ── Layout ──────────────────────────────────────────────────────────────── */
+.reg-wrapper {
+    display: flex;
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ── Left Brand/Steps Panel ──────────────────────────────────────────────── */
+.reg-brand {
+    flex: 0 0 300px;
+    background: linear-gradient(160deg, #1a1a4e 0%, #0f3460 50%, #16213e 100%);
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.reg-brand-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.brand-logo-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.brand-name-txt {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+}
+
+.brand-tagline {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1.35;
+    margin: 0 0 2rem 0;
+}
+
+/* ── Step Summary Nav ────────────────────────────────────────────────────── */
+.step-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.step-summary-item {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 0.75rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1.5px solid transparent;
+}
+
+.step-summary-item.active {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.step-summary-item.done {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.3);
+    cursor: pointer;
+}
+
+.step-summary-item:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: white;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.step-summary-item.active .step-circle {
+    background: #6366f1;
+}
+
+.step-summary-item.done .step-circle {
+    background: #10b981;
+}
+
+.step-check {
+    font-size: 0.9rem;
+}
+
+.step-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.step-num {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.step-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* ── Right Form Panel ────────────────────────────────────────────────────── */
+.reg-form-panel {
+    flex: 1;
+    background: #f8fafc;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.reg-form-card {
+    width: 100%;
+    max-width: 720px;
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+    align-self: flex-start;
+}
+
+/* ── Progress Bar ────────────────────────────────────────────────────────── */
+.progress-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+}
+
+.progress-bar-track {
+    flex: 1;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    border-radius: 99px;
+    transition: width 0.4s ease;
+}
+
+.progress-label {
+    font-size: 0.78rem;
+    color: #64748b;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+/* ── Error Banner ────────────────────────────────────────────────────────── */
+.form-error-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    color: #dc2626;
+    font-size: 0.85rem;
+    margin-bottom: 1.25rem;
+}
+
+/* ── Step Header ─────────────────────────────────────────────────────────── */
+.step-header {
+    margin-bottom: 1.75rem;
+}
+
+.step-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 0.35rem 0;
+    letter-spacing: -0.5px;
+}
+
+.step-desc {
+    font-size: 0.88rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* ── Form Grid ───────────────────────────────────────────────────────────── */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 1.25rem;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+/* ── Fields ──────────────────────────────────────────────────────────────── */
+.field-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.field-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.01em;
+}
+
+.req {
+    color: #ef4444;
+    margin-left: 2px;
+}
+
+.field-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.fi {
+    position: absolute;
+    left: 0.75rem;
+    font-size: 0.9rem;
+    pointer-events: none;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+}
+
+.fi.top-align {
+    top: 0.75rem;
+    align-items: flex-start;
+}
+
+.field-input {
+    width: 100%;
+    padding: 0.65rem 0.875rem 0.65rem 2.4rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    color: #0f172a;
+    background: #f8fafc;
+    transition: all 0.2s;
+    outline: none;
+    font-family: inherit;
+}
+
+.field-input:focus {
+    border-color: #6366f1;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.field-group.has-error .field-input {
+    border-color: #ef4444;
+    background: #fff5f5;
+}
+
+.field-group.has-error .field-input:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+select.field-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2rem;
+}
+
+.textarea-input {
+    resize: vertical;
+    min-height: 80px;
+    padding-left: 2.4rem;
+}
+
+.with-prefix {
+    padding-left: 3.75rem;
+}
+
+.prefix-tag {
+    position: absolute;
+    left: 2.3rem;
+    font-size: 0.85rem;
+    color: #475569;
+    font-weight: 600;
+    pointer-events: none;
+}
+
+.eye-btn {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    line-height: 1;
+}
+
+.ferr {
+    font-size: 0.75rem;
+    color: #ef4444;
+    margin-top: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* ── Password Strength ───────────────────────────────────────────────────── */
+.strength-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+}
+
+.strength-bar {
+    flex: 1;
+    height: 4px;
+    background: #e2e8f0;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.strength-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.3s ease, background 0.3s ease;
+}
+
+.strength-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ── Role Grid ───────────────────────────────────────────────────────────── */
+.role-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.role-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0.875rem 0.5rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #f8fafc;
+    gap: 0.35rem;
+}
+
+.role-card:hover {
+    border-color: #a5b4fc;
+    background: #f0f0ff;
+}
+
+.role-card.selected {
+    border-color: #6366f1;
+    background: #ede9fe;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.role-icon {
+    font-size: 1.6rem;
+}
+
+.role-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.role-desc {
+    font-size: 0.68rem;
+    color: #64748b;
+    line-height: 1.3;
+}
+
+/* ── Section Divider ─────────────────────────────────────────────────────── */
+.section-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1.5rem 0 1rem;
+    color: #475569;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.section-divider::before,
+.section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e2e8f0;
+}
+
+/* ── Smoking Radio ───────────────────────────────────────────────────────── */
+.smoking-radio-group {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+}
+
+.radio-card {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #475569;
+    transition: all 0.2s;
+    background: #f8fafc;
+}
+
+.radio-card:hover {
+    border-color: #a5b4fc;
+    background: #f0f0ff;
+}
+
+.radio-card.selected {
+    border-color: #6366f1;
+    background: #ede9fe;
+    color: #4f46e5;
+}
+
+/* ── Info Cards ──────────────────────────────────────────────────────────── */
+.info-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.info-card {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.info-card strong {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+
+.info-card p {
+    margin: 0;
+    opacity: 0.8;
+}
+
+.info-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.info-blue {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+.info-green {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+/* ── Declaration Box ─────────────────────────────────────────────────────── */
+.declaration-box {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background: #fafafa;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    transition: border-color 0.2s;
+}
+
+.declaration-box.error {
+    border-color: #fca5a5;
+    background: #fff5f5;
+}
+
+.declaration-label {
+    display: flex;
+    gap: 0.875rem;
+    cursor: pointer;
+    align-items: flex-start;
+}
+
+.decl-checkbox {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    accent-color: #6366f1;
+    cursor: pointer;
+}
+
+.decl-text {
+    font-size: 0.82rem;
+    color: #475569;
+    line-height: 1.6;
+}
+
+/* ── Navigation Buttons ──────────────────────────────────────────────────── */
+.nav-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.btn-back {
+    padding: 0.75rem 1.5rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    background: white;
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-back:hover {
+    border-color: #6366f1;
+    color: #6366f1;
+    background: #f0f0ff;
+}
+
+.btn-next {
+    padding: 0.75rem 2rem;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+}
+
+.btn-next:hover {
+    background: linear-gradient(135deg, #5558f0, #4338ca);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+}
+
+.btn-submit-reg {
+    padding: 0.75rem 2rem;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-submit-reg:hover:not(:disabled) {
+    background: linear-gradient(135deg, #059669, #047857);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+}
+
+.btn-submit-reg:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-spin {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+/* ── Sign In Link ────────────────────────────────────────────────────────── */
+.signin-link {
+    margin-top: 1.25rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #64748b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    color: #6366f1;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.link-btn:hover {
+    color: #4f46e5;
+}
+
+/* ── Animation ───────────────────────────────────────────────────────────── */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+    .reg-wrapper {
+        flex-direction: column;
+    }
+
+    .reg-brand {
+        flex: none;
+        height: auto;
+        position: static;
+        padding: 1.5rem;
+    }
+
+    .step-summary {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .step-summary-item {
+        flex: 0 0 auto;
+    }
+
+    .brand-tagline {
+        display: none;
+    }
+
+    .reg-form-panel {
+        padding: 1rem;
+    }
+
+    .reg-form-card {
+        padding: 1.5rem;
+        border-radius: 14px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .role-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .role-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .smoking-radio-group {
+        flex-direction: column;
+    }
+
+    .nav-buttons {
+        flex-direction: column-reverse;
+    }
+
+    .btn-next,
+    .btn-back,
+    .btn-submit-reg {
+        width: 100%;
+        justify-content: center;
+    }
+}

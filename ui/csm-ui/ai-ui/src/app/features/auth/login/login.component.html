@@ -1,23 +1,186 @@
-<div class="login-container">
-    <div class="login-card">
-        <h2>Login</h2>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" formControlName="username" class="form-control"
-                    placeholder="Enter username">
+<!-- Login Page -->
+<div class="auth-wrapper">
+    <!-- Left Brand Panel -->
+    <div class="brand-panel">
+        <div class="brand-content">
+            <div class="brand-logo">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                    <rect width="48" height="48" rx="12" fill="white" fill-opacity="0.15" />
+                    <path d="M24 8L38 16V32L24 40L10 32V16L24 8Z" stroke="white" stroke-width="2.5" fill="none" />
+                    <path d="M24 14L33 19V29L24 34L15 29V19L24 14Z" fill="white" fill-opacity="0.3" />
+                    <circle cx="24" cy="24" r="4" fill="white" />
+                </svg>
+                <span class="brand-name">Engineerious</span>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" formControlName="password" class="form-control"
-                    placeholder="Enter password">
+            <h1 class="brand-headline">Secure Insurance<br />Management Platform</h1>
+            <p class="brand-sub">Role-based access for Admins, Agents, Underwriters, Claims Managers & Customers</p>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <span class="feature-icon">🔐</span>
+                    <span>OAuth2 &amp; Multi-factor Auth</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🛡️</span>
+                    <span>Role &amp; Activity Based Access</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📋</span>
+                    <span>Complete KYC Onboarding</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📊</span>
+                    <span>Real-time Policy Dashboard</span>
+                </div>
             </div>
-            <div *ngIf="error" class="error-message">
-                {{ error }}
+        </div>
+        <div class="brand-wave"></div>
+    </div>
+
+    <!-- Right Login Panel -->
+    <div class="login-panel">
+        <div class="login-card">
+            <div class="card-header">
+                <h2 class="card-title">Welcome back</h2>
+                <p class="card-subtitle">Sign in to your account to continue</p>
             </div>
-            <button type="submit" [disabled]="loginForm.invalid || isLoading" class="btn-primary">
-                {{ isLoading ? 'Logging in...' : 'Login' }}
-            </button>
-        </form>
+
+            <!-- OAuth Buttons -->
+            <div class="oauth-section">
+                <button class="oauth-btn oauth-google" (click)="loginWithOAuth('google')"
+                    [disabled]="isLoading || !!oauthLoading" id="btn-oauth-google">
+                    <span class="oauth-spinner" *ngIf="oauthLoading === 'google'"></span>
+                    <svg *ngIf="oauthLoading !== 'google'" width="20" height="20" viewBox="0 0 48 48">
+                        <path fill="#EA4335"
+                            d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                        <path fill="#4285F4"
+                            d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+                        <path fill="#FBBC05"
+                            d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+                        <path fill="#34A853"
+                            d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+                    </svg>
+                    <span>{{ oauthLoading === 'google' ? 'Signing in...' : 'Continue with Google' }}</span>
+                </button>
+
+                <div class="oauth-row">
+                    <button class="oauth-btn oauth-microsoft" (click)="loginWithOAuth('microsoft')"
+                        [disabled]="isLoading || !!oauthLoading" id="btn-oauth-microsoft">
+                        <span class="oauth-spinner" *ngIf="oauthLoading === 'microsoft'"></span>
+                        <svg *ngIf="oauthLoading !== 'microsoft'" width="20" height="20" viewBox="0 0 23 23">
+                            <rect x="1" y="1" width="10" height="10" fill="#F25022" />
+                            <rect x="12" y="1" width="10" height="10" fill="#7FBA00" />
+                            <rect x="1" y="12" width="10" height="10" fill="#00A4EF" />
+                            <rect x="12" y="12" width="10" height="10" fill="#FFB900" />
+                        </svg>
+                        <span>{{ oauthLoading === 'microsoft' ? 'Signing in...' : 'Microsoft' }}</span>
+                    </button>
+
+                    <button class="oauth-btn oauth-github" (click)="loginWithOAuth('github')"
+                        [disabled]="isLoading || !!oauthLoading" id="btn-oauth-github">
+                        <span class="oauth-spinner" *ngIf="oauthLoading === 'github'"></span>
+                        <svg *ngIf="oauthLoading !== 'github'" width="20" height="20" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                        </svg>
+                        <span>{{ oauthLoading === 'github' ? 'Signing in...' : 'GitHub' }}</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="divider"><span>or sign in with email</span></div>
+
+            <!-- Login Form -->
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+                <!-- Email -->
+                <div class="field-group" [class.has-error]="emailControl.invalid && emailControl.touched">
+                    <label for="email" class="field-label">Email Address</label>
+                    <div class="field-wrap">
+                        <span class="field-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg>
+                        </span>
+                        <input type="email" id="email" formControlName="email" class="field-input"
+                            placeholder="you@example.com" autocomplete="email">
+                    </div>
+                    <div class="field-errors" *ngIf="emailControl.invalid && emailControl.touched">
+                        <span *ngIf="emailControl.errors?.['required']">Email is required</span>
+                        <span *ngIf="emailControl.errors?.['email']">Enter a valid email address</span>
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="field-group" [class.has-error]="passwordControl.invalid && passwordControl.touched">
+                    <label for="password" class="field-label">Password</label>
+                    <div class="field-wrap">
+                        <span class="field-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                            </svg>
+                        </span>
+                        <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password"
+                            class="field-input" placeholder="Enter your password" autocomplete="current-password">
+                        <button type="button" class="toggle-eye" (click)="togglePassword()" tabindex="-1">
+                            <svg *ngIf="!showPassword" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                            <svg *ngIf="showPassword" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path
+                                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+                                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+                                <line x1="1" y1="1" x2="23" y2="23" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="field-errors" *ngIf="passwordControl.invalid && passwordControl.touched">
+                        <span *ngIf="passwordControl.errors?.['required']">Password is required</span>
+                        <span *ngIf="passwordControl.errors?.['minlength']">Minimum 6 characters required</span>
+                    </div>
+                </div>
+
+                <!-- Error Banner -->
+                <div class="error-banner" *ngIf="error">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    {{ error }}
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn-submit" [disabled]="isLoading || !!oauthLoading" id="btn-login-submit">
+                    <span class="btn-spinner" *ngIf="isLoading"></span>
+                    <span>{{ isLoading ? 'Signing in...' : 'Sign In' }}</span>
+                </button>
+            </form>
+
+            <!-- Demo Credentials -->
+            <div class="demo-section">
+                <p class="demo-label">Quick demo access:</p>
+                <div class="demo-chips">
+                    <button *ngFor="let cred of demoCredentials" class="demo-chip" (click)="fillDemo(cred)"
+                        [attr.id]="'btn-demo-' + cred.label.toLowerCase()">
+                        <span class="demo-badge" [class]="'badge-' + cred.badge.toLowerCase()">{{ cred.badge }}</span>
+                        {{ cred.label }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Register Link -->
+            <div class="register-link">
+                <span>New to Engineerious?</span>
+                <button class="link-btn" (click)="goToRegister()" id="btn-go-register">Create an account</button>
+            </div>
+        </div>
     </div>
 </div>

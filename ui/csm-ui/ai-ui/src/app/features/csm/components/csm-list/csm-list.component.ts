@@ -4,6 +4,7 @@ import { ContractCsm } from '../../../../shared/models/contract-csm.model';
 
 @Component({
     selector: 'app-csm-list',
+    standalone: false,
     templateUrl: './csm-list.component.html',
     styleUrls: ['./csm-list.component.css']
 })

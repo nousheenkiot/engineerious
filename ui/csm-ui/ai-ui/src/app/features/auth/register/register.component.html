@@ -1,0 +1,670 @@
+<div class="reg-wrapper">
+    <!-- Left Panel -->
+    <div class="reg-brand">
+        <div class="reg-brand-inner">
+            <div class="brand-logo-row">
+                <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+                    <rect width="48" height="48" rx="12" fill="white" fill-opacity="0.15" />
+                    <path d="M24 8L38 16V32L24 40L10 32V16L24 8Z" stroke="white" stroke-width="2.5" fill="none" />
+                    <circle cx="24" cy="24" r="4" fill="white" />
+                </svg>
+                <span class="brand-name-txt">Engineerious</span>
+            </div>
+            <h2 class="brand-tagline">Join India's most trusted<br />Insurance Platform</h2>
+
+            <!-- Step Summary -->
+            <div class="step-summary">
+                <div *ngFor="let step of steps" class="step-summary-item" [class.active]="currentStep === step.id"
+                    [class.done]="currentStep > step.id" (click)="goToStep(step.id)">
+                    <div class="step-circle">
+                        <span class="step-check" *ngIf="currentStep > step.id">✓</span>
+                        <span *ngIf="currentStep <= step.id">{{ step.id }}</span>
+                    </div>
+                    <div class="step-info">
+                        <span class="step-num">Step {{ step.id }}</span>
+                        <span class="step-name">{{ step.icon }} {{ step.label }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Form Panel -->
+    <div class="reg-form-panel">
+        <div class="reg-form-card">
+
+            <!-- Progress Bar -->
+            <div class="progress-bar-wrap">
+                <div class="progress-bar-track">
+                    <div class="progress-bar-fill" [style.width.%]="progressPercent"></div>
+                </div>
+                <span class="progress-label">Step {{ currentStep }} of {{ totalSteps }}</span>
+            </div>
+
+            <!-- Error Banner -->
+            <div class="form-error-banner" *ngIf="error">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                {{ error }}
+            </div>
+
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+                <!-- ══════════════════════════════════════════════════════ -->
+                <!-- STEP 1 – Account Setup                                 -->
+                <!-- ══════════════════════════════════════════════════════ -->
+                <div *ngIf="currentStep === 1" formGroupName="step1">
+                    <div class="step-header">
+                        <h2 class="step-title">🔐 Account Setup</h2>
+                        <p class="step-desc">Create your secure login credentials and choose your role.</p>
+                    </div>
+
+                    <!-- Role Selector -->
+                    <div class="field-group full-width">
+                        <label class="field-label">Select Your Role <span class="req">*</span></label>
+                        <div class="role-grid">
+                            <label *ngFor="let r of roles" class="role-card"
+                                [class.selected]="step1.get('role')?.value === r.value">
+                                <input type="radio" formControlName="role" [value]="r.value" hidden>
+                                <span class="role-icon">{{ r.icon }}</span>
+                                <span class="role-label">{{ r.label }}</span>
+                                <span class="role-desc">{{ r.desc }}</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="field-group"
+                        [class.has-error]="hasErr(1,'email','required') || hasErr(1,'email','email')">
+                        <label class="field-label">Email Address <span class="req">*</span></label>
+                        <div class="field-wrap">
+                            <span class="fi">📧</span>
+                            <input type="email" formControlName="email" class="field-input"
+                                placeholder="you@example.com" id="reg-email" autocomplete="email">
+                        </div>
+                        <div class="ferr" *ngIf="hasErr(1,'email','required')">Email is required</div>
+                        <div class="ferr" *ngIf="hasErr(1,'email','email')">Enter a valid email address</div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="field-group" [class.has-error]="f(1,'password').touched && f(1,'password').invalid">
+                        <label class="field-label">Password <span class="req">*</span></label>
+                        <div class="field-wrap">
+                            <span class="fi">🔒</span>
+                            <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                                class="field-input" placeholder="Create a strong password" id="reg-password"
+                                autocomplete="new-password">
+                            <button type="button" class="eye-btn" (click)="showPassword=!showPassword">
+                                {{ showPassword ? '🙈' : '👁️' }}
+                            </button>
+                        </div>
+                        <!-- Strength Bar -->
+                        <div class="strength-bar-wrap" *ngIf="f(1,'password').value">
+                            <div class="strength-bar">
+                                <div class="strength-fill" [style.width]="passwordStrength().percent + '%'"
+                                    [style.background]="passwordStrength().color">
+                                </div>
+                            </div>
+                            <span class="strength-label" [style.color]="passwordStrength().color">{{
+                                passwordStrength().label }}</span>
+                        </div>
+                        <div class="ferr" *ngIf="hasErr(1,'password','minlength')">Minimum 8 characters</div>
+                        <div class="ferr" *ngIf="hasErr(1,'password','noUppercase')">Add at least one uppercase letter
+                        </div>
+                        <div class="ferr" *ngIf="hasErr(1,'password','noNumber')">Add at least one number</div>
+                        <div class="ferr" *ngIf="hasErr(1,'password','noSpecial')">Add at least one special character
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="field-group"
+                        [class.has-error]="f(1,'confirmPassword').touched && (f(1,'confirmPassword').invalid || step1.errors?.['passwordMismatch'])">
+                        <label class="field-label">Confirm Password <span class="req">*</span></label>
+                        <div class="field-wrap">
+                            <span class="fi">🔒</span>
+                            <input [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirmPassword"
+                                class="field-input" placeholder="Repeat your password" id="reg-confirm-password"
+                                autocomplete="new-password">
+                            <button type="button" class="eye-btn" (click)="showConfirmPassword=!showConfirmPassword">
+                                {{ showConfirmPassword ? '🙈' : '👁️' }}
+                            </button>
+                        </div>
+                        <div class="ferr" *ngIf="f(1,'confirmPassword').touched && step1.errors?.['passwordMismatch']">
+                            Passwords do not match</div>
+                    </div>
+                </div>
+
+                <!-- ══════════════════════════════════════════════════════ -->
+                <!-- STEP 2 – Personal Details & Address                    -->
+                <!-- ══════════════════════════════════════════════════════ -->
+                <div *ngIf="currentStep === 2" formGroupName="step2">
+                    <div class="step-header">
+                        <h2 class="step-title">👤 Personal Details</h2>
+                        <p class="step-desc">Provide your personal information and address details.</p>
+                    </div>
+
+                    <div class="form-grid">
+                        <!-- Full Name -->
+                        <div class="field-group"
+                            [class.has-error]="hasErr(2,'fullName','required') || hasErr(2,'fullName','minlength')">
+                            <label class="field-label">Full Name <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">🧑</span>
+                                <input type="text" formControlName="fullName" class="field-input"
+                                    placeholder="As per Aadhaar" id="reg-fullname">
+                            </div>
+                            <div class="ferr" *ngIf="hasErr(2,'fullName','required')">Full name is required</div>
+                            <div class="ferr" *ngIf="hasErr(2,'fullName','minlength')">Minimum 3 characters</div>
+                        </div>
+
+                        <!-- Date of Birth -->
+                        <div class="field-group" [class.has-error]="hasErr(2,'dateOfBirth','required')">
+                            <label class="field-label">Date of Birth <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">🎂</span>
+                                <input type="date" formControlName="dateOfBirth" class="field-input" id="reg-dob"
+                                    [max]="'2006-01-01'">
+                            </div>
+                            <div class="ferr" *ngIf="hasErr(2,'dateOfBirth','required')">Date of birth is required</div>
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="field-group" [class.has-error]="hasErr(2,'gender','required')">
+                            <label class="field-label">Gender <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">⚧</span>
+                                <select formControlName="gender" class="field-input" id="reg-gender">
+                                    <option value="">Select gender</option>
+                                    <option value="MALE">Male</option>
+                                    <option value="FEMALE">Female</option>
+                                    <option value="OTHER">Other</option>
+                                    <option value="PREFER_NOT">Prefer not to say</option>
+                                </select>
+                            </div>
+                            <div class="ferr" *ngIf="hasErr(2,'gender','required')">Please select gender</div>
+                        </div>
+
+                        <!-- Mobile Number -->
+                        <div class="field-group"
+                            [class.has-error]="f(2,'mobileNumber').touched && f(2,'mobileNumber').invalid">
+                            <label class="field-label">Mobile Number <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">📱</span>
+                                <span class="prefix-tag">+91</span>
+                                <input type="tel" formControlName="mobileNumber" class="field-input with-prefix"
+                                    placeholder="9876543210" id="reg-mobile" maxlength="10">
+                            </div>
+                            <div class="ferr"
+                                *ngIf="f(2,'mobileNumber').touched && f(2,'mobileNumber').errors?.['invalidMobile']">
+                                Enter a valid 10-digit Indian mobile number
+                            </div>
+                        </div>
+
+                        <!-- Marital Status -->
+                        <div class="field-group" [class.has-error]="hasErr(2,'maritalStatus','required')">
+                            <label class="field-label">Marital Status <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">💍</span>
+                                <select formControlName="maritalStatus" class="field-input" id="reg-marital">
+                                    <option value="">Select status</option>
+                                    <option value="SINGLE">Single</option>
+                                    <option value="MARRIED">Married</option>
+                                    <option value="DIVORCED">Divorced</option>
+                                    <option value="WIDOWED">Widowed</option>
+                                </select>
+                            </div>
+                            <div class="ferr" *ngIf="hasErr(2,'maritalStatus','required')">Marital status is required
+                            </div>
+                        </div>
+
+                        <!-- Occupation -->
+                        <div class="field-group" [class.has-error]="hasErr(2,'occupation','required')">
+                            <label class="field-label">Occupation <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">💼</span>
+                                <select formControlName="occupation" class="field-input" id="reg-occupation">
+                                    <option value="">Select occupation</option>
+                                    <option value="SALARIED">Salaried</option>
+                                    <option value="SELF_EMPLOYED">Self Employed</option>
+                                    <option value="BUSINESS">Business Owner</option>
+                                    <option value="PROFESSIONAL">Professional</option>
+                                    <option value="STUDENT">Student</option>
+                                    <option value="HOMEMAKER">Homemaker</option>
+                                    <option value="RETIRED">Retired</option>
+                                    <option value="OTHER">Other</option>
+                                </select>
+                            </div>
+                            <div class="ferr" *ngIf="hasErr(2,'occupation','required')">Occupation is required</div>
+                        </div>
+
+                        <!-- Annual Income -->
+                        <div class="field-group"
+                            [class.has-error]="f(2,'annualIncome').touched && f(2,'annualIncome').invalid">
+                            <label class="field-label">Annual Income (₹) <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">💰</span>
+                                <input type="number" formControlName="annualIncome" class="field-input"
+                                    placeholder="e.g. 500000" id="reg-income" min="0">
+                            </div>
+                            <div class="ferr"
+                                *ngIf="f(2,'annualIncome').touched && f(2,'annualIncome').errors?.['required']">Annual
+                                income is required</div>
+                            <div class="ferr"
+                                *ngIf="f(2,'annualIncome').touched && f(2,'annualIncome').errors?.['min']">Income cannot
+                                be negative</div>
+                        </div>
+                    </div>
+
+                    <!-- Address Section -->
+                    <div class="section-divider">
+                        <span>📍 Address Information</span>
+                    </div>
+
+                    <!-- Permanent Address -->
+                    <div class="field-group full-width"
+                        [class.has-error]="f(2,'permanentAddress').touched && f(2,'permanentAddress').invalid">
+                        <label class="field-label">Permanent Address <span class="req">*</span></label>
+                        <div class="field-wrap">
+                            <span class="fi top-align">🏠</span>
+                            <textarea formControlName="permanentAddress" class="field-input textarea-input"
+                                placeholder="House/Flat No., Street, Area, Landmark" id="reg-address"
+                                rows="3"></textarea>
+                        </div>
+                        <div class="ferr"
+                            *ngIf="f(2,'permanentAddress').touched && f(2,'permanentAddress').errors?.['required']">
+                            Address is required</div>
+                        <div class="ferr"
+                            *ngIf="f(2,'permanentAddress').touched && f(2,'permanentAddress').errors?.['minlength']">
+                            Enter at least 10 characters</div>
+                    </div>
+
+                    <div class="form-grid">
+                        <!-- Country -->
+                        <div class="field-group" [class.has-error]="hasErr(2,'country','required')">
+                            <label class="field-label">Country <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">🌍</span>
+                                <select formControlName="country" class="field-input" id="reg-country">
+                                    <option *ngFor="let c of countries" [value]="c">{{ c }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- State -->
+                        <div class="field-group" [class.has-error]="hasErr(2,'state','required')">
+                            <label class="field-label">State <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">🗺️</span>
+                                <select formControlName="state" class="field-input" id="reg-state">
+                                    <option value="">Select state</option>
+                                    <option *ngFor="let s of states" [value]="s">{{ s }}</option>
+                                </select>
+                            </div>
+                            <div class="ferr" *ngIf="hasErr(2,'state','required')">State is required</div>
+                        </div>
+
+                        <!-- City -->
+                        <div class="field-group" [class.has-error]="hasErr(2,'city','required')">
+                            <label class="field-label">City <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">🏙️</span>
+                                <select formControlName="city" class="field-input" id="reg-city">
+                                    <option value="">Select city</option>
+                                    <option *ngFor="let c of cities" [value]="c">{{ c }}</option>
+                                </select>
+                                <!-- Manual input if city not in list -->
+                                <input *ngIf="cities.length === 0 && step2.get('state')?.value" type="text"
+                                    formControlName="city" class="field-input" placeholder="Enter city name">
+                            </div>
+                            <div class="ferr" *ngIf="hasErr(2,'city','required')">City is required</div>
+                        </div>
+
+                        <!-- Pincode -->
+                        <div class="field-group" [class.has-error]="f(2,'pincode').touched && f(2,'pincode').invalid">
+                            <label class="field-label">Pincode <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">📮</span>
+                                <input type="text" formControlName="pincode" class="field-input"
+                                    placeholder="e.g. 400001" id="reg-pincode" maxlength="6">
+                            </div>
+                            <div class="ferr"
+                                *ngIf="f(2,'pincode').touched && f(2,'pincode').errors?.['invalidPincode']">Enter a
+                                valid 6-digit pincode</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ══════════════════════════════════════════════════════ -->
+                <!-- STEP 3 – KYC & Banking                                 -->
+                <!-- ══════════════════════════════════════════════════════ -->
+                <div *ngIf="currentStep === 3" formGroupName="step3">
+                    <div class="step-header">
+                        <h2 class="step-title">🪪 KYC & Banking</h2>
+                        <p class="step-desc">Required for regulatory compliance and claim settlements.</p>
+                    </div>
+
+                    <div class="form-grid">
+                        <!-- PAN -->
+                        <div class="field-group"
+                            [class.has-error]="f(3,'panNumber').touched && f(3,'panNumber').invalid">
+                            <label class="field-label">PAN Number <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">🪪</span>
+                                <input type="text" formControlName="panNumber" class="field-input"
+                                    placeholder="e.g. ABCDE1234F" id="reg-pan" maxlength="10"
+                                    style="text-transform: uppercase;">
+                            </div>
+                            <div class="ferr" *ngIf="f(3,'panNumber').touched && f(3,'panNumber').errors?.['required']">
+                                PAN number is required</div>
+                            <div class="ferr"
+                                *ngIf="f(3,'panNumber').touched && f(3,'panNumber').errors?.['invalidPan']">Invalid PAN
+                                format (e.g. ABCDE1234F)</div>
+                        </div>
+
+                        <!-- Aadhaar -->
+                        <div class="field-group"
+                            [class.has-error]="f(3,'aadhaarNumber').touched && f(3,'aadhaarNumber').invalid">
+                            <label class="field-label">Aadhaar Number <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">🔢</span>
+                                <input type="text" formControlName="aadhaarNumber" class="field-input"
+                                    placeholder="12-digit Aadhaar" id="reg-aadhaar" maxlength="12">
+                            </div>
+                            <div class="ferr"
+                                *ngIf="f(3,'aadhaarNumber').touched && f(3,'aadhaarNumber').errors?.['required']">
+                                Aadhaar is required</div>
+                            <div class="ferr"
+                                *ngIf="f(3,'aadhaarNumber').touched && f(3,'aadhaarNumber').errors?.['invalidAadhaar']">
+                                Must be a 12-digit number</div>
+                        </div>
+                    </div>
+
+                    <div class="section-divider"><span>🏦 Bank Account Details</span></div>
+
+                    <div class="form-grid">
+                        <!-- Bank Name -->
+                        <div class="field-group" [class.has-error]="hasErr(3,'bankName','required')">
+                            <label class="field-label">Bank Name <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">🏦</span>
+                                <select formControlName="bankName" class="field-input" id="reg-bankname">
+                                    <option value="">Select bank</option>
+                                    <option>State Bank of India</option>
+                                    <option>HDFC Bank</option>
+                                    <option>ICICI Bank</option>
+                                    <option>Axis Bank</option>
+                                    <option>Kotak Mahindra Bank</option>
+                                    <option>Punjab National Bank</option>
+                                    <option>Bank of Baroda</option>
+                                    <option>Canara Bank</option>
+                                    <option>Union Bank of India</option>
+                                    <option>Yes Bank</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="ferr" *ngIf="hasErr(3,'bankName','required')">Bank name is required</div>
+                        </div>
+
+                        <!-- Account Number -->
+                        <div class="field-group"
+                            [class.has-error]="f(3,'bankAccountNumber').touched && f(3,'bankAccountNumber').invalid">
+                            <label class="field-label">Account Number <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">💳</span>
+                                <input type="password" formControlName="bankAccountNumber" class="field-input"
+                                    placeholder="Enter account number" id="reg-account" maxlength="18">
+                            </div>
+                            <div class="ferr"
+                                *ngIf="f(3,'bankAccountNumber').touched && f(3,'bankAccountNumber').errors?.['required']">
+                                Account number is required</div>
+                            <div class="ferr"
+                                *ngIf="f(3,'bankAccountNumber').touched && f(3,'bankAccountNumber').errors?.['pattern']">
+                                Must be 9–18 digits</div>
+                        </div>
+
+                        <!-- IFSC -->
+                        <div class="field-group" [class.has-error]="f(3,'ifscCode').touched && f(3,'ifscCode').invalid">
+                            <label class="field-label">IFSC Code <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">🔤</span>
+                                <input type="text" formControlName="ifscCode" class="field-input"
+                                    placeholder="e.g. SBIN0001234" id="reg-ifsc" maxlength="11"
+                                    style="text-transform: uppercase;">
+                            </div>
+                            <div class="ferr" *ngIf="f(3,'ifscCode').touched && f(3,'ifscCode').errors?.['required']">
+                                IFSC code is required</div>
+                            <div class="ferr"
+                                *ngIf="f(3,'ifscCode').touched && f(3,'ifscCode').errors?.['invalidIfsc']">Invalid IFSC
+                                (e.g. SBIN0001234)</div>
+                        </div>
+                    </div>
+
+                    <div class="section-divider"><span>👨‍👩‍👧 Nominee Details</span></div>
+                    <div class="form-grid">
+                        <!-- Nominee Name -->
+                        <div class="field-group" [class.has-error]="hasErr(3,'nomineeName','required')">
+                            <label class="field-label">Nominee Name <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">🧑</span>
+                                <input type="text" formControlName="nomineeName" class="field-input"
+                                    placeholder="Nominee's full name" id="reg-nominee">
+                            </div>
+                            <div class="ferr" *ngIf="hasErr(3,'nomineeName','required')">Nominee name is required</div>
+                        </div>
+
+                        <!-- Nominee Relationship -->
+                        <div class="field-group" [class.has-error]="hasErr(3,'nomineeRelationship','required')">
+                            <label class="field-label">Nominee Relationship <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">🤝</span>
+                                <select formControlName="nomineeRelationship" class="field-input" id="reg-nominee-rel">
+                                    <option value="">Select relationship</option>
+                                    <option value="SPOUSE">Spouse</option>
+                                    <option value="CHILD">Child</option>
+                                    <option value="PARENT">Parent</option>
+                                    <option value="SIBLING">Sibling</option>
+                                    <option value="OTHER">Other</option>
+                                </select>
+                            </div>
+                            <div class="ferr" *ngIf="hasErr(3,'nomineeRelationship','required')">Relationship is
+                                required</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ══════════════════════════════════════════════════════ -->
+                <!-- STEP 4 – Policy Details                                -->
+                <!-- ══════════════════════════════════════════════════════ -->
+                <div *ngIf="currentStep === 4" formGroupName="step4">
+                    <div class="step-header">
+                        <h2 class="step-title">📋 Policy Details</h2>
+                        <p class="step-desc">Configure your insurance policy preferences.</p>
+                    </div>
+
+                    <div class="form-grid">
+                        <!-- Policy Term -->
+                        <div class="field-group"
+                            [class.has-error]="f(4,'policyTerm').touched && f(4,'policyTerm').invalid">
+                            <label class="field-label">Policy Term (Years) <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">📅</span>
+                                <input type="number" formControlName="policyTerm" class="field-input"
+                                    placeholder="e.g. 20" id="reg-policy-term" min="1" max="40">
+                            </div>
+                            <div class="ferr"
+                                *ngIf="f(4,'policyTerm').touched && f(4,'policyTerm').errors?.['required']">Policy term
+                                is required</div>
+                            <div class="ferr" *ngIf="f(4,'policyTerm').touched && f(4,'policyTerm').errors?.['min']">
+                                Minimum term is 1 year</div>
+                            <div class="ferr" *ngIf="f(4,'policyTerm').touched && f(4,'policyTerm').errors?.['max']">
+                                Maximum term is 40 years</div>
+                        </div>
+
+                        <!-- Sum Assured -->
+                        <div class="field-group"
+                            [class.has-error]="f(4,'sumAssured').touched && f(4,'sumAssured').invalid">
+                            <label class="field-label">Sum Assured (₹) <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">💵</span>
+                                <input type="number" formControlName="sumAssured" class="field-input"
+                                    placeholder="e.g. 1000000" id="reg-sum" min="100000">
+                            </div>
+                            <div class="ferr"
+                                *ngIf="f(4,'sumAssured').touched && f(4,'sumAssured').errors?.['required']">Sum assured
+                                is required</div>
+                            <div class="ferr" *ngIf="f(4,'sumAssured').touched && f(4,'sumAssured').errors?.['min']">
+                                Minimum sum assured is ₹1,00,000</div>
+                        </div>
+                    </div>
+
+                    <!-- Policy Info Cards -->
+                    <div class="info-cards">
+                        <div class="info-card info-blue">
+                            <span class="info-icon">📌</span>
+                            <div>
+                                <strong>Term Insurance</strong>
+                                <p>Choose 10–40 year terms. Higher terms mean more coverage duration.</p>
+                            </div>
+                        </div>
+                        <div class="info-card info-green">
+                            <span class="info-icon">💡</span>
+                            <div>
+                                <strong>Sum Assured</strong>
+                                <p>Recommended: 10–15× your annual income for adequate family protection.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ══════════════════════════════════════════════════════ -->
+                <!-- STEP 5 – Health & Declaration                          -->
+                <!-- ══════════════════════════════════════════════════════ -->
+                <div *ngIf="currentStep === 5" formGroupName="step5">
+                    <div class="step-header">
+                        <h2 class="step-title">🏥 Health & Declaration</h2>
+                        <p class="step-desc">Health information helps us provide you the best coverage.</p>
+                    </div>
+
+                    <div class="form-grid">
+                        <!-- Smoking Status -->
+                        <div class="field-group" [class.has-error]="hasErr(5,'smokingStatus','required')">
+                            <label class="field-label">Smoking Status <span class="req">*</span></label>
+                            <div class="smoking-radio-group">
+                                <label class="radio-card"
+                                    [class.selected]="f(5,'smokingStatus').value === 'NON_SMOKER'">
+                                    <input type="radio" formControlName="smokingStatus" value="NON_SMOKER" hidden>
+                                    <span>🚭 Non Smoker</span>
+                                </label>
+                                <label class="radio-card" [class.selected]="f(5,'smokingStatus').value === 'SMOKER'">
+                                    <input type="radio" formControlName="smokingStatus" value="SMOKER" hidden>
+                                    <span>🚬 Smoker</span>
+                                </label>
+                                <label class="radio-card"
+                                    [class.selected]="f(5,'smokingStatus').value === 'OCCASIONAL'">
+                                    <input type="radio" formControlName="smokingStatus" value="OCCASIONAL" hidden>
+                                    <span>🟡 Occasional</span>
+                                </label>
+                            </div>
+                            <div class="ferr" *ngIf="hasErr(5,'smokingStatus','required')">Smoking status is required
+                            </div>
+                        </div>
+
+                        <!-- Height -->
+                        <div class="field-group" [class.has-error]="f(5,'height').touched && f(5,'height').invalid">
+                            <label class="field-label">Height (cm) <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">📏</span>
+                                <input type="number" formControlName="height" class="field-input" placeholder="e.g. 170"
+                                    id="reg-height" min="50" max="250">
+                            </div>
+                            <div class="ferr" *ngIf="f(5,'height').touched && f(5,'height').errors?.['required']">Height
+                                is required</div>
+                            <div class="ferr"
+                                *ngIf="f(5,'height').touched && (f(5,'height').errors?.['min'] || f(5,'height').errors?.['max'])">
+                                Enter a valid height (50–250 cm)</div>
+                        </div>
+
+                        <!-- Weight -->
+                        <div class="field-group" [class.has-error]="f(5,'weight').touched && f(5,'weight').invalid">
+                            <label class="field-label">Weight (kg) <span class="req">*</span></label>
+                            <div class="field-wrap">
+                                <span class="fi">⚖️</span>
+                                <input type="number" formControlName="weight" class="field-input" placeholder="e.g. 70"
+                                    id="reg-weight" min="10" max="300">
+                            </div>
+                            <div class="ferr" *ngIf="f(5,'weight').touched && f(5,'weight').errors?.['required']">Weight
+                                is required</div>
+                            <div class="ferr"
+                                *ngIf="f(5,'weight').touched && (f(5,'weight').errors?.['min'] || f(5,'weight').errors?.['max'])">
+                                Enter a valid weight (10–300 kg)</div>
+                        </div>
+                    </div>
+
+                    <!-- Medical History -->
+                    <div class="field-group full-width" [class.has-error]="hasErr(5,'medicalHistory','required')">
+                        <label class="field-label">Medical History <span class="req">*</span></label>
+                        <div class="field-wrap">
+                            <span class="fi top-align">🏥</span>
+                            <textarea formControlName="medicalHistory" class="field-input textarea-input"
+                                placeholder="List any pre-existing conditions, surgeries, or chronic illnesses. Write 'None' if no history."
+                                id="reg-medical" rows="4"></textarea>
+                        </div>
+                        <div class="ferr" *ngIf="hasErr(5,'medicalHistory','required')">Medical history is required
+                        </div>
+                    </div>
+
+                    <!-- Declaration -->
+                    <div class="declaration-box"
+                        [class.error]="f(5,'declarationConsent').touched && f(5,'declarationConsent').invalid">
+                        <label class="declaration-label" for="reg-declaration">
+                            <input type="checkbox" formControlName="declarationConsent" id="reg-declaration"
+                                class="decl-checkbox">
+                            <span class="decl-text">
+                                I hereby declare that all information provided is true and accurate to the best of my
+                                knowledge.
+                                I consent to the processing of my personal data for insurance and regulatory purposes as
+                                per
+                                <strong>IRDAI guidelines</strong> and applicable Indian law. I understand that providing
+                                false
+                                information may result in policy cancellation.
+                            </span>
+                        </label>
+                        <div class="ferr"
+                            *ngIf="f(5,'declarationConsent').touched && f(5,'declarationConsent').errors?.['required']">
+                            You must accept the declaration to proceed
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Navigation Buttons ──────────────────────────────── -->
+                <div class="nav-buttons">
+                    <button type="button" class="btn-back" *ngIf="currentStep > 1" (click)="prevStep()"
+                        id="btn-reg-back">
+                        ← Back
+                    </button>
+
+                    <button type="button" class="btn-next" *ngIf="currentStep < totalSteps" (click)="nextStep()"
+                        id="btn-reg-next">
+                        Continue →
+                    </button>
+
+                    <button type="submit" class="btn-submit-reg" *ngIf="currentStep === totalSteps"
+                        [disabled]="isLoading" id="btn-reg-submit">
+                        <span class="btn-spin" *ngIf="isLoading"></span>
+                        {{ isLoading ? 'Creating Account...' : '🎉 Create Account' }}
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- Sign In Link -->
+            <div class="signin-link">
+                <span>Already have an account?</span>
+                <button class="link-btn" (click)="goToLogin()" id="btn-go-login">Sign in</button>
+            </div>
+        </div>
+    </div>
+</div>

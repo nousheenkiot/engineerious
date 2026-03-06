@@ -3,18 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { CsmListComponent } from './components/csm-list/csm-list.component';
 import { CsmDetailComponent } from './components/csm-detail/csm-detail.component';
 import { CsmEditComponent } from './components/csm-edit/csm-edit.component';
-import { AuthGuard } from '../../core/auth/auth.guard';
 
+// NOTE: AuthGuard is already applied on the parent '/csm' route in app-routing-module.ts
 const routes: Routes = [
-    {
-        path: '',
-        canActivate: [AuthGuard],
-        children: [
-            { path: '', component: CsmListComponent },
-            { path: ':id/edit', component: CsmEditComponent },
-            { path: ':id', component: CsmDetailComponent }
-        ]
-    }
+    { path: '', component: CsmListComponent },
+    { path: ':id/edit', component: CsmEditComponent },
+    { path: ':id', component: CsmDetailComponent }
 ];
 
 @NgModule({
