@@ -1,0 +1,40 @@
+<div class="csm-container">
+    <div class="header-section">
+        <h2>Live Real-time Projections</h2>
+        <div class="worker-status">
+            <span class="pulse-dot"></span>
+            Thread Active
+            <span class="subtext">(Auto-updates every 2 minutes via Web Worker)</span>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3>Global Cash Distribution</h3>
+                <div class="last-updated">
+                    Next update in: <strong>{{ nextUpdateInSeconds }}s</strong>
+                    <span *ngIf="lastUpdated"> | Last: {{ lastUpdated | date:'mediumTime' }}</span>
+                </div>
+            </div>
+
+            <div class="canvas-wrapper">
+                <canvas #graphCanvas></canvas>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h3>Why Web Workers?</h3>
+            <p>
+                In standard web applications, JavaScript runs on a single thread. Complex computations (like calculating
+                projections across 10,000+ policies) would freeze the UI and create lag.
+            </p>
+            <p>
+                By using an <strong>HTML5 Web Worker</strong>, we offload this heavy calculation to a background CPU
+                thread. The chart stays interactive, CSS animations stay smooth, and the worker simply passes the
+                completed array structures to the main thread every 2 minutes.
+            </p>
+            <a routerLink="/csm" class="back-link">← Back to Contract List</a>
+        </div>
+    </div>
+</div>

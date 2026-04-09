@@ -11,7 +11,7 @@ import { AuthService, OAuthProvider } from '../../../core/auth/auth.service';
 })
 export class LoginComponent implements OnInit {
     loginForm = new FormGroup({
-        email: new FormControl('', [Validators.required, Validators.email]),
+        email: new FormControl('', [Validators.required]),
         password: new FormControl('', [Validators.required, Validators.minLength(6)])
     });
 
@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
 
     // Demo credentials for quick fill
     demoCredentials = [
+        { label: 'Test', email: 'test', password: '123@Test', badge: 'ADMIN' },
         { label: 'Admin', email: 'admin@engineerious.com', password: 'Admin@123', badge: 'ADMIN' },
         { label: 'Agent', email: 'agent@engineerious.com', password: 'Agent@123', badge: 'AGENT' },
         { label: 'Customer', email: 'customer@engineerious.com', password: 'Customer@123', badge: 'CUSTOMER' },

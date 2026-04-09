@@ -49,6 +49,16 @@ export class AuthService {
             activities: ROLE_ACTIVITIES['CUSTOMER'].map(a => a.id),
             token: 'mock-customer-token',
             profileComplete: true
+        },
+        {
+            id: '4',
+            email: 'test',
+            password: '123@Test',
+            fullName: 'Test User',
+            role: 'ADMIN',
+            activities: ROLE_ACTIVITIES['ADMIN'].map(a => a.id),
+            token: 'mock-test-token',
+            profileComplete: true
         }
     ];
 
@@ -96,7 +106,7 @@ export class AuthService {
             delay(1200),
             map(() => {
                 const found = this.mockUsers.find(
-                    u => u.email === credentials.email && u.password === credentials.password
+                    u => (u.email === credentials.email || u.email.split('@')[0] === credentials.email) && u.password === credentials.password
                 );
                 if (!found) throw new Error('Invalid email or password');
                 const { password, ...user } = found;

@@ -6,13 +6,14 @@ import { CsmRoutingModule } from './csm-routing.module';
 import { CsmListComponent } from './components/csm-list/csm-list.component';
 import { CsmDetailComponent } from './components/csm-detail/csm-detail.component';
 import { CsmEditComponent } from './components/csm-edit/csm-edit.component';
-
+import { CsmGraphComponent } from './components/csm-graph/csm-graph.component';
 
 @NgModule({
     declarations: [
         CsmListComponent,
         CsmDetailComponent,
-        CsmEditComponent
+        CsmEditComponent,
+        CsmGraphComponent
     ],
     imports: [
         CommonModule,
