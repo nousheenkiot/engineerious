@@ -20,6 +20,7 @@
         <module>processingservice</module>
         <module>cashflowservice</module>
         <module>authservice</module>
+        <module>kafka-schemas</module>
     </modules>
 
 	<properties>
