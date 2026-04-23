@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core'; 
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CsmService } from '../../services/csm.service';
@@ -77,5 +77,16 @@ export class CsmEditComponent implements OnInit {
 
     cancel(): void {
         this.router.navigate(['/csm']);
+    }
+
+    @HostListener('window:testWindowEvent', ['$event'])
+    onTestWindowEvent(event: CustomEvent): void {
+        console.log('Test window event caught by component =', event.detail);
+        alert('Window Event Listener Triggered! Data: ' + (event.detail ? JSON.stringify(event.detail) : 'None'));
+    }
+
+    triggerEvent(): void {
+        const customEvent = new CustomEvent('testWindowEvent', { detail: { time: new Date().toISOString() } });
+        window.dispatchEvent(customEvent);
     }
 }

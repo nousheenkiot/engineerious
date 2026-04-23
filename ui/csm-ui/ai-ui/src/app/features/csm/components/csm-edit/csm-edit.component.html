@@ -1,5 +1,9 @@
 <div class="edit-container">
     <h2>Edit Contract</h2>
+    
+    <div style="margin-bottom: 1rem; margin-top: 1rem;">
+        <button type="button" class="btn-primary" (click)="triggerEvent()">Trigger Window Event</button>
+    </div>
 
     <div *ngIf="loading" class="loading-state">
         Loading contract details...
