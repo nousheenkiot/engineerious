@@ -11,6 +11,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.kafka.support.SendResult;
+import java.util.concurrent.ExecutionException;
 import java.util.UUID;
 
 @Service
@@ -41,9 +43,26 @@ public class CashflowSagaService {
                 "RECORDED");
 
         // 3. Emit Event - Using ContractId as Key for Ordering
-        kafkaTemplate.send("cashflow-recorded", saved.getContractId(), event);
+        try {
+            SendResult<String, Object> result = kafkaTemplate.send("cashflow-recorded", saved.getContractId(), event).get();
+            log.info("Cashflow event emitted successfully for contract: {} (offset: {})", saved.getContractId(), result.getRecordMetadata().offset());
+            saved.setStatus(CashflowStatus.SUCCESS);
+            cashflowRepository.save(saved);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.error("Thread interrupted while sending cashflow-recorded event for contract: {}", saved.getContractId(), e);
+            saved.setStatus(CashflowStatus.FAILED);
+            cashflowRepository.save(saved);
+        } catch (ExecutionException e) {
+            log.error("Failed to send cashflow-recorded event for contract: {} due to: {}", saved.getContractId(), e.getCause().getMessage(), e.getCause());
+            saved.setStatus(CashflowStatus.FAILED);
+            cashflowRepository.save(saved);
+        } catch (Exception e) {
+            log.error("Unexpected error while sending cashflow-recorded event for contract: {}", saved.getContractId(), e);
+            saved.setStatus(CashflowStatus.FAILED);
+            cashflowRepository.save(saved);
+        }
 
-        log.info("Cashflow event emitted for contract: {}", saved.getContractId());
         return saved;
     }
 

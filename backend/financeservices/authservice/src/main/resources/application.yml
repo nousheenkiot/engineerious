@@ -21,5 +21,12 @@ spring:
           time_zone: Asia/Kolkata
 
 jwt:
-  secret: ${JWT_SECRET:very-secret-key-that-should-be-at-least-thirty-two-characters-long}
+  secret: ${JWT_SECRET:very-secret-key-that-should-be-at-least-sixty-four-characters-long-for-hs512-which-is-highly-recommended-by-standards}
   expiration: ${JWT_EXPIRATION_MS:36000000} # 10 hours
+  issuer: ${JWT_ISSUER:https://auth.engineerious.com}
+  audience: ${JWT_AUDIENCE:finance-portal} # channel-id
+  scope: ${JWT_SCOPE:openid profile}
+
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:4200}
+

@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: apigateway
+  cloud:
+    gateway:
+      routes:
+        - id: authservice
+          uri: lb://authservice
+          predicates:
+            - Path=/api/auth/**
+        - id: cohortservice
+          uri: lb://cohortservice
+          predicates:
+            - Path=/api/cohorts/**
+        - id: cashflowservice
+          uri: lb://cashflowservice
+          predicates:
+            - Path=/api/cashflows/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, gateway
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    com.noush.apigateway: DEBUG
+
+jwt:
+  secret: ${JWT_SECRET:very-secret-key-that-should-be-at-least-thirty-two-characters-long}

@@ -21,6 +21,7 @@
         <module>cashflowservice</module>
         <module>authservice</module>
         <module>kafka-schemas</module>
+        <module>apigateway</module>
     </modules>
 
 	<properties>
@@ -28,6 +29,7 @@
 		<spring-cloud.version>2024.0.0</spring-cloud.version>
 		<spring-cloud-kubernetes.version>3.2.0</spring-cloud-kubernetes.version>
 		<jjwt.version>0.12.5</jjwt.version>
+		<lombok.version>1.18.38</lombok.version>
 	</properties>
     
 	<dependencyManagement>

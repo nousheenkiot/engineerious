@@ -228,7 +228,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.36</version> <!-- using standard spring boot version fallback -->
+                            <version>1.18.38</version> <!-- using standard spring boot version fallback -->
                         </path>
                         <path>
                             <groupId>org.mapstruct</groupId>
