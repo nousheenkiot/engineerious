@@ -52,7 +52,13 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         boolean isPublic = PUBLIC_ENDPOINTS.stream().anyMatch(path::startsWith);
         if (isPublic) {
             logger.debug("Public endpoint accessed: {}", path);
-            return chain.filter(exchange);
+            ServerHttpRequest mutatedRequest = request.mutate()
+                    .headers(httpHeaders -> {
+                        httpHeaders.remove("X-User-Name");
+                        httpHeaders.remove("X-User-Roles");
+                    })
+                    .build();
+            return chain.filter(exchange.mutate().request(mutatedRequest).build());
         }
 
         // Get Authorization header
